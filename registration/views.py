@@ -8,5 +8,30 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+
+def contextCall(request):
+	pass
+
 def register(request):
-	return render(request,'login.html')
+	'''
+	saved = False
+    if request.method == "POST":
+        #Get the posted form
+        RegForm = PvUser(request.POST, request.FILES)
+        if RegForm.is_valid():
+            userInfo = PvUser()
+            userInfo.name = RegForm.cleaned_data["name"]
+            userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
+            userInfo.email = RegForm.cleaned_data["email"]
+            userInfo.password = RegForm.cleaned_data["password"]
+            userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
+            userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
+            userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
+            userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
+            userInfo.save()
+            saved = True
+        else:
+            MyProfileForm = Profileform()
+        return render(request, 'saved.html', locals())
+    else:'''
+	return render(request, 'login.html')
