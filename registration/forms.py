@@ -1,11 +1,14 @@
 from django import forms
 
-class PvUser(forms.Form):
-    name = forms.CharField(max_length=50)
-	phoneNo = forms.IntegerField()
-	email = forms.CharField(max_length=15)
-	password = forms.CharField(max_length=128)
-	activationToken = forms.CharField(max_length = 20)
-	activationAttempts = forms.IntegerField()
-	activeYesNo = forms.BooleanField()
-	lastModifiedDateTime = forms.DateTimeField()
+class RegistrationForm(forms.Form):
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'name':'first_name','class': 'form-control','required':'true','placeholder':'Name',}))
+
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'name':'last_name','class': 'form-control', 'required':'true', 'placeholder':'Last Name'}))
+
+    email = forms.EmailField(widget=forms.TextInput(attrs={'name':'email','class': 'form-control','type':'email', 'required':'false','placeholder':"Email"}))
+
+    mobile_number = forms.IntegerField(widget=forms.TextInput(attrs={'name':'phone','class': 'form-control','type':'number', 'required':'true','placeholder':"Mobile Number"}))
+
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'name':'password','class': 'form-control','type':'password', 'required':'true','placeholder':"Password",'id':'password'}))
+    confpassword = forms.CharField(widget=forms.PasswordInput(attrs={'name':'cpassword','class': 'form-control','type':'password', 'required':'true','placeholder':"Confirm Password"}))

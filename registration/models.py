@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class GenderMaster(models.Model):
 	name = models.CharField(max_length=30)
@@ -46,14 +46,17 @@ class FamilyhistoryMaster(models.Model):
 	lastModifiedDateTime = models.CharField(max_length=30)
 	
 class PvUser(models.Model):
-	name = models.CharField(max_length=50)
-	phoneNo = models.IntegerField()
+	userId = models.AutoField(primary_key=True)
+	user = models.OneToOneField(User,null = True, blank = True)
+	#first_name = models.CharField(max_length=50)
+	#last_name = models.CharField(max_length=50,default = '')
+	mobile_number = models.IntegerField()
 	email = models.CharField(max_length=15)
 	password = models.CharField(max_length=128)
-	activationToken = models.CharField(max_length = 20)
-	activationAttempts = models.IntegerField()
-	activeYesNo = models.BooleanField()
-	lastModifiedDateTime = models.DateTimeField()
+	activationToken = models.CharField(max_length = 20,null=True,blank=True)
+	activationAttempts = models.IntegerField(null=True,blank=True)
+	activeYesNo = models.BooleanField(default = False)
+	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
 	class meta:
 		db_table='PvUser'
 
