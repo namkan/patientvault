@@ -36,6 +36,12 @@ input[type=number]::-webkit-inner-spin-button {
   </head>
 
   <body class="login">
+  {% if messages %}
+        {% for msg in messages %}
+                    {{msg.message}}
+          
+        {% endfor %}
+        {% endif %}
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
