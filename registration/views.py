@@ -7,7 +7,7 @@ from .models import PvUser
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .forms import RegistrationForm
+from .forms import RegistrationForm,OTPValidationForm
 from django.http import HttpResponse
 from random import randint
 import requests
@@ -48,6 +48,7 @@ def register(request):
 
 			lastUserId = User.objects.latest('id').id
 			vhn = "VHN"+str(100000+lastUserId+1)
+			print(vhn)
 			user = User.objects.create_user(
 				username=vhn,
 				first_name=first_name,
@@ -57,9 +58,35 @@ def register(request):
 				subject = "Welcome To Vyala Family"
 				body = "You have successfully registered at vyala"
 				sendEmail(email,subject,body)
+			form=OTPValidationForm()
+			return render(request,'is_OTPvalid.html',{'vhn' : vhn,'form':form})
+	else:
+		form = RegistrationForm()
+        
+	return render(request, 'login.html',{'form':form})
 
-			return HttpResponse('thanks')
-	
+##@csrf_exempt
+def OTPvalidation(request):
+
+	if request.method == 'POST':
+		form = OTPValidationForm(request.POST or None)
+		if form.is_valid():
+			#lastUserId = User.objects.latest('id').id
+			#vhn = "VHN"+str(100000+lastUserId+1)
+			#pvuser = PvUSer.objects.get(user.username = vhn)
+			try:
+				user = User.objects.get(username = form.cleaned_data['vhn'])
+				pvUser = user.pvuser
+			except:
+				pass ## Invalid Page or Forbidden
+			if form.cleaned_data["OTP"] == pvUser.activationToken:
+				pvUser.activeYesNo = True
+				pvUser.activationToken = None
+				pvUser.save()
+				return HttpResponse('Your Phone Number is verified and your account is activated')
+			else:
+				messages.warning(request,'Please enter correct OTP !!')
+				return render(request,'is_OTPvalid.html',{'form':form})	
 	#saved = False
     #if request.method == "POST":
         #Get the posted form
@@ -76,10 +103,7 @@ def register(request):
     #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
     #        userInfo.save()
     #        saved = True'''
-	else:
-		form = RegistrationForm()
-        
-	return render(request, 'login.html',{'form':form})
+	
 
 
 
@@ -88,7 +112,7 @@ def sendEmail(recipient, subject, body):
 	return requests.post(
 		"https://api.mailgun.net/v3/mg.technex.in/messages",
 		auth=("api", "key-cf7f06e72c36031b0097128c90ee896a"),
-		data={"from": "Suppor VyalaTech <rishabh.vyala@gmail.com>",
+		data={"from": "Support VyalaTech <rishabh.vyala@gmail.com>",
 			"to": recipient,
 			"subject": subject,
 			"text": body})

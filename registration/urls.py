@@ -3,4 +3,5 @@ from registration.views import *
 from django.conf import settings
 urlpatterns = [
     url(r'^register/',register, name='registeration view'),
+    url(r'^OTPvalidation/',OTPvalidation, name='registeration view'),
     ]
