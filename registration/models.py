@@ -50,7 +50,7 @@ class PvUser(models.Model):
 	user = models.OneToOneField(User,null = True, blank = True)
 	#first_name = models.CharField(max_length=50)
 	#last_name = models.CharField(max_length=50,default = '')
-	mobile_number = models.IntegerField()
+	mobile_number = models.IntegerField(unique = True)
 	email = models.CharField(max_length=15)
 	password = models.CharField(max_length=128)
 	activationToken = models.CharField(max_length = 20,null=True,blank=True)
