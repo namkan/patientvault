@@ -7,11 +7,12 @@ from .models import PvUser
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .forms import RegistrationForm,OTPValidationForm
+from .forms import RegistrationForm
 from django.http import HttpResponse
 from random import randint
 import requests
 from django.contrib import messages
+COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
 	pass
@@ -37,15 +38,11 @@ def register(request):
 					print("code base 0")
 				except:
 					print("code base 1")
-					sendSms(mobile_number,"+16024973298","Your Vyala OTP : "+activationToken)
+					sendSms(mobile_number,COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
 			except:
 				print("code base 2")
 				messages.warning(request,"Invalid Phone Number !!!")
 				return render(request, 'login.html',{'form':form})
-			user = PvUser.objects.get_or_create(
-				email=email,
-				mobile_number=mobile_number,activationToken = activationToken)
-
 			lastUserId = User.objects.latest('id').id
 			vhn = "VHN"+str(100000+lastUserId+1)
 			print(vhn)
@@ -54,12 +51,16 @@ def register(request):
 				first_name=first_name,
 				last_name=last_name,
 				password=password,)
+			pvUser = PvUser.objects.get_or_create(
+			email=email,
+			mobile_number=mobile_number,activationToken = activationToken,user = user)
+
 			if email:
 				subject = "Welcome To Vyala Family"
 				body = "You have successfully registered at vyala"
 				sendEmail(email,subject,body)
-			form=OTPValidationForm()
-			return render(request,'is_OTPvalid.html',{'vhn' : vhn,'form':form})
+
+			return render(request,'is_OTPvalid.html',{'vhn' : vhn})
 	else:
 		form = RegistrationForm()
         
@@ -69,43 +70,50 @@ def register(request):
 def OTPvalidation(request):
 
 	if request.method == 'POST':
-		form = OTPValidationForm(request.POST or None)
-		if form.is_valid():
-			#lastUserId = User.objects.latest('id').id
-			#vhn = "VHN"+str(100000+lastUserId+1)
-			#pvuser = PvUSer.objects.get(user.username = vhn)
-			try:
-				user = User.objects.get(username = form.cleaned_data['vhn'])
-				pvUser = user.pvuser
-			except:
-				pass ## Invalid Page or Forbidden
-			if form.cleaned_data["OTP"] == pvUser.activationToken:
-				pvUser.activeYesNo = True
-				pvUser.activationToken = None
-				pvUser.save()
-				return HttpResponse('Your Phone Number is verified and your account is activated')
-			else:
-				messages.warning(request,'Please enter correct OTP !!')
-				return render(request,'is_OTPvalid.html',{'form':form})	
-	#saved = False
-    #if request.method == "POST":
-        #Get the posted form
-    #    RegForm = PvUser(request.POST, request.FILES)
-    #    if RegForm.is_valid():
-    #        userInfo = PvUser()
-    #        userInfo.name = RegForm.cleaned_data["name"]
-    #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
-    #        userInfo.email = RegForm.cleaned_data["email"]
-    #        userInfo.password = RegForm.cleaned_data["password"]
-    #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
-    #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
-    #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
-    #        userInfo.phoneNo = RegForm.cleaned_data["phoneNo"]
-    #        userInfo.save()
-    #        saved = True'''
-	
+		form = request.POST
+		try:
+			user = User.objects.get(username = form['vhn'])
+			pvUser = user.pvuser
+		except:
+			return HttpResponse("Forbidden!!!")
+		if form["OTP"] == pvUser.activationToken:
+			pvUser.activeYesNo = True
+			pvUser.activationToken = None
+			pvUser.activationAttempts += 1
+			pvUser.save()
+			return HttpResponse('Your Phone Number is verified and your account is activated')
+		else:
+			pvUser.activationAttempts += 1
+			pvUser.save()
+			messages.warning(request,'Please enter correct OTP !!')
+			return render(request,'is_OTPvalid.html')	
+	else:
+		return render(request,'is_OTPvalid.html')
 
-
+def resendOTP(request):
+	response = {}
+	if request.method == 'POST':
+		form = request.POST
+		activationToken = str(randomWithNDigits(8))
+		print(form['vhn'])
+		try:
+			user = User.objects.get(username = form['vhn'])
+			pvUser = user.pvuser
+		except:
+			response['status'] = 2 # INvalid VHN Number
+			return JsonResponse(response)
+		if True:
+			sendSms("+"+str(pvUser.mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
+			pvUser.activationToken = activationToken
+			pvUser.save()
+			response['status'] = 1 
+			return JsonResponse(response)
+		else:
+			response['status'] = 0 ### connection error or unknown error
+			return JsonResponse(response)
+	else:
+		response['status'] = "Invalid!!"
+		return JsonResponse(response)
 
 def sendEmail(recipient, subject, body):
 

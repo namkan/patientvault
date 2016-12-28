@@ -12,7 +12,8 @@ class RegistrationForm(forms.Form):
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={'name':'password','class': 'form-control','type':'password', 'required':'true','placeholder':"Password",'id':'password'}))
     confpassword = forms.CharField(widget=forms.PasswordInput(attrs={'name':'cpassword','class': 'form-control','type':'password', 'required':'true','placeholder':"Confirm Password"}))
-
+'''
 class OTPValidationForm(forms.Form):
 	OTP = forms.IntegerField(label = "Enter OTP here: ",
 		widget=forms.TextInput(attrs={'class': 'validation','type':'number', 'required':'true','maxlength':'8'}))   
+'''		

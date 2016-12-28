@@ -2,12 +2,56 @@
 <html lang="en">
 	<head>
 		<title>OTP validation</title>
+	
+<script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>	
 	</head>
 	<body>
-		<p>your vhn number is {{ vhn }}</p>
-		<form method="POST">
-			{{ form.as_p }}
-			<button type="submit" value="varify" />
+		<h1>Activate your Account</h1>
+		<form method="POST" action='/OTPvalidation/'>
+		<input type="text" value="{% if vhn %}{{vhn}}{%endif%}" name="vhn" placeholder="VHN Number" />
+		{% csrf_token %}
+			<input type='number' required="" name='OTP' maxlength="8" minlength="8" placeholder="OTP validation" />
+			<br><br>
+			<button type="submit" value="varify" >varify</button>
+			<button type="button" id="resend">Resend OTP</button>
 		</form>
+		<div id='statusReport'></div>
+		
+			
+			
+	
 	</body>
+	<script type="text/javascript">
+function theAjax(uri,data){
+	return $.ajax({
+	    type:"POST",
+	    dataType:"json",
+	    url: uri,
+	    data: data
+	})
+}
+$("#resend").on("click",function(){
+	var data = {
+		"csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+		"vhn": $("input[name=vhn]").val(),
+		"resend":1
+	};
+	console.log(data);
+	theAjax("/resendOTP/",data)
+	.done(function(response){
+		if(response['status'] == 1)
+		{
+			$("#statusReport").html("OTP sent to your Mobile!!");
+		}
+		else if(response['status'] == 2)
+		{
+			$("#statusReport").html("Please recheck your VHN number .");
+		}
+		else
+		{
+			$("#statusReport").html("Please try Again after sometime(connection error).");
+		}
+	});
+});
+</script>
 </html>

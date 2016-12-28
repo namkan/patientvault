@@ -52,7 +52,6 @@ class PvUser(models.Model):
 	#last_name = models.CharField(max_length=50,default = '')
 	mobile_number = models.IntegerField(unique = True)
 	email = models.CharField(max_length=15)
-	password = models.CharField(max_length=128)
 	activationToken = models.CharField(max_length = 20,null=True,blank=True)
 	activationAttempts = models.IntegerField(null=True,blank=True)
 	activeYesNo = models.BooleanField(default = False)
