@@ -12,15 +12,46 @@ from django.http import HttpResponse
 from random import randint
 import requests
 from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.core import mail
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
 	pass
 
+#view for login page
+def login(request):
+	if request.method == 'POST':
+		form = request.POST
+		try:
+			try:
+				user = authenticate(username=form['username'], password=form['password'])
+				print(user)
+				if user is not None:
+		    	# the password verified for the user
+					if user.is_active:
+						print("User is valid, active and authenticated")
+						print('1')	
+					else:
+						messages.warning(request,"The password is valid, but the account has been disabled!")
+						print('2')
+	#			user = User.objects.get(username=form['username'],password=form['password'])
+	#			print("user is found")
+				return render(request,'login.html')
+			except:
+				pvuser = pvUser.objects.get(mobile_number = )	
+		except:
+			print("user is not found,please create account!!")	
+			return render(request,'login.html')
+	else:		
+		return render(request,'login.html')
+
+
+
+#View for registration page
 def register(request):
 
 	if request.method == 'POST':
-	#print(request.POST["first_name"])
 		form = RegistrationForm(request.POST or None)
 		if form.is_valid():
 			first_name = form.cleaned_data["first_name"]
@@ -64,9 +95,9 @@ def register(request):
 	else:
 		form = RegistrationForm()
         
-	return render(request, 'login.html',{'form':form})
+	return render(request,'login.html',{'form':form})
 
-##@csrf_exempt
+#View for OTP validation
 def OTPvalidation(request):
 
 	if request.method == 'POST':
@@ -77,6 +108,7 @@ def OTPvalidation(request):
 		except:
 			return HttpResponse("Forbidden!!!")
 		if form["OTP"] == pvUser.activationToken:
+			user.is_active = True
 			pvUser.activeYesNo = True
 			pvUser.activationToken = None
 			pvUser.activationAttempts += 1
@@ -90,6 +122,7 @@ def OTPvalidation(request):
 	else:
 		return render(request,'is_OTPvalid.html')
 
+#view for otpresend request
 def resendOTP(request):
 	response = {}
 	if request.method == 'POST':
@@ -100,6 +133,7 @@ def resendOTP(request):
 			user = User.objects.get(username = form['vhn'])
 			pvUser = user.pvuser
 		except:
+			messages.warning(request,'Invalid VHN number')
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		if True:
@@ -115,15 +149,24 @@ def resendOTP(request):
 		response['status'] = "Invalid!!"
 		return JsonResponse(response)
 
-def sendEmail(recipient, subject, body):
+#def sendEmail(recipient, subject, body):
+#
+#	return requests.post(
+#		auth=("api", "key-cf7f06e72c36031b0097128c90ee896a"),
+#		data={"from": "Support VyalaTech <rishabh.vyala@gmail.com>",
+#			"to": recipient,
+#			"subject": subject,
+#			"text": body})
 
-	return requests.post(
-		"https://api.mailgun.net/v3/mg.technex.in/messages",
-		auth=("api", "key-cf7f06e72c36031b0097128c90ee896a"),
-		data={"from": "Support VyalaTech <rishabh.vyala@gmail.com>",
-			"to": recipient,
-			"subject": subject,
-			"text": body})
+def sendEmail(recipient, subject, body):
+	print(recipient)
+	email = EmailMessage(
+		subject=subject,
+		body=body,
+		from_email='naman.kansal@vyalatech.com',
+		to=['recipient'],
+    )
+	email.send()
 
 
 def sendSms(recipientNumber, fromNumber, content):

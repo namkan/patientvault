@@ -77,12 +77,23 @@ WSGI_APPLICATION = 'vyala.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	    'NAME' : 'patientvault',
+	    'USER' : 'root',
+	    'PASSWORD' : 'jishnu12',
+	    'HOST' : 'localhost',
+	    'port' : '5432',
     }
+     
 }
-
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'naman.kansal@vyalatech.com'
+EMAIL_HOST_PASSWORD = '9756089119'
+EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_SSL = True
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

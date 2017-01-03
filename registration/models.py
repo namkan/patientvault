@@ -44,20 +44,23 @@ class FamilyhistoryMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=True)
 	lastModifiedDateTime = models.CharField(max_length=30)
-	
+
+#Model to save user's account details	
 class PvUser(models.Model):
 	userId = models.AutoField(primary_key=True)
 	user = models.OneToOneField(User,null = True, blank = True)
 	#first_name = models.CharField(max_length=50)
 	#last_name = models.CharField(max_length=50,default = '')
-	mobile_number = models.IntegerField(unique = True)
-	email = models.CharField(max_length=15)
+	mobile_number = models.BigIntegerField(unique = True)
+	email = models.CharField(max_length=50)
 	activationToken = models.CharField(max_length = 20,null=True,blank=True)
-	activationAttempts = models.IntegerField(null=True,blank=True)
+	activationAttempts = models.IntegerField(default=0,null=True,blank=True)
 	activeYesNo = models.BooleanField(default = False)
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
 	class meta:
 		db_table='PvUser'
+#	def __str__(self):
+#		return '%s %s %s' % (self.user.username,self.user.first_name,self.email)	
 
 class PvProfile(models.Model):
 	userId = models.ForeignKey(PvUser,on_delete=models.CASCADE)

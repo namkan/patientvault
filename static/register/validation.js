@@ -32,7 +32,7 @@ $(function() {
     },
     // Specify validation error messages
     messages: {
-      first_name: "Please enter your frist name!!",
+      first_name: "enter your frist name!!",
       last_name : "Please enter your last name!!",
       email: {
         email: "Please enter a valid email address!!"
