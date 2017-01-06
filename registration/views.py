@@ -168,13 +168,27 @@ def sendEmail(recipient, subject, body):
     )
 	email.send()
 
-
+'''
 def sendSms(recipientNumber, fromNumber, content):
 	from twilio.rest import TwilioRestClient
 	account_sid = "AC661f41359fe195c99b7b774bc3599e11"
 	auth_token = "a4135c97cf57d726fc12024f8782c381"
 	client = TwilioRestClient(account_sid, auth_token)
 	message = client.messages.create(to=recipientNumber, from_=fromNumber,body=content)
+'''
+
+def sendSms(recipientNumber,fromNumber, content):
+	uname='jishnu@vyalatech.com'
+	hashkey='e844056e4e3c75ace149c250f4ab998e510dd30f'
+	number=recipientNumber
+	msg=content
+	sender='We Care'
+
+	r = requests.post('http://api.textlocal.in/send/', data ={'username':uname,'hash':hashkey,'numbers':number,'message':msg,'sender':sender})
+
+	data=r.json()
+
+	print(data['status'])
 
 def randomWithNDigits(n):
 	range_start = 10**(n-1)
