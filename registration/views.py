@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, redirect, render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import PvUser
@@ -21,7 +21,7 @@ def contextCall(request):
 	pass
 
 #view for login page
-def login(request):
+def signIn(request):
 	if request.method == 'POST':
 		form = request.POST
 		print(form['username'])
@@ -77,7 +77,7 @@ def register(request):
 					print("code base 0")
 				except:
 					print("code base 1")
-					sendSms('+91'+str(mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
+					sendSms('+91'+str(mobile_number),"Your Vyala OTP : "+activationToken)
 			except:
 				print("code base 2")
 				messages.warning(request,"Invalid Phone Number !!!")
@@ -111,22 +111,21 @@ def FindAccount(request):
 	if request.method == 'POST':
 		form = request.POST
 		activationToken = str(randomWithNDigits(8))
-		if 1:
+		try:
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
-			print(form['OTP'])
 			if form['OTP']:
-				print(1)
 				if form['OTP'] == pvUser.activationToken:
 					response['status'] = 5 
-					response['vhn'] = form['VHN']
+					response['vhn'] = str(form['VHN'])
+					user.backend = 'django.contrib.auth.backends.ModelBackend'
+					login(request,user)
 					return JsonResponse(response)
 				else:
 					response['status']=3
 					return jsonResponse(response)
-			else:
-				print(2)		
-				if 1:
+			else:		
+				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
 					sendSms(mobileNumber,"Your Vyala OTP : "+activationToken)
@@ -134,28 +133,28 @@ def FindAccount(request):
 					pvUser.save()
 					response['status'] = 1 
 					return JsonResponse(response)
-				else:
+				except:
 					response['status'] = 0 ### connection error or unknown error
 					return JsonResponse(response)				
-		else:
+		except:
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		
 	else:
 		return render(request,'FindAccount.html')		
 
-#view for changing password		
+#view for changing password	
+@login_required(login_url = "/login")	
 def SetPassword(request,pvUser):
 	response = {}
 	if request.method == 'POST':
 		form = request.POST
-		pv = User.objects.get(username = pvUser).pvuser
-		pv.user.password = form['password']
+		pv = User.objects.get(username = form['vhn'])
+		pv.set_password(form['password'])
 		pv.save()
-		response['status']=1
-		return jsonResponse(response)
+		return HttpResponse('Password is successfully changed')
 	else:
-		return render(request,'SetPassword.html')	
+		return render(request,'SetPassword.html',{"vhn":pvUser})	
 
 
 
