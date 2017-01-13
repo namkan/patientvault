@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, redirect, render
+from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
@@ -8,7 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .forms import RegistrationForm
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from random import randint
 import requests
 from django.contrib import messages
@@ -104,9 +105,64 @@ def register(request):
         
 	return render(request,'login.html',{'form':form})
 
+#view for finding account and sending otp on registered mobile number
+def FindAccount(request):
+	response={}
+	if request.method == 'POST':
+		form = request.POST
+		activationToken = str(randomWithNDigits(8))
+		if 1:
+			user = User.objects.get(username = form['VHN'])
+			pvUser = user.pvuser
+			print(form['OTP'])
+			if form['OTP']:
+				print(1)
+				if form['OTP'] == pvUser.activationToken:
+					response['status'] = 5 
+					response['vhn'] = form['VHN']
+					return JsonResponse(response)
+				else:
+					response['status']=3
+					return jsonResponse(response)
+			else:
+				print(2)		
+				if 1:
+					mobileNumber = "+91"+str(pvUser.mobile_number) 
+					print(mobileNumber)
+					sendSms(mobileNumber,"Your Vyala OTP : "+activationToken)
+					pvUser.activationToken = activationToken
+					pvUser.save()
+					response['status'] = 1 
+					return JsonResponse(response)
+				else:
+					response['status'] = 0 ### connection error or unknown error
+					return JsonResponse(response)				
+		else:
+			response['status'] = 2 # INvalid VHN Number
+			return JsonResponse(response)
+		
+	else:
+		return render(request,'FindAccount.html')		
+
+#view for changing password		
+def SetPassword(request,pvUser):
+	response = {}
+	if request.method == 'POST':
+		form = request.POST
+		pv = User.objects.get(username = pvUser).pvuser
+		pv.user.password = form['password']
+		pv.save()
+		response['status']=1
+		return jsonResponse(response)
+	else:
+		return render(request,'SetPassword.html')	
+
+
+
+
+
 #View for OTP validation
 def OTPvalidation(request):
-
 	if request.method == 'POST':
 		form = request.POST
 		try:
@@ -179,7 +235,7 @@ def sendEmail(recipient, subject, body):
 	s.quit()
 
 #view for sending sms
-def sendSms(recipientNumber,fromNumber, content):
+def sendSms(recipientNumber, content):
 	uname='jishnu@vyalatech.com'
 	hashkey='e844056e4e3c75ace149c250f4ab998e510dd30f'
 	number=recipientNumber

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> set password </title>
+		<script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
+	</head>
+	<body>
+		<h1> Find Your Account </h1>
+		<form method="POST">{% csrf_token %}
+			<input type="text" name="VHN" placeholder="Enter Your VHN" required>
+			<input type="text" name="OTP" maxlength="8" minlength="8" placeholder="Enter OTP here" />
+			<br><br>
+			<button type="button" id="continue" >OK</button>
+		</form>	
+		<div id="statusReport"></div>
+	</body>
+	<script type="text/javascript">
+function theAjax(uri,data){
+	return $.ajax({
+	    type:"POST",
+	    dataType:"json",
+	    url: uri,
+	    data: data
+	})
+}
+$("#continue").on("click",function(){
+	var data = {
+		"csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+		"VHN": $("input[name=VHN]").val(),
+		"continue":1,
+		"OTP": $("input[name=OTP]").val()
+	};
+	console.log(data);
+	theAjax("/FindAccount/",data)
+	.done(function(response){
+		if(response['status'] == 1)
+		{
+			$("#statusReport").html("OTP sent to your Mobile!!");
+		}
+		else if(response['status'] == 2)
+		{
+			$("#statusReport").html("Please recheck your VHN number .");
+		}
+		else if(response['status']==3)
+		{
+			$("#statusReport").html("Please enter correct OTP .");
+		}
+		else if(response['status'] == 5) window.location.href = "/SetPassword/"+response['vhn'];	
+		else
+		{
+			$("#statusReport").html("Please try Again after sometime(connection error).");
+		}
+	});
+});
+</script>
+</html>
