@@ -11,9 +11,10 @@
 		<p class="change_link">Bored with same old password? 
         <a id="change" href="#">change Password</a>
         </p>
-        <form method="POST" action="/changePass/">{% csrf_token %}
+        <form method="POST" autocomplete="off" action="/changePass/">{% csrf_token %}
         <input type="hidden" id="currentPassword" name="currentPass" placeholder="Enter Current Password" required>
-        <input type="hidden" id="newPassword" name="newPass" placeholder="Enter New Password" required>
+        <input type="hidden" id="newPassword" name="newPass" placeholder="Enter New Password" required><br>
+        <input type="hidden" id="confNewPassword" name="confPass" placeholder="Confirm New Password" required>
         <button style="display:none;" type="submit" id="submit"> OK </button>
         </form>
         <div id="statusReport"></div>
@@ -35,10 +36,20 @@ function theAjax(uri,data){
 }
 $("#submit").on("click",function(event){
 	event.preventDefault();
+	if ($("input[name=newPass]").val() != '')
+	{	
+		if ($("input[name=newPass]").val() != $("input[name=confPass]").val()) 
+		$("#statusReport").html("Passwords must be same!!");
+
+		else{}
+	}
+
+	if ($("input[name=newPass]").val() == $("input[name=confPass]").val()){
 	var data = {
 		"csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
 		"currentPass": $("input[name=currentPass]").val(),
 		"newPass": $("input[name=newPass]").val(),
+		"confPass": $("input[name=confPass]").val(),
 		"submit":1
 	};
 
@@ -67,8 +78,11 @@ $("#submit").on("click",function(event){
 		{
 			$("#currentPassword").css("display","none");
 			$("#newPassword").attr("type","password");
+			$("#confNewPassword").attr("type","password");
+
 		}	
 	});
-});
+}});
+
 </script>
 </html>

@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<h1> Find Your Account </h1>
-		<form method="POST" action="/VerifyAccount/">
+		<form method="POST" autocomplete="off" action="/VerifyAccount/">
 			<input type="hidden" name="VHN" value={{vhn}} >
 			<input type="text" name="OTP" placeholder="Enter OTP here" required>
 			<button type="submit" value="continue"> Continue </button>

@@ -80,7 +80,7 @@ def register(request):
 					sendSms('+91'+str(mobile_number),"Your Vyala OTP : "+activationToken)
 			except:
 				print("code base 2")
-				messages.warning(request,"Invalid Phone Number !!!")
+				messages.warning(request,"Connection problem or Invalid Phone Number !!!")
 				return render(request, 'login.html',{'form':form})
 			lastUserId = User.objects.latest('id').id
 			vhn = "VHN"+str(100000+lastUserId+1)
@@ -106,6 +106,7 @@ def register(request):
 	return render(request,'login.html',{'form':form})
 
 #View for OTP validation
+@csrf_exempt
 def OTPvalidation(request):
 	if request.method == 'POST':
 		form = request.POST
@@ -120,7 +121,7 @@ def OTPvalidation(request):
 			pvUser.activationToken = None
 			pvUser.activationAttempts += 1
 			pvUser.save()
-			return HttpResponse('Your Phone Number is verified and your account is activated')
+			return redirect('/login/')
 		else:
 			pvUser.activationAttempts += 1
 			pvUser.save()

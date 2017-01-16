@@ -49,7 +49,7 @@ input[type=number]::-webkit-inner-spin-button {
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form name="login" method="POST" action="/login/">{% csrf_token %}
+            <form name="login" method="POST" autocomplete="off" action="/login/">{% csrf_token %}
               <h1>Login Form</h1>
               <div>
                 <input name="username" type="text" class="form-control" placeholder="Username" required="" />
@@ -90,7 +90,7 @@ input[type=number]::-webkit-inner-spin-button {
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form name="registration" method="POST">{% csrf_token %}
+            <form name="registration" autocomplete="off" method="POST">{% csrf_token %}
               <h1>Create Account</h1>
 
               {{ form.as_p }}

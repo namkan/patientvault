@@ -6,9 +6,9 @@
 	</head>
 	<body>
 		<h1> Find Your Account </h1>
-		<form method="POST">{% csrf_token %}
+		<form method="POST" autocomplete="off">{% csrf_token %}
 			<input type="text" name="VHN" placeholder="Enter Your VHN" required>
-			<input type="text" name="OTP" maxlength="8" minlength="8" placeholder="Enter OTP here" />
+			<input type="hidden" name="OTP" id='OTP' maxlength="8" minlength="8" placeholder="Enter OTP here" />
 			<br><br>
 			<button type="button" id="continue" >Send OTP</button>
 		</form>	
@@ -36,6 +36,7 @@ $("#continue").on("click",function(){
 		if(response['status'] == 1)
 		{
 			$('#continue').html("verify OTP")
+			$('#OTP').attr("type","text")
 			$("#statusReport").html("OTP sent to your Mobile!!");
 		}
 		else if(response['status'] == 2)

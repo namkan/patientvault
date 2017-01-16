@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<h1>Activate your Account</h1>
-		<form method="POST" action='/OTPvalidation/'>
+		<form method="POST" autocomplete="off" action='/OTPvalidation/'>
 		<input type="text" value="{% if vhn %}{{vhn}}{%endif%}" name="vhn" placeholder="VHN Number" />
 		{% csrf_token %}
 			<input type='number' required="" name='OTP' maxlength="8" minlength="8" placeholder="OTP validation" />
