@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^resendOTP/',resendOTP,name='resend OTP'),
     url(r'^FindAccount/',FindAccount,name='resend OTP'),
     url(r'^SetPassword/(?P<pvUser>[\w\-]+)/$',SetPassword,name='set password'),
+    url(r'^changePass/',changePass,name='change password'),
     ]

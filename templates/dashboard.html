@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    
+	<head>
+	    <script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
+	    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title> dashboard </title>
+	</head>
+	<body>
+		<p class="change_link">Bored with same old password? 
+        <a id="change" href="#">change Password</a>
+        </p>
+        <form method="POST" action="/changePass/">{% csrf_token %}
+        <input type="hidden" id="currentPassword" name="currentPass" placeholder="Enter Current Password" required>
+        <input type="hidden" id="newPassword" name="newPass" placeholder="Enter New Password" required>
+        <button style="display:none;" type="submit" id="submit"> OK </button>
+        </form>
+        <div id="statusReport"></div>
+	</body>
+	<script type="text/javascript">
+$("#change").on("click",function(event){
+	$("#currentPassword").attr("type","password");
+	$("#submit").css("display","block");
+		
+	
+});
+function theAjax(uri,data){
+	return $.ajax({
+	    type:"POST",
+	    dataType:"json",
+	    url: uri,
+	    data: data
+	})
+}
+$("#submit").on("click",function(event){
+	event.preventDefault();
+	var data = {
+		"csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+		"currentPass": $("input[name=currentPass]").val(),
+		"newPass": $("input[name=newPass]").val(),
+		"submit":1
+	};
+
+	
+	theAjax("/changePass/",data)
+	.done(function(response){
+		if(response['status'] == 1)
+		{
+			//$("#currentPassword").type("password");
+			//$("#submit").type("submit");
+		}
+		else if(response['status'] == 2)
+		{
+			$("#statusReport").html("Please enter correct password");
+			
+		}
+		else if(response['status'] == 3)
+		{
+			$("#statusReport").html("Password changed successfully!!");
+		}
+		else if(response['status']==4)
+		{
+			window.location.href = "/login/";
+		}	
+		else if(response['status']==5)
+		{
+			$("#currentPassword").css("display","none");
+			$("#newPassword").attr("type","password");
+		}	
+	});
+});
+</script>
+</html>

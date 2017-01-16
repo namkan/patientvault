@@ -39,8 +39,8 @@ def signIn(request):
 			if user is not None:
 	    	# the password verified for the user
 				if user.is_active:
-					messages.success(request,"User is valid, active and authenticated")
-					print('1')	
+					login(request,user)
+					return render(request,'dashboard.html')	
 				else:
 					messages.warning(request,"The password is valid, but the account has been disabled!")
 					print('2')
@@ -105,61 +105,6 @@ def register(request):
         
 	return render(request,'login.html',{'form':form})
 
-#view for finding account and sending otp on registered mobile number
-def FindAccount(request):
-	response={}
-	if request.method == 'POST':
-		form = request.POST
-		activationToken = str(randomWithNDigits(8))
-		try:
-			user = User.objects.get(username = form['VHN'])
-			pvUser = user.pvuser
-			if form['OTP']:
-				if form['OTP'] == pvUser.activationToken:
-					response['status'] = 5 
-					response['vhn'] = str(form['VHN'])
-					user.backend = 'django.contrib.auth.backends.ModelBackend'
-					login(request,user)
-					return JsonResponse(response)
-				else:
-					response['status']=3
-					return jsonResponse(response)
-			else:		
-				try :
-					mobileNumber = "+91"+str(pvUser.mobile_number) 
-					print(mobileNumber)
-					sendSms(mobileNumber,"Your Vyala OTP : "+activationToken)
-					pvUser.activationToken = activationToken
-					pvUser.save()
-					response['status'] = 1 
-					return JsonResponse(response)
-				except:
-					response['status'] = 0 ### connection error or unknown error
-					return JsonResponse(response)				
-		except:
-			response['status'] = 2 # INvalid VHN Number
-			return JsonResponse(response)
-		
-	else:
-		return render(request,'FindAccount.html')		
-
-#view for changing password	
-@login_required(login_url = "/login")	
-def SetPassword(request,pvUser):
-	response = {}
-	if request.method == 'POST':
-		form = request.POST
-		pv = User.objects.get(username = form['vhn'])
-		pv.set_password(form['password'])
-		pv.save()
-		return HttpResponse('Password is successfully changed')
-	else:
-		return render(request,'SetPassword.html',{"vhn":pvUser})	
-
-
-
-
-
 #View for OTP validation
 def OTPvalidation(request):
 	if request.method == 'POST':
@@ -182,7 +127,7 @@ def OTPvalidation(request):
 			messages.warning(request,'Please enter correct OTP !!')
 			return render(request,'is_OTPvalid.html')	
 	else:
-		return render(request,'is_OTPvalid.html')
+		return render(request,'is_OTPvalid.html')	
 
 #view for otpresend request
 def resendOTP(request):
@@ -210,6 +155,93 @@ def resendOTP(request):
 	else:
 		response['status'] = "Invalid!!"
 		return JsonResponse(response)
+
+
+#view for finding account and sending otp on registered mobile number
+def FindAccount(request):
+	response={}
+	if request.method == 'POST':
+		form = request.POST
+		activationToken = str(randomWithNDigits(8))
+		try:
+			user = User.objects.get(username = form['VHN'])
+			pvUser = user.pvuser
+			if form['OTP']:
+				if form['OTP'] == pvUser.activationToken:
+					response['status'] = 5 
+					response['vhn'] = str(form['VHN'])
+					user.backend = 'django.contrib.auth.backends.ModelBackend'
+					login(request,user)
+					return JsonResponse(response)
+				else:
+					response['status']=3
+					return JsonResponse(response)
+			else:		
+				try :
+					mobileNumber = "+91"+str(pvUser.mobile_number) 
+					print(mobileNumber)
+					sendSms(mobileNumber,"Your Vyala OTP : "+activationToken)
+					pvUser.activationToken = activationToken
+					pvUser.save()
+					response['status'] = 1 
+					return JsonResponse(response)
+				except:
+					response['status'] = 0 ### connection error or unknown error
+					return JsonResponse(response)				
+		except:
+			response['status'] = 2 # INvalid VHN Number
+			return JsonResponse(response)
+		
+	else:
+		return render(request,'FindAccount.html')		
+
+#view to reset password	
+@login_required(login_url = "/login")	
+def SetPassword(request,pvUser):
+	response = {}
+	if request.method == 'POST':
+		form = request.POST
+		pv = User.objects.get(username = form['vhn'])
+		pv.set_password(form['password'])
+		pv.save()
+		return HttpResponse('Password is successfully changed')
+	else:
+		return render(request,'SetPassword.html',{"vhn":pvUser})	
+
+#view for changing passsword
+@csrf_exempt
+@login_required(login_url = "/login")
+def changePass(request):
+	response={}
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			form = request.POST
+			print(str(request.POST))
+			if form['currentPass']:
+				newUser = authenticate(username = username, password = form['currentPass'])
+				if newUser is not None:
+					if form['newPass']:
+						user = User.objects.get(username=username)
+						user.set_password(form['newPass'])
+						user.save()
+						response['status']=3 # Password Changed Successfully
+						return JsonResponse(response)
+					else:
+						response['status'] = 5 # now show new Password button
+						return JsonResponse(response)
+				else:
+					response['status']=2 # wrong currentPass8
+					return JsonResponse(response)				
+
+		else:
+			print(1)
+			response['status']=1
+			return JsonResponse(response)	
+	else:
+		response['status']=4
+		return JsonResponse(response)	
 
 
 #View for sending email from zoho
