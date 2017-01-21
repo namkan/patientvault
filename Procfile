@@ -1,1 +1,1 @@
-web: gunicorn technexUser.wsgi
+web: gunicorn vyala.wsgi
