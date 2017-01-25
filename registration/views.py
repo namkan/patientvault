@@ -4,7 +4,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import PvUser
+from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -15,6 +15,7 @@ import requests
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core import mail
+from datetime import datetime
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
@@ -43,7 +44,6 @@ def signIn(request):
 					return render(request,'dashboard.html')	
 				else:
 					messages.warning(request,"The password is valid, but the account has been disabled!")
-					print('2')
 #			user = User.objects.get(username=form['username'],password=form['password'])
 #			print("user is found")
 			return render(request,'login.html')
@@ -121,7 +121,9 @@ def OTPvalidation(request):
 			pvUser.activationToken = None
 			pvUser.activationAttempts += 1
 			pvUser.save()
-			return redirect('/login/')
+			user.backend = 'django.contrib.auth.backends.ModelBackend'
+			login(request,user)
+			return redirect('/completeprofile/')
 		else:
 			pvUser.activationAttempts += 1
 			pvUser.save()
@@ -244,6 +246,121 @@ def changePass(request):
 		response['status']=4
 		return JsonResponse(response)	
 
+@login_required(login_url = "/login/")
+def profile(request):
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			user = User.objects.get(username = username)
+			pvUser = user.pvuser
+			form = request.POST
+			if not isinstance(form['country'],CountryMaster):
+				form['country'] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			if not isinstance(form['state'],StateMaster):
+				form['state'] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = form['country'])
+			if not isinstance(form['city'],CityMaster):
+				form['city'] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = form['state'])	
+			pvProfile = PvProfile.objects.get_or_create(
+				userId = pvUser,
+				country = form['country'],
+				state = form['state'],
+				city = form['city'],
+				profilePhoto = request.FILES['profilePic'],
+				address = form['address'],
+				dob = form['DOB'],
+				)
+			
+		else:
+			return render(request,'profile.html')
+	else:	
+		return redirect('/login/')
+
+
+def relationship(request):
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			user = User.objects.get(username = username)
+			pvUser = user.pvuser
+			form = request.POST
+			if not isinstance(form['relationship'],RelationshipMaster):
+				form['relationship'] = RelationshipMaster(name = form['relationship'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+			paatientId = pvUser,
+			relativeName = form['name'],
+			relationshipId = form['relationship'],
+			relativeVhNo = form['relVhnNo'],
+			lastModifiedDateTime = datetime.now())					
+
+	else:
+		return redirect('/login/')
+
+def medicalHistory(request):
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			user = User.objects.get(username = username)
+			pvUser = user.pvuser
+			form = request.POST
+			if not isinstance(form['medicalHistory'],MedicalhistoryMaster):
+				form['medicalHistory'] = MedicalhistoryMaster(name = form['medicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+			paatientId = pvUser,
+			medicalHistoryId = form['medicalHistory'],
+			sharedYesNo = form['isShared'],
+			activeYesNo = form['isActive'],
+			lastModifiedDateTime = datetime.now())					
+
+	else:
+		return redirect('/login/')
+
+def SurgicalHistory(request):
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			user = User.objects.get(username = username)
+			pvUser = user.pvuser
+			form = request.POST
+			if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
+				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+			paatientId = pvUser,
+			surgicalHistoryId = form['surgicalHistory'],
+			sharedYesNo = form['isShared'],
+			activeYesNo = form['isActive'],
+			lastModifiedDateTime = datetime.now())					
+
+	else:
+		return redirect('/login/')	
+
+def SocialHistory(request):
+	username = None
+	if request.user.is_authenticated():
+		username = request.user.username
+		if request.method == 'POST':
+			user = User.objects.get(username = username)
+			pvUser = user.pvuser
+			form = request.POST
+			if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
+				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+			paatientId = pvUser,
+			alcoholUsage = form['alcoholUsage'],
+			drinksPerWeek = form['drinks/week'],
+			tobacoUsage = form['tobacoUsage'],
+			tobacoQuitDate = form['whenTobacoLeft'],
+			drugUsage = form['drugsUsage'],
+			drugQuitDate = form['whenTobacoLeft'],
+			drugDetails = form['drugDetails'])					
+
+	else:
+		return redirect('/login/')			
+
+
 
 #View for sending email from zoho
 def sendEmail(recipient, subject, body):
@@ -266,6 +383,7 @@ def sendEmail(recipient, subject, body):
 	s.sendmail('naman.kansal@vyalatech.com', recipient, msg.as_string())
 	s.quit()
 
+
 #view for sending sms
 def sendSms(recipientNumber, content):
 	uname='jishnu@vyalatech.com'
@@ -276,8 +394,9 @@ def sendSms(recipientNumber, content):
 
 	r = requests.post('http://api.textlocal.in/send/', data ={'username':uname,'hash':hashkey,'numbers':number,'message':msg,'sender':sender})
 
-	data=r.json()
 
+	data=r.json()
+	print(data)
 	print(data['status'])
 
 #function for generating activationToken
@@ -285,3 +404,6 @@ def randomWithNDigits(n):
 	range_start = 10**(n-1)
 	range_end = (10**n)-1
 	return randint(range_start, range_end)
+
+def relation(request):
+	return render(request,'relationship.html')
