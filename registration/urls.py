@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^FindAccount/',FindAccount,name='resend OTP'),
     url(r'^SetPassword/(?P<pvUser>[\w\-]+)/$',SetPassword,name='set password'),
     url(r'^changePass/',changePass,name='change password'),
+    url(r'^completeprofile/',profile,name='complete your profile'),
+    url(r'^relTest/',relation,name='rel'),
     ]
