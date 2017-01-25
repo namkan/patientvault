@@ -276,26 +276,57 @@ def profile(request):
 	else:	
 		return redirect('/login/')
 
-
+@login_required(login_url = "/login/")
 def relationship(request):
-	username = None
-	if request.user.is_authenticated():
-		username = request.user.username
-		if request.method == 'POST':
-			user = User.objects.get(username = username)
-			pvUser = user.pvuser
-			form = request.POST
-			if not isinstance(form['relationship'],RelationshipMaster):
-				form['relationship'] = RelationshipMaster(name = form['relationship'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-			pvRelationship = PvFamilyRelationship.objects.get_or_create(
-			paatientId = pvUser,
-			relativeName = form['name'],
-			relationshipId = form['relationship'],
-			relativeVhNo = form['relVhnNo'],
-			lastModifiedDateTime = datetime.now())					
-
+	response = {}
+	if request.method == 'POST':
+		pvUser = request.user.pvuser
+		form = request.POST
+		try:
+			relative = User.objects.get(username = form['relVhnNo']).pvuser
+		except:
+			response['status'] = 0
+			response['error'] = "Invalid VHN No. Of Relative"
+			return JsonResponse(response)
+		if not isinstance(form['relationship'],RelationshipMaster):
+			form['relationship'] = RelationshipMaster(name = form['relationship'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		pvRelationship = PvFamilyRelationship.objects.get_or_create(
+		paatientId = pvUser,
+		relativeName = form['name'],
+		relationshipId = form['relationship'],
+		relative = relative,
+		lastModifiedDateTime = datetime.now())					
+		response['status'] = 1
+		return JsonResponse(response)
 	else:
-		return redirect('/login/')
+		response['status'] = 0
+		response['error'] = 'Invalid Request !!'
+		return JsonResponse(response)
+
+@login_required(login_url = "/login/")
+def deleteFamilyMember(request):
+	response = {}
+	if request.method == 'POST':
+		pvUser = request.user.pvuser
+		form = request.POST
+		try:
+			relative = User.objects.get(username = form['relVhnNo']).pvuser
+		except:
+			response['status'] = 0
+			response['error'] = "Invalid VHN No. Of Relative"
+			return JsonResponse(response)
+		try:
+			pvRelationship = PvFamilyRelationship.objects.get(relative = relative)
+			pvRelationship.delete()
+			response['status'] = 1
+		except:
+			response['status'] = 0
+			response['error'] = "The member with this vhn number is not you family member !!"
+		return JsonResponse(response)	
+	else:
+		response['status'] = 0
+		response['error'] = 'Invalid Request !!'
+		return JsonResponse(response)
 
 def medicalHistory(request):
 	username = None
@@ -336,7 +367,7 @@ def SurgicalHistory(request):
 
 	else:
 		return redirect('/login/')	
-
+'''
 def SocialHistory(request):
 	username = None
 	if request.user.is_authenticated():
@@ -354,13 +385,13 @@ def SocialHistory(request):
 			tobacoUsage = form['tobacoUsage'],
 			tobacoQuitDate = form['whenTobacoLeft'],
 			drugUsage = form['drugsUsage'],
-			drugQuitDate = form['whenTobacoLeft'],
+			drugQuitDate = form['whenDrugLeft'],
 			drugDetails = form['drugDetails'])					
 
 	else:
 		return redirect('/login/')			
 
-
+'''
 
 #View for sending email from zoho
 def sendEmail(recipient, subject, body):

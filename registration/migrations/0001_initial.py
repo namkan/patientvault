@@ -15,34 +15,34 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CityMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
             ],
         ),
         migrations.CreateModel(
             name='CountryMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
             ],
         ),
         migrations.CreateModel(
             name='FamilyhistoryMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
             ],
         ),
         migrations.CreateModel(
             name='GenderMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
                 ('activeYesNo', models.BooleanField(default=True)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
@@ -51,16 +51,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MedicalhistoryMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
             ],
         ),
         migrations.CreateModel(
             name='PvFamilyHisotry',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('sharedYesNo', models.BooleanField(default=True)),
                 ('activeYesNo', models.BooleanField()),
                 ('lastModifiedDateTime', models.DateTimeField()),
@@ -70,18 +70,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PvFamilyRelationship',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('relativeName', models.CharField(max_length=30)),
-                ('relativeVhNo', models.CharField(max_length=10)),
                 ('lastModifiedDateTime', models.DateTimeField()),
             ],
         ),
         migrations.CreateModel(
             name='PvMedicalHistory',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('sharedYesNo', models.BooleanField(default=True)),
-                ('activeYesNo', models.BooleanField()),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.DateTimeField()),
                 ('mediacalHistoryId', models.ForeignKey(to='registration.MedicalhistoryMaster')),
             ],
@@ -89,8 +88,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PvProfile',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
-                ('age', models.IntegerField()),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('dob', models.DateField()),
+                ('profilePhoto', models.TextField()),
                 ('address', models.CharField(max_length=100)),
                 ('lastModifiedDateTime', models.DateTimeField()),
                 ('cityId', models.ForeignKey(to='registration.CityMaster')),
@@ -101,14 +101,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PvSocialHistory',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
-                ('alcoholUsage', models.BooleanField()),
-                ('drinksPerWeek', models.IntegerField()),
-                ('tobacoUsage', models.BooleanField()),
-                ('tobacoQuitDate', models.DateField()),
-                ('drugUsage', models.BooleanField()),
-                ('drugQuitDate', models.BooleanField()),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('alcoholUsage', models.BooleanField(default=False)),
+                ('drinksPerWeek', models.IntegerField(default=0)),
+                ('tobacoUsage', models.BooleanField(default=False)),
+                ('tobacoQuitDate', models.DateField(null=True, blank=True)),
+                ('drugUsage', models.BooleanField(default=False)),
                 ('drugDetails', models.CharField(max_length=250)),
+                ('shareYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.DateTimeField()),
             ],
         ),
@@ -118,17 +118,17 @@ class Migration(migrations.Migration):
                 ('userId', models.AutoField(primary_key=True, serialize=False)),
                 ('mobile_number', models.BigIntegerField(unique=True)),
                 ('email', models.CharField(max_length=50)),
-                ('activationToken', models.CharField(null=True, blank=True, max_length=20)),
-                ('activationAttempts', models.IntegerField(blank=True, null=True, default=0)),
+                ('activationToken', models.CharField(null=True, max_length=20, blank=True)),
+                ('activationAttempts', models.IntegerField(null=True, default=0, blank=True)),
                 ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.DateTimeField(auto_now_add=True)),
-                ('user', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(null=True, to=settings.AUTH_USER_MODEL, blank=True)),
             ],
         ),
         migrations.CreateModel(
             name='RelationshipMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
                 ('activeYesNo', models.BooleanField(default=True)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
@@ -137,9 +137,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StateMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
                 ('country', models.ForeignKey(to='registration.CountryMaster')),
             ],
@@ -147,19 +147,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SurgicalHistory',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('sharedYesNo', models.BooleanField(default=True)),
                 ('activeYesNo', models.BooleanField()),
                 ('lastModifiedDateTime', models.DateTimeField()),
-                ('patientId', models.ForeignKey(to='registration.PvUser')),
+                ('patientId', models.OneToOneField(to='registration.PvUser')),
             ],
         ),
         migrations.CreateModel(
             name='SurgicalhistoryMaster',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(max_length=30)),
-                ('activeYesNo', models.BooleanField(default=True)),
+                ('activeYesNo', models.BooleanField(default=False)),
                 ('lastModifiedDateTime', models.CharField(max_length=30)),
             ],
         ),
@@ -171,7 +171,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pvsocialhistory',
             name='patientId',
-            field=models.ForeignKey(to='registration.PvUser'),
+            field=models.OneToOneField(to='registration.PvUser'),
         ),
         migrations.AddField(
             model_name='pvprofile',
@@ -181,12 +181,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pvprofile',
             name='userId',
-            field=models.ForeignKey(to='registration.PvUser'),
+            field=models.OneToOneField(to='registration.PvUser'),
         ),
         migrations.AddField(
             model_name='pvmedicalhistory',
             name='patientId',
-            field=models.ForeignKey(to='registration.PvUser'),
+            field=models.OneToOneField(to='registration.PvUser'),
         ),
         migrations.AddField(
             model_name='pvfamilyrelationship',
@@ -199,9 +199,14 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='registration.RelationshipMaster'),
         ),
         migrations.AddField(
+            model_name='pvfamilyrelationship',
+            name='relative',
+            field=models.ForeignKey(to='registration.PvUser', null=True, related_name='relative', blank=True),
+        ),
+        migrations.AddField(
             model_name='pvfamilyhisotry',
             name='patientId',
-            field=models.ForeignKey(to='registration.PvUser'),
+            field=models.OneToOneField(to='registration.PvUser'),
         ),
         migrations.AddField(
             model_name='pvfamilyhisotry',
