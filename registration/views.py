@@ -406,4 +406,4 @@ def randomWithNDigits(n):
 	return randint(range_start, range_end)
 
 def relation(request):
-	return render(request,'relationship.html')
+	return render(request,'profile.html')

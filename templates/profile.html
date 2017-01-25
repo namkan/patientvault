@@ -18,6 +18,7 @@
 
     <!-- Custom Theme Style -->
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -330,7 +331,7 @@
                             <span class="step_no">2</span>
                             <span class="step_descr">
                                               Step 2<br />
-                                              <small>Step 2 description</small>
+                                              <small>Family History</small>
                                           </span>
                           </a>
                         </li>
@@ -401,15 +402,196 @@
 
                       </div>
                       <div id="step-2">
-                        <h2 class="StepTitle">Step 2 Content</h2>
-                        <p>
-                          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
+                        <h2 class="StepTitle">Family History</h2>
+                        <button id='addFamily'>Add Information for one more Family Member</button>
+                        <div class="x_panel">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_title">
+                    <h2>Table design <small>Custom design</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+                    <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </th>
+                            <th class="column-title" style="display: table-cell;">Invoice </th>
+                            <th class="column-title" style="display: table-cell;">Invoice Date </th>
+                            <th class="column-title" style="display: table-cell;">Order </th>
+                            <th class="column-title" style="display: table-cell;">Bill to Name </th>
+                            <th class="column-title" style="display: table-cell;">Status </th>
+                            <th class="column-title" style="display: table-cell;">Amount </th>
+                            <th class="column-title no-link last" style="display: table-cell;"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7" style="display: none;">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt">1 Records Selected</span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody id='familyList'>
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000040</td>
+                            <td class=" ">May 23, 2014 11:47:56 PM </td>
+                            <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="odd pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000039</td>
+                            <td class=" ">May 23, 2014 11:30:12 PM</td>
+                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
+                            </td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$741.20</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000038</td>
+                            <td class=" ">May 24, 2014 10:55:33 PM</td>
+                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
+                            </td>
+                            <td class=" ">Mike Smith</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$432.26</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="odd pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000037</td>
+                            <td class=" ">May 24, 2014 10:52:44 PM</td>
+                            <td class=" ">121000204</td>
+                            <td class=" ">Mike Smith</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$333.21</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000040</td>
+                            <td class=" ">May 24, 2014 11:47:56 PM </td>
+                            <td class=" ">121000210</td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="odd pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000039</td>
+                            <td class=" ">May 26, 2014 11:30:12 PM</td>
+                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
+                            </td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$741.20</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000038</td>
+                            <td class=" ">May 26, 2014 10:55:33 PM</td>
+                            <td class=" ">121000203</td>
+                            <td class=" ">Mike Smith</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$432.26</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="odd pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000037</td>
+                            <td class=" ">May 26, 2014 10:52:44 PM</td>
+                            <td class=" ">121000204</td>
+                            <td class=" ">Mike Smith</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$333.21</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000040</td>
+                            <td class=" ">May 27, 2014 11:47:56 PM </td>
+                            <td class=" ">121000210</td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                          <tr class="odd pointer">
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class=" ">121000039</td>
+                            <td class=" ">May 28, 2014 11:30:12 PM</td>
+                            <td class=" ">121000208</td>
+                            <td class=" ">John Blank L</td>
+                            <td class=" ">Paid</td>
+                            <td class="a-right a-right ">$741.20</td>
+                            <td class=" last"><a href="#">View</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                </div>
                       </div>
                       <div id="step-3">
                         <h2 class="StepTitle">Step 3 Content</h2>
@@ -463,6 +645,7 @@
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -471,7 +654,7 @@
     <script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/static/build/js/custom.min.js"></script>
-
+    
     <!-- jQuery Smart Wizard -->
     <script>
       $(document).ready(function() {
@@ -485,6 +668,24 @@
         $('.buttonPrevious').addClass('btn btn-primary');
         $('.buttonFinish').addClass('btn btn-default');
       });
+
+    </script>
+    <script type="text/javascript">
+      htmlOdd = '<tr class="odd pointer"><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td><td class=" ">121000039</td><td class=" ">May 23, 2014 11:30:12 PM</td><td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i></td><td class=" ">John Blank L</td><td class=" ">Paid</td><td class="a-right a-right ">$741.20</td><td class=" last"><button class="deleteMember">Delete</button></td></tr>';
+    htmlEven = '<tr class="even pointer"><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td><td class=" ">121000039</td><td class=" ">May 23, 2014 11:30:12 PM</td><td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i></td><td class=" ">John Blank L</td><td class=" ">Paid</td><td class="a-right a-right ">$741.20</td><td class=" last"><button class="deleteMember">Delete</button></td></tr>';
+    
+    var counter = $("#familyList tr").size()%2;
+    $("#addFamily").on("click",function(e){
+      if(counter%2) 
+        $("#familyList").append(htmlOdd);
+      else
+        $("#familyList").append(htmlEven);
+      
+      counter++;
+    });
+    $(document).on("click",".deleteMember",function(event){
+      $(this).parents()[1].remove();
+    })
     </script>
     <!-- /jQuery Smart Wizard -->
   </body>
