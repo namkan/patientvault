@@ -45,6 +45,8 @@ def signIn(request):
 						return render(request,'dashboard.html')	
 					else:
 						messages.warning(request,"The password is valid, but the account has been disabled!")
+				else:
+					messages.warning(request,"Invalid Credentials !!!")
 	#			user = User.objects.get(username=form['username'],password=form['password'])
 	#			print("user is found")
 				return render(request,'login.html',{'form1':form})
