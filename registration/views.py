@@ -24,7 +24,8 @@ def contextCall(request):
 #view for login page
 def signIn(request):
 	if request.method == 'POST':
-		form = LoginForm(request.POST or None)
+		form1 = LoginForm(request.POST or None)
+		form = RegistrationForm()
 		if form.is_valid():
 			username = form.cleaned_data["username"]
 			password = form.cleaned_data["password"]
@@ -47,14 +48,15 @@ def signIn(request):
 						messages.warning(request,"The password is valid, but the account has been disabled!")
 	#			user = User.objects.get(username=form['username'],password=form['password'])
 	#			print("user is found")
-				return render(request,'login.html',{'form1':form})
+				return render(request,'login.html',{'form1':form1,'form':form})
 					
 			except:
 				print("user is not found,please create account!!")	
-				return render(request,'login.html',{'form1':form})
+				return render(request,'login.html',{'form1':form1,'form':form})
 	else:		
-		form = LoginForm()
-		return render(request,'login.html',{'form1':form})
+		form1 = LoginForm()
+		form = RegistrationForm()
+		return render(request,'login.html',{'form1':form1,'form':form})
 
 
 @csrf_exempt
@@ -81,7 +83,9 @@ def register(request):
 #					return JsonResponse(response) #User already registered with this mobile number
 				except:
 					print("code base 1")
-					sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.")
+					if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
+						messages.warning(request,"Connection problem or Invalid Phone Number !!!")
+						return render(request, 'login.html',{'form':form})
 			except:
 				print("code base 2")
 				messages.warning(request,"Connection problem or Invalid Phone Number !!!")
@@ -108,7 +112,7 @@ def register(request):
 	else:
 		form = RegistrationForm()
         
-	return render(request,'login.html',{'form':form})
+	return redirect('/login/')
 
 #View for OTP validation
 @csrf_exempt
@@ -436,7 +440,7 @@ def sendSms(recipientNumber, content):
 
 	data=r.json()
 	print(data)
-	print(data['status'])
+	return(data['status'])
 
 #function for generating activationToken
 def randomWithNDigits(n):
