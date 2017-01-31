@@ -437,19 +437,18 @@
                         <tr>
                           <th scope="row">1</th>
                           <td>Alcohol Usage</td>
-                          <td>
-                            <label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="icheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="1"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
                             </label>
-                          
-                          </td>
-                          <td>
-                          	
-                          	<label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="icheck" checked="" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                           </td>
+                         <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="0"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
                             </label>
-                           
-                          </td>
+                           </td>
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="2"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Former
+                            </label>
+                           </td>
                           <td>
                         	<input class="form-control" size="7" placeholder="Drinks per week" type="text" disabled="">
                           </td>
@@ -457,31 +456,34 @@
                         <tr>
                           <th scope="row">2</th>
                           <td>Tobacco Usage</td>
-                          <td>
-                            <label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" onChange="findselected()" name="tcheck" style="position: absolute; opacity: 0;" type="radio" id="tobacco_yes" value="1"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
                             </label>
-                          
-                          </td>
-                          <td>
-                          	
-                          	<label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" checked="" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                           </td>
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" onChange="findselected()" style="position: absolute; opacity: 0;" id="tobacco_no" type="radio" value="0"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
                             </label>
-                            
-                          </td>
+                           </td>
+                           <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" onChange="findselected()" style="position: absolute; opacity: 0;" id="tobacco_former" type="radio" value="2"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Former
+                            </label>
+                           </td>
                           <td>
-                        	<input class="form-control" size="7" placeholder="Drinks per week" type="text" disabled="">
+                        	<input class="form-control" size="7" id="tobacco_input" name="item[shipping_cost]" placeholder="Drinks per week" type="text" disabled="disabled">
                           </td>
                         </tr>
                         <tr>
                           <th scope="row">3</th>
                           <td>Drug USage</td>
                           <td><label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="1"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
                             </label></td>
                           <td><label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> no
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="0"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                            </label>
+                           </td>
+                           <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio" value="2"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Former
                             </label>
                            </td>
                            <td>
@@ -571,62 +573,87 @@
 
                   </div>
 
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Basic Tables <small>basic table subtitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    <h2>Family History     </h2>
+                     <button id='addFamily'>Add Information for one more Family Member</button>
                     <div class="clearfix"></div>
                   </div>
+
                   <div class="x_content">
 
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th></th>
-                          <th>Yes</th>
-                          <th>No</th>
-                          <th>Don't know</th>
-                          <th>Relationship</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Larry</td>
-                          <td>the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                   
 
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            
+                            <th class="column-title">  </th>
+                            <th class="column-title">Yes</th>
+                            <th class="column-title">No </th>
+                            <th class="column-title">Don't Know</th>
+                            <th class="column-title">RelationShip</th>
+                            
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          
+                          
+                          
+                          <tr class="odd pointer">
+                            
+                            
+                            <td class=" ">High Blood Presssure</td>
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                          </td>
+                            
+                            
+                          </tr>
+                          <tr class="even pointer">
+                          <td class=" ">Autism</td>
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td class="a-center ">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </td>
+                            <td>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                          </td>
+                            
+                            
+                            </td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -786,7 +813,26 @@ $("#delete-member").on("click",function(){
 		}
 	});
 });
-    </script>
+
+
+function findselected() { 
+    var result = document.querySelector('input[name="dcheck"]:checked').value;
+    if(result=="1"){
+
+        document.getElementById("tobacco_input").setAttribute('disabled', false);
+    }
+    else if(result=="2"){
+        document.getElementById("inputtext").removeAttribute('disabled');
+    }
+    else{
+      document.getElementById("inputtext").removeAttribute('disabled');
+
+    }
+}
+
+
+</script>
+
     <!-- /jQuery Smart Wizard -->
   </body>
 </html>
