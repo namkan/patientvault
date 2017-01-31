@@ -1,4 +1,4 @@
-z /*
+ /*
 $(document).ready(function(){var token = {{status}};
 if(token) $("#btn-next-page-email").trigger( "click" );
 });*/

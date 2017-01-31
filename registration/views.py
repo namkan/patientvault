@@ -1,14 +1,14 @@
 from django.shortcuts import render_to_response, redirect, render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .forms import RegistrationForm
+from .forms import RegistrationForm,LoginForm
 from django.http import HttpResponse,HttpResponseRedirect
 from random import randint
 import requests
@@ -24,41 +24,43 @@ def contextCall(request):
 #view for login page
 def signIn(request):
 	if request.method == 'POST':
-		form = request.POST
-		print(form['username'])
-		try:
-			username = User.objects.get(username = form['username'])
-		except:	
+		form = LoginForm(request.POST or None)
+		if form.is_valid():
+			username = form.cleaned_data["username"]
+			password = form.cleaned_data["password"]
 			try:
-				username = PvUser.objects.get(mobile_number = form['username']).user.username
+				username = User.objects.get(username = username)
+			except:	
+				try:
+					username = PvUser.objects.get(mobile_number = username).user.username
+				except:
+					messages.warning(request,'Invalid Credentials!!')
+					return render(request,'login.html',{'form1':form})		
+			try:
+				user = authenticate(username = username, password = password)
+				if user is not None:
+		    	# the password verified for the user
+					if user.is_active:
+						login(request,user)
+						return render(request,'dashboard.html')	
+					else:
+						messages.warning(request,"The password is valid, but the account has been disabled!")
+	#			user = User.objects.get(username=form['username'],password=form['password'])
+	#			print("user is found")
+				return render(request,'login.html',{'form1':form})
+					
 			except:
-				messages.warning(request,'Invalid Credentials!!')
-				return render(request,'login.html')		
-		try:
-			user = authenticate(username=username, password=form['password'])
-			print(user)
-			if user is not None:
-	    	# the password verified for the user
-				if user.is_active:
-					login(request,user)
-					return render(request,'dashboard.html')	
-				else:
-					messages.warning(request,"The password is valid, but the account has been disabled!")
-#			user = User.objects.get(username=form['username'],password=form['password'])
-#			print("user is found")
-			return render(request,'login.html')
-				
-		except:
-			print("user is not found,please create account!!")	
-			return render(request,'login.html')
+				print("user is not found,please create account!!")	
+				return render(request,'login.html',{'form1':form})
 	else:		
-		return render(request,'login.html')
+		form = LoginForm()
+		return render(request,'login.html',{'form1':form})
 
 
-
+@csrf_exempt
 #View for registration page
 def register(request):
-
+	response = {}
 	if request.method == 'POST':
 		form = RegistrationForm(request.POST or None)
 		if form.is_valid():
@@ -68,23 +70,24 @@ def register(request):
 			mobile_number = str(form.cleaned_data["mobile_number"])
 			password = form.cleaned_data["password"]
 			activationToken = str(randomWithNDigits(8))
-
+			lastUserId = User.objects.latest('id').id
+			vhn = "VHN"+str(100000+lastUserId+1)
 			try:
 				try:
 					PvUser.objects.get(mobile_number = mobile_number)
 					messages.warning(request,"User already registered with Mobile Number.")
-					return render(request,'login.html',{'form':form})
-					print("code base 0")
+					return render(request, 'login.html',{'form':form})
+#					response['status'] = 1
+#					return JsonResponse(response) #User already registered with this mobile number
 				except:
 					print("code base 1")
-					sendSms('+91'+str(mobile_number),"Your Vyala OTP : "+activationToken)
+					sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.")
 			except:
 				print("code base 2")
 				messages.warning(request,"Connection problem or Invalid Phone Number !!!")
 				return render(request, 'login.html',{'form':form})
-			lastUserId = User.objects.latest('id').id
-			vhn = "VHN"+str(100000+lastUserId+1)
-			print(vhn)
+#				response['status'] = 0
+#				return JsonResponse(response) #connection problem or invalid phone number
 			user = User.objects.create_user(
 				username=vhn,
 				first_name=first_name,
@@ -96,10 +99,12 @@ def register(request):
 
 			if email:
 				subject = "Welcome To Vyala Family"
-				body = "You have successfully registered at vyala"
+				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
 				sendEmail(email,subject,body)
 
 			return render(request,'is_OTPvalid.html',{'vhn' : vhn})
+#			response['status'] = 2 #OTP sent successfully and redirected to otp validation page
+#			return JsonResponse(response)
 	else:
 		form = RegistrationForm()
         
@@ -138,7 +143,6 @@ def resendOTP(request):
 	if request.method == 'POST':
 		form = request.POST
 		activationToken = str(randomWithNDigits(8))
-		print(form['vhn'])
 		try:
 			user = User.objects.get(username = form['vhn'])
 			pvUser = user.pvuser
@@ -146,13 +150,13 @@ def resendOTP(request):
 			messages.warning(request,'Invalid VHN number')
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
-		if True:
-			sendSms("+91"+str(pvUser.mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
+		try:
+			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.")
 			pvUser.activationToken = activationToken
 			pvUser.save()
 			response['status'] = 1 
 			return JsonResponse(response)
-		else:
+		except:
 			response['status'] = 0 ### connection error or unknown error
 			return JsonResponse(response)
 	else:
@@ -285,7 +289,7 @@ def relationship(request):
 		try:
 			relative = User.objects.get(username = form['relVhnNo']).pvuser
 		except:
-			response['status'] = 0
+			response['status'] = 2
 			response['error'] = "Invalid VHN No. Of Relative"
 			return JsonResponse(response)
 		if not isinstance(form['relationship'],RelationshipMaster):
@@ -313,15 +317,15 @@ def deleteFamilyMember(request):
 			relative = User.objects.get(username = form['relVhnNo']).pvuser
 		except:
 			response['status'] = 0
-			response['error'] = "Invalid VHN No. Of Relative"
+			response['error0'] = "Invalid VHN No. Of Relative"
 			return JsonResponse(response)
 		try:
 			pvRelationship = PvFamilyRelationship.objects.get(relative = relative)
 			pvRelationship.delete()
 			response['status'] = 1
 		except:
-			response['status'] = 0
-			response['error'] = "The member with this vhn number is not you family member !!"
+			response['status'] = 2
+			response['error2'] = "Not your family member"
 		return JsonResponse(response)	
 	else:
 		response['status'] = 0
@@ -392,6 +396,10 @@ def SocialHistory(request):
 		return redirect('/login/')			
 
 '''
+
+def logout_view(request):
+	logout(request)
+	return redirect('/login/')
 
 #View for sending email from zoho
 def sendEmail(recipient, subject, body):

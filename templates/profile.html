@@ -192,7 +192,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="/logout/"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
@@ -271,7 +271,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Form Wizards</h3>
+                <h3>Complete Your Profile</h3>
               </div>
 
               <div class="title_right">
@@ -293,21 +293,7 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Form Wizards <small>Sessions</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -322,7 +308,7 @@
                             <span class="step_no">1</span>
                             <span class="step_descr">
                                               Step 1<br />
-                                              <small>Step 1 description</small>
+                                              <small> Profile </small>
                                           </span>
                           </a>
                         </li>
@@ -331,7 +317,7 @@
                             <span class="step_no">2</span>
                             <span class="step_descr">
                                               Step 2<br />
-                                              <small>Family History</small>
+                                              <small>Social and Medical History</small>
                                           </span>
                           </a>
                         </li>
@@ -355,6 +341,7 @@
                         </li>
                       </ul>
                       <div id="step-1">
+                      <h2 class="StepTitle">Personal Details</h2><br>
                         <form class="form-horizontal form-label-left">
 
                           <div class="form-group">
@@ -400,14 +387,194 @@
 
                         </form>
 
-                      </div>
-                      <div id="step-2">
                         <h2 class="StepTitle">Family History</h2>
                         <button id='addFamily'>Add Information for one more Family Member</button>
                         <div class="x_panel">
                   <div class="col-md-12 col-sm-12 col-xs-12">
+                  
+
+                  <div class="x_content">
+
+                    <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            </th>
+                            <th class="column-title" style="display: table-cell;">Relative Name </th>
+                            <th class="column-title" style="display: table-cell;">Relationship </th>
+                            <th class="column-title" style="display: table-cell;">VHN Number </th>
+                            <th class="column-title no-link last" style="display: table-cell;"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7" style="display: none;">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt">1 Records Selected</span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                            <th class="column-title" style="display: table-cell;"> Status </th>
+                          </tr>
+                        </thead>
+
+                        <tbody id='familyList'>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                      </div>
+                      <div id="step-2">
+                        <h2 class="StepTitle">Social History</h2>
+                        <div class="x_panel">
+                  
+                  <div class="x_content">
+
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Alcohol Usage</td>
+                          <td>
+                            <label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="icheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                            </label>
+                          
+                          </td>
+                          <td>
+                          	
+                          	<label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="icheck" checked="" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                            </label>
+                           
+                          </td>
+                          <td>
+                        	<input class="form-control" size="7" placeholder="Drinks per week" type="text" disabled="">
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Tobacco Usage</td>
+                          <td>
+                            <label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                            </label>
+                          
+                          </td>
+                          <td>
+                          	
+                          	<label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" checked="" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                            </label>
+                            
+                          </td>
+                          <td>
+                        	<input class="form-control" size="7" placeholder="Drinks per week" type="text" disabled="">
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Drug USage</td>
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                            </label></td>
+                          <td><label class="">
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="dcheck" style="position: absolute; opacity: 0;" type="radio"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> no
+                            </label>
+                           </td>
+                           <td>
+                        	<input class="form-control" size="7" placeholder="Drinks per week" type="text" disabled="">
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    
+                      </table>
+                      </div>
+                  </div>
+
+                  <h2 class="StepTitle">Medical History</h2>
+                        <div class="x_panel">
+                  
+                  <div class="x_content">
+
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td><label class="">High Blood Pressure
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat"  style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label></td>
+                          
+                          <td>
+                          	<label class="">Asthma
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label>
+                          </td>
+                          <td>
+                        	<label class=""> Dipression
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat"  style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label>
+                          </td>
+                        </tr>
+                         </tbody>
+                    </table>
+                    </div>
+
+                        <div class="form-group">
+                            <label for="others" class="control-label col-md-3 col-sm-3 col-xs-12"> Other </label>
+                           
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="others" class="form-control col-md-7 col-xs-12" type="text" name="others" placeholder="If other Mention here" size="50">
+                            </div>
+                          </div>
+
+                  </div>
+                      </div>
+
+                      <div id="step-3">
+                        <h2 class="StepTitle">Surgical History</h2>
+                        <div class="x_panel">
+                  
+                  <div class="x_content">
+
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td><label class="">CABG
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat"  style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label></td>
+                          
+                          <td>
+                          	<label class="">Catarast
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label>
+                          </td>
+                          <td>
+                        	<label class=""> Angioplasty
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat"  style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
+                            </label>
+                          </td>
+                        </tr>
+                         </tbody>
+                    </table>
+                    </div>
+
+                        <div class="form-group">
+                            <label for="others" class="control-label col-md-3 col-sm-3 col-xs-12"> Other </label>
+                           
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="others" class="form-control col-md-7 col-xs-12" type="text" name="others" placeholder="If other Mention here" size="50">
+                            </div>
+                          </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
                   <div class="x_title">
-                    <h2>Table design <small>Custom design</small></h2>
+                    <h2>Basic Tables <small>basic table subtitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -425,185 +592,46 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-
                   <div class="x_content">
 
-                    <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th></th>
+                          <th>Yes</th>
+                          <th>No</th>
+                          <th>Don't know</th>
+                          <th>Relationship</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Jacob</td>
+                          <td>Thornton</td>
+                          <td>@fat</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Larry</td>
+                          <td>the Bird</td>
+                          <td>@twitter</td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-                    <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            <th>
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </th>
-                            <th class="column-title" style="display: table-cell;">Invoice </th>
-                            <th class="column-title" style="display: table-cell;">Invoice Date </th>
-                            <th class="column-title" style="display: table-cell;">Order </th>
-                            <th class="column-title" style="display: table-cell;">Bill to Name </th>
-                            <th class="column-title" style="display: table-cell;">Status </th>
-                            <th class="column-title" style="display: table-cell;">Amount </th>
-                            <th class="column-title no-link last" style="display: table-cell;"><span class="nobr">Action</span>
-                            </th>
-                            <th class="bulk-actions" colspan="7" style="display: none;">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt">1 Records Selected</span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-                          </tr>
-                        </thead>
-
-                        <tbody id='familyList'>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 24, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 24, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 24, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 26, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 26, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 26, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 27, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 28, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
-                </div>
+              </div>
                       </div>
-                      <div id="step-3">
-                        <h2 class="StepTitle">Step 3 Content</h2>
-                        <p>
-                          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                          eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                      </div>
+                
                       <div id="step-4">
                         <h2 class="StepTitle">Step 4 Content</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -617,8 +645,8 @@
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
                           in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>
-                      </div>
-
+                      
+                        </div>
                     </div>
                     <!-- End SmartWizard Content -->
                     <!-- End SmartWizard Content -->
@@ -671,21 +699,93 @@
 
     </script>
     <script type="text/javascript">
-      htmlOdd = '<tr class="odd pointer"><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td><td class=" ">121000039</td><td class=" ">May 23, 2014 11:30:12 PM</td><td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i></td><td class=" ">John Blank L</td><td class=" ">Paid</td><td class="a-right a-right ">$741.20</td><td class=" last"><button class="deleteMember">Delete</button></td></tr>';
-    htmlEven = '<tr class="even pointer"><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td><td class=" ">121000039</td><td class=" ">May 23, 2014 11:30:12 PM</td><td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i></td><td class=" ">John Blank L</td><td class=" ">Paid</td><td class="a-right a-right ">$741.20</td><td class=" last"><button class="deleteMember">Delete</button></td></tr>';
+      htmlOdd = '<tr class="even pointer"><td class="a-center "><div class="icheckbox_flat-green checked" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-name" name="relative-name" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relation" name="relation" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-vhnNumber" name="relative-vhnNumber" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button" id="delete" class="action btn btn-primary">Delete</button></td><td><div id="statusReport">Not Saved</div</td></tr>';
     
     var counter = $("#familyList tr").size()%2;
-    $("#addFamily").on("click",function(e){
-      if(counter%2) 
+    $("#addFamily").on("click",function(e){ 
         $("#familyList").append(htmlOdd);
-      else
-        $("#familyList").append(htmlEven);
       
-      counter++;
     });
-    $(document).on("click",".deleteMember",function(event){
+    $(document).on("click","#delete",function(event){
       $(this).parents()[1].remove();
     })
+    $(document).keyup(function(){
+		if($("#relative-name").val()!=""){
+			if($("#relation").val()!=""){
+				if($("#relative-vhnNumber").val()!=""){
+					$(".action").html("Save")
+					$(".action").attr("id","save")	
+				}
+				else{
+					$(".action").html("Delete")
+					$(".action").attr("id","delete")
+			}
+			}
+		}
+	});
+
+	function theAjax(uri,data){
+	return $.ajax({
+	    type:"POST",
+	    dataType:"json",
+	    url: uri,
+	    data: data
+	})
+}
+$("#save").on("click",function(){
+	var data = {
+		"relative-name": $("input[name=relative-name]").val(),
+		"relation": $("input[name=realtion]").val(),
+		"relative-vhnNumber":$("input[name=relative-vhnNumber]").val(),
+		"save":1,
+	};
+	console.log(data);
+	theAjax("/saveRelation/",data)
+	.done(function(response){
+		if(response['status'] == 2)
+		{
+			$("#statusReport").html("Invalid VHN Number");
+	    }
+		else if(response['status'] == 1)
+		{
+			$("#statusReport").html("Saved");
+			$("#save").html("Delete");
+			$(".action").attr("id","delete-member")
+		}
+	});
+});
+	
+	function theAjax(uri,data){
+	return $.ajax({
+	    type:"POST",
+	    dataType:"json",
+	    url: uri,
+	    data: data
+	})
+}
+$("#delete-member").on("click",function(){
+	var data = {
+		"relative-name": $("input[name=relative-name]").val(),
+		"relation": $("input[name=realtion]").val(),
+		"relative-vhnNumber":$("input[name=relative-vhnNumber]").val(),
+		"delete-member":1,
+	};
+	console.log(data);
+	theAjax("/deleteMember/",data)
+	.done(function(response){
+		if(response['status'] == 2)
+		{
+			$("#statusReport").html("response['error2']");
+	    }
+		else if(response['status'] == 1)
+		{
+			$("#statusReport").html("Deleted");
+		}
+		else{
+			$("#statusReport").html("response['error0']")
+		}
+	});
+});
     </script>
     <!-- /jQuery Smart Wizard -->
   </body>

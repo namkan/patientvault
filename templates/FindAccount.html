@@ -38,6 +38,7 @@ $("#continue").on("click",function(){
 			$('#continue').html("verify OTP")
 			$('#OTP').attr("type","text")
 			$("#statusReport").html("OTP sent to your Mobile!!");
+			setTimeout((function(){$("#verify").prop('disabled',true);}),120000)
 		}
 		else if(response['status'] == 2)
 		{

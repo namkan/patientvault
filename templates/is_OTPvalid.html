@@ -12,16 +12,23 @@
 		{% csrf_token %}
 			<input type='number' required="" name='OTP' maxlength="8" minlength="8" placeholder="OTP validation" />
 			<br><br>
-			<button type="submit" value="varify" >varify</button>
+			<button type="submit" value="varify" id="verify" >varify</button>
 			<button type="button" id="resend">Resend OTP</button>
+			<div id='statusReport'></div>
 		</form>
-		<div id='statusReport'></div>
+		
 		
 			
 			
 	
 	</body>
 	<script type="text/javascript">
+		$(document).ready(function(){
+  setTimeout((function(){$("#verify").prop('disabled',true);}),120000)   
+});
+
+
+
 function theAjax(uri,data){
 	return $.ajax({
 	    type:"POST",
@@ -42,6 +49,7 @@ $("#resend").on("click",function(){
 		if(response['status'] == 1)
 		{
 			$("#statusReport").html("OTP sent to your Mobile!!");
+			setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
 		}
 		else if(response['status'] == 2)
 		{
