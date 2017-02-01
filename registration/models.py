@@ -55,6 +55,7 @@ class PvUser(models.Model):
 	email = models.CharField(max_length=50)
 	activationToken = models.CharField(max_length = 20,null=True,blank=True)
 	activationAttempts = models.IntegerField(default=0,null=True,blank=True)
+	isProfileComplete = models.BooleanField(default = False)
 	activeYesNo = models.BooleanField(default = False)
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
 	class meta:
@@ -103,7 +104,7 @@ class PvSocialHistory(models.Model):
 class PvMedicalHistory(models.Model):
 	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)
 	mediacalHistoryId = models.ForeignKey(MedicalhistoryMaster,on_delete=models.CASCADE)
-	sharedYesNo = models.BooleanField(default=True)
+	sharedYesNo = models.BooleanField(default=False)
 	activeYesNo = models.BooleanField(default=False)
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField()

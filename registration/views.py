@@ -260,19 +260,35 @@ def changePass(request):
 def profile(request):
 	response = {}
 	username = None
+	i=0
 	if request.method == 'POST':
+		relative_names = None
+		relations = None
+		relative_vhnNumbers = None
+		medical_history = None
 		username = request.user.username
 		user = User.objects.get(username = username)
 		pvUser = user.pvuser
 		form = request.POST
+		relative_names = form.getlist('relative-name[]')
+		relations = form.getlist('ralation[]')
+		relative_vhnNumbers = form.getlist('relative-vhnNumber[]')
+		medical_history = form.getlist('medicalHistory[]')
+		surgical_history = form.getlist('sergicalHistory[]')
 		if not isinstance(form['country'],CountryMaster):
 			form['country'] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
 		if not isinstance(form['state'],StateMaster):
 			form['state'] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = form['country'])
 		if not isinstance(form['city'],CityMaster):
 			form['city'] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = form['state'])
-		if not isinstance(form['medicalHistory'],MedicalhistoryMaster):
-				form['medicalHistory'] = MedicalhistoryMaster(name = form['medicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		for relation in relations:
+			if not isinstance(ralation,RelationshipMaster):
+				relation = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
+		for medhistory in medical_history:
+			if not isinstance(medhistory,MedicalhistoryMaster):
+					medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
+		for surhistory in surgical_history:
+			
 		if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
 				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
 		pvProfile = PvProfile.objects.get_or_create(
@@ -284,7 +300,16 @@ def profile(request):
 			address = form['address'],
 			dob = form['DOB'],
 			)
-		PvSocialHistory = PvSocialHistory.objects.get_or_create(
+		
+		for relative in realative-names:
+			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
+				patientId = pvUser,
+				relativeName = relative,
+				relationshipId = relations[i],
+				relative = User.objects.get(relative-vhnNumbers[i]).pvuser,
+				lastModifiedDateTime = datetime.now())
+		
+		pvSocialHistory = PvSocialHistory.objects.get_or_create(
 			paatientId = pvUser,
 			alcoholUsage = form['acheck'],
 			drinksPerWeek = form['drinks/week'],
@@ -294,6 +319,13 @@ def profile(request):
 			drugQuitDate = form['whenDrugLeft'],
 			drugDetails = form['drugDetails'])
 
+		for medhistory in medical_history:
+			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
+				patientId = pvUser,
+				mediacalHistoryId = medhistory,
+				lastModifiedDateTime = datetime.now())
+
+		
 		response['status'] = 1
 		return JsonResponse(response)
 	else:
