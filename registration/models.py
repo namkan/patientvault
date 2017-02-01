@@ -89,11 +89,11 @@ class PvFamilyRelationship(models.Model):
 
 class PvSocialHistory(models.Model):
 	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
-	alcoholUsage = models.BooleanField(default = False)
-	drinksPerWeek = models.IntegerField(default = 0)
-	tobacoUsage = models.BooleanField(default = False)
+	alcoholUsage = models.IntegerField(null = True,blank = True)
+	drinksPerWeek = models.IntegerField(null = True, blank = True)
+	tobacoUsage = models.IntegerField(null = True, blank = True)
 	tobacoQuitDate = models.DateField(blank = True, null = True)
-	drugUsage = models.BooleanField(default = False)
+	drugUsage = models.IntegerField(null = True, blank = True)
 	#drugQuitDate = models.DateField(blank = True, null = True)
 	drugDetails = models.CharField(max_length = 250)
 	shareYesNo = models.BooleanField(default = False)
@@ -101,7 +101,7 @@ class PvSocialHistory(models.Model):
 	lastModifiedDateTime = models.DateTimeField()
 
 class PvMedicalHistory(models.Model):
-	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)
 	mediacalHistoryId = models.ForeignKey(MedicalhistoryMaster,on_delete=models.CASCADE)
 	sharedYesNo = models.BooleanField(default=True)
 	activeYesNo = models.BooleanField(default=False)

@@ -258,33 +258,47 @@ def changePass(request):
 
 @login_required(login_url = "/login/")
 def profile(request):
+	response = {}
 	username = None
-	if request.user.is_authenticated():
+	if request.method == 'POST':
 		username = request.user.username
-		if request.method == 'POST':
-			user = User.objects.get(username = username)
-			pvUser = user.pvuser
-			form = request.POST
-			if not isinstance(form['country'],CountryMaster):
-				form['country'] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-			if not isinstance(form['state'],StateMaster):
-				form['state'] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = form['country'])
-			if not isinstance(form['city'],CityMaster):
-				form['city'] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = form['state'])	
-			pvProfile = PvProfile.objects.get_or_create(
-				userId = pvUser,
-				country = form['country'],
-				state = form['state'],
-				city = form['city'],
-				profilePhoto = request.FILES['profilePic'],
-				address = form['address'],
-				dob = form['DOB'],
-				)
-			
-		else:
-			return render(request,'profile.html')
-	else:	
-		return redirect('/login/')
+		user = User.objects.get(username = username)
+		pvUser = user.pvuser
+		form = request.POST
+		if not isinstance(form['country'],CountryMaster):
+			form['country'] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		if not isinstance(form['state'],StateMaster):
+			form['state'] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = form['country'])
+		if not isinstance(form['city'],CityMaster):
+			form['city'] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = form['state'])
+		if not isinstance(form['medicalHistory'],MedicalhistoryMaster):
+				form['medicalHistory'] = MedicalhistoryMaster(name = form['medicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
+				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
+		pvProfile = PvProfile.objects.get_or_create(
+			userId = pvUser,
+			country = form['country'],
+			state = form['state'],
+			city = form['city'],
+			profilePhoto = request.FILES['profilePic'],
+			address = form['address'],
+			dob = form['DOB'],
+			)
+		PvSocialHistory = PvSocialHistory.objects.get_or_create(
+			paatientId = pvUser,
+			alcoholUsage = form['acheck'],
+			drinksPerWeek = form['drinks/week'],
+			tobacoUsage = form['tcheck'],
+			tobacoQuitDate = form['whenTobacoLeft'],
+			drugUsage = form['dcheck'],
+			drugQuitDate = form['whenDrugLeft'],
+			drugDetails = form['drugDetails'])
+
+		response['status'] = 1
+		return JsonResponse(response)
+	else:
+		return render(request,'profile.html')
+	
 
 @login_required(login_url = "/login/")
 def relationship(request):

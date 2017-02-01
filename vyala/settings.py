@@ -89,6 +89,23 @@ DATABASES = {
      
 }
 
+FILE_UPLOAD_HANDLERS = (
+    "testapp.dropbox_upload_handler.DropboxFileUploadHandler",
+)
+DROPBOX_APP_KEY = "ves55dpyfxanqg0"
+DROPBOX_APP_SECRET_KEY = "tygyq0xdtky4ici"
+DROPBOX_APP_ACCESS_TOKEN = ""
+DROPBOX_APP_ACCESS_TOKEN_SECRET = ""
+
+# Optional values below
+
+# The folder where you want the files uploaded.
+# Example: /Public or /
+DROPBOX_FILE_UPLOAD_FOLDER = ""
+# The value below may be either 'app_folder' or 'dropbox'
+DROPBOX_ACCESS_TYPE = ""
+
+
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
