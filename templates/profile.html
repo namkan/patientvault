@@ -387,7 +387,7 @@
 
                         </form>
 
-                        <h2 class="StepTitle">Family History</h2>
+                        <h2 class="StepTitle">Family Relationship</h2>
                         <button id='addFamily'>Add Information for one more Family Member</button>
                         <div class="x_panel">
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -457,19 +457,19 @@
                           <th scope="row">2</th>
                           <td>Tobacco Usage</td>
                           <td><label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" onChange="findselected()" name="tcheck" style="position: absolute; opacity: 0;" type="radio" id="tobacco_yes" value="1"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" style="position: absolute; opacity: 0;" type="radio" id="tobacco_yes" value="1"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Yes
                             </label>
                            </td>
                           <td><label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" onChange="findselected()" style="position: absolute; opacity: 0;" id="tobacco_no" type="radio" value="0"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck"  style="position: absolute; opacity: 0;" id="tobacco_no" type="radio" value="0"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> No
                             </label>
                            </td>
                            <td><label class="">
-                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" onChange="findselected()" style="position: absolute; opacity: 0;" id="tobacco_former" type="radio" value="2"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Former
+                              <div class="iradio_flat-green" style="position: relative;"><input class="flat" name="tcheck" style="position: absolute; opacity: 0;" id="tobacco_former" type="radio" value="2"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Former
                             </label>
                            </td>
                           <td>
-                        	<input class="form-control" size="7" id="tobacco_input" name="item[shipping_cost]" placeholder="Drinks per week" type="text" disabled="disabled">
+                        	<input class="form-control" size="7" id="tobacco_input"  placeholder="Drinks per week" type="text" disabled="disabled">
                           </td>
                         </tr>
                         <tr>
@@ -573,47 +573,42 @@
 
                   </div>
 
+                  <h2 class="StepTitle">Family History</h2>
+                        <button type=button id='addFamilyMember'>Add Information for one more Family Member</button>
+                        <div class="x_panel">
                   <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Family History     </h2>
-                     <button id='addFamily'>Add Information for one more Family Member</button>
-                    <div class="clearfix"></div>
-                  </div>
+                  
 
                   <div class="x_content">
 
-                   
+                    <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
 
                     <div class="table-responsive">
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
                             
-                            
-                            <th class="column-title">  </th>
-                            <th class="column-title">Yes</th>
-                            <th class="column-title">No </th>
-                            <th class="column-title">Don't Know</th>
-                            <th class="column-title">RelationShip</th>
-                            
+                            <th class="column-title" style="display: table-cell;">   </th>
+                            <th class="column-title" style="display: table-cell;">Yes </th>
+                            <th class="column-title" style="display: table-cell;">No </th>
+                            <th class="column-title" style="display: table-cell;">Don't Know </th>
+                            <th class="column-title" style="display: table-cell;"> Relationship </th>
+                            <th class="column-title no-link last" style="display: table-cell;"><span class="nobr">Action</span>
                             </th>
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            <th class="bulk-actions" colspan="7" style="display: none;">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt">1 Records Selected</span> ) <i class="fa fa-chevron-down"></i></a>
                             </th>
+                            
                           </tr>
                         </thead>
 
-                        <tbody>
-                          
-                          
-                          
-                          <tr class="odd pointer">
+                        <tbody id='familyDisease'>
+                              <tr class="odd pointer">
                             
                             
                             <td class=" ">High Blood Presssure</td>
-                            <td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            <td class="">
+                              <div class="icheckbox_flat-green" style="position: relative;"><input class="flat"  style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
                             </td>
                             <td class="a-center ">
                               <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
@@ -626,6 +621,7 @@
                           <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                           </td>
+                          <td></td>
                             
                             
                           </tr>
@@ -647,16 +643,16 @@
                         </div>
                           </td>
                             
-                            
+                            <td></td>
                             </td>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
+
                       </div>
                 
                       <div id="step-4">
@@ -690,7 +686,7 @@
           <div class="pull-right">
             Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix"></div>var counter = $("#familyList tr").size()%2;
         </footer>
         <!-- /footer content -->
       </div>
@@ -728,11 +724,21 @@
     <script type="text/javascript">
       htmlOdd = '<tr class="even pointer"><td class="a-center "><div class="icheckbox_flat-green checked" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-name" name="relative-name" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relation" name="relation" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-vhnNumber" name="relative-vhnNumber" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button" id="delete" class="action btn btn-primary">Delete</button></td><td><div id="statusReport">Not Saved</div</td></tr>';
     
-    var counter = $("#familyList tr").size()%2;
+    htmlEven = '<tr class="even pointer"><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="disease" name="disease" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" id="checkbox_yes" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px opacity: 0;"></ins></div></td><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="checkbox_no" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px opacity: 0;"></ins></div></td><td class="a-center "><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="checkbox_?" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px opacity: 0;"></ins></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relationship" name="relationship" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button" id="delete" class="action btn btn-primary">Delete</button></td></tr>';
+
+
+    // var counter = $("#familyList tr").size()%2;
     $("#addFamily").on("click",function(e){ 
         $("#familyList").append(htmlOdd);
       
     });
+
+// var counter1 = $("#familyDisease tr").size()%2;
+    $("#addFamilyMember").on("click",function(e){ 
+        $("#familyDisease").append(htmlEven);
+      
+    });
+
     $(document).on("click","#delete",function(event){
       $(this).parents()[1].remove();
     })
@@ -750,6 +756,19 @@
 			}
 		}
 	});
+
+    $(document).keyup(function(){
+    if($("#disease").val()!=""){
+      if($("#checkbox_yes").val()!=""){
+      if($("#relationship").val()!=""){
+        $(".action").html("Save")
+          $(".action").attr("id","save")
+    }
+    else{
+          $(".action").html("Delete")
+          $(".action").attr("id","delete")
+      }}}
+  });
 
 	function theAjax(uri,data){
 	return $.ajax({
@@ -815,20 +834,16 @@ $("#delete-member").on("click",function(){
 });
 
 
-function findselected() { 
-    var result = document.querySelector('input[name="dcheck"]:checked').value;
-    if(result=="1"){
-
-        document.getElementById("tobacco_input").setAttribute('disabled', false);
-    }
-    else if(result=="2"){
-        document.getElementById("inputtext").removeAttribute('disabled');
-    }
-    else{
-      document.getElementById("inputtext").removeAttribute('disabled');
-
-    }
-}
+$('input[name="tcheck"]').on('click', function() {
+   if ($(this).val() === '1') {
+      $('#tobacco_input').removeProp("disabled");
+   } else if($(this).val() === '0'){
+    $('#tobacco_input').prop("disabled","disabled");
+   }
+   else {
+      $('tobacco_no').prop("disabled", "disabled");
+   }
+});
 
 
 </script>
