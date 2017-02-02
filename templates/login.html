@@ -48,13 +48,13 @@ input[type=number]::-webkit-inner-spin-button {
               <h1>Login Form</h1>
               
               {{ form1.as_p }}
-<div id="statusReport">
+               <div id="statusReport">
                 {% if messages %}
-        {% for msg in messages %}
+                {% for msg in messages %}
                     {{msg.message}}
           
-        {% endfor %}
-        {% endif %}
+                {% endfor %}
+                {% endif %}
               </div>
               <div>
                 <button type="submit" name="submit" class="btn btn-default submit">Log in</button><br>
@@ -89,7 +89,7 @@ input[type=number]::-webkit-inner-spin-button {
             <form name="registration" id="registration" autocomplete="off" method="POST">{% csrf_token %}
               <h1>Create Account</h1>
 
-              {{ form.as_p }}
+              {{ form.as_table }}
 
               <div id="statusReport">
                 {% if messages %}

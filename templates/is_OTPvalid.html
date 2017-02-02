@@ -15,6 +15,14 @@
 			<button type="submit" value="varify" id="verify" >varify</button>
 			<button type="button" id="resend">Resend OTP</button>
 			<div id='statusReport'></div>
+			<div id="otpStaus">
+                {% if messages %}
+                {% for msg in messages %}
+                    {{msg.message}}
+          
+                {% endfor %}
+                {% endif %}
+            </div>
 		</form>
 		
 		

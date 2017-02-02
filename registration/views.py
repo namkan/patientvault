@@ -29,6 +29,7 @@ def signIn(request):
 		if form.is_valid():
 			username = form.cleaned_data["username"]
 			password = form.cleaned_data["password"]
+			rremember_me = form.cleaned_data["remember_me"]
 			try:
 				username = User.objects.get(username = username)
 			except:	
@@ -287,7 +288,7 @@ def profile(request):
 		for medhistory in medical_history:
 			if not isinstance(medhistory,MedicalhistoryMaster):
 					medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
-		for surhistory in surgical_history:
+		#for surhistory in surgical_history:
 			
 		if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
 				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
