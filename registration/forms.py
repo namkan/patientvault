@@ -24,3 +24,5 @@ class LoginForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control','required':'true','name':'username','id':'username','placeholder':'VHN No. or Mobile No.'}))   
     password = forms.CharField(label = '',
         widget=forms.PasswordInput(attrs={'class': 'form-control','required':'true','type':'password','name':'password','id':'password','placeholder':'password'}))	
+    remember_me = forms.BooleanField(label = 'remember me',
+        widget = forms.CheckboxInput(attrs={'class': 'form-control','type':'checkbox','name':'remember_me','id':'remember_me'}))
