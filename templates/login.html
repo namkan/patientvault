@@ -21,14 +21,23 @@
 
     <!-- Custom Theme Style -->
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
-    <!-- <style type="text/css">
-      input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -moz-appearance:none;
-    -webkit-appearance: none;
-    margin: 0; /* Apparently some margin are still there even though it's hidden */
+    <style type="text/css">
+      label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
 }
-    </style> -->
+input {
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin:0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  *overflow: hidden;
+}
+    </style>
     <script src="/static/register/script.js"></script>
     <script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="/static/jQuery/jquery.validate.min.js"></script>
@@ -53,7 +62,9 @@ input[type=number]::-webkit-inner-spin-button {
               <div>
                 <input type="password" class="form-control" placeholder="Password" name="password" required="" />
               </div>
-              remember me:<input type="checkbox" name="remember_me" id="remember_me">
+              <label>
+              Remember Me: <input type="checkbox" name="remember_me" id="remember_me">
+              </label>
                <div id="statusReport">
                 {% if messages %}
                 {% for msg in messages %}
@@ -75,7 +86,7 @@ input[type=number]::-webkit-inner-spin-button {
 
               <div class="separator">
                 <p class="change_link">New to site?
-                  <a href="/register/#signup" class="to_register"> Create Account </a>
+                  <a href="/register/" class="to_register"> Create Account </a>
                 </p>
 
                 <div class="clearfix"></div>
@@ -90,85 +101,9 @@ input[type=number]::-webkit-inner-spin-button {
           </section>
         </div>
 
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form name="registration" id="registration" autocomplete="off" method="POST">{% csrf_token %}
-              <h1>Create Account</h1>
-
-              {{ form.as_p }}
-
-              <div id="statusReport">
-                {% if messages %}
-        {% for msg in messages %}
-                    {{msg.message}}
-          
-        {% endfor %}
-        {% endif %}
-              </div>
-              <div>
-                <button type="submit" name="submit" id="register" class="btn btn-default submit">Register</button>
-              </div>
-              <button type="button" id="btn-next-page-fb" class="form-control" onclick="fb_login()" style="width: 100%">Facebook</button>
-              
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">Already a member ?
-                  <a href="/login" class="to_register"> Log in </a>
-                </p>
-                <p class="change_link">Not Activated your accout? 
-                <a href="/FindAccount" class="to_register">Activate Account</a>
-                </p>
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><i class="fa fa-paw"></i> Vyala | We Care !!</h1>
-                  <p>©All Rights Reserved. Vyala is a Health care organisation which lets you take priscription<br>from any doctor you want</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
+        
       </div>
     </div>
   </body>
- <!-- <script type="text/javascript" charset="utf-8">
-function theAjax(uri,data){
-  return $.ajax({
-      type:"POST",
-      dataType:"json",
-      url: uri,
-      data: data
-  })
-}
-$("#register").on("click",function(){
-  var data = {
-    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
-    "first_name": $("input[name=first_name]").val(),
-    "last_name": $("input[name=last_name]").val(),
-    "email": $("input[name=email]").val(),
-    "mobile_number": $("input[name=mobile_number]").val(),
-    "password": $("input[name=password]").val(),
-    "cpassword": $("input[name=cpassword]").val(),
-    "register":1
-  };
-  console.log(data);
-  theAjax("/register/",data)
-  .done(function(response){
-    if(response['status'] == 1)
-    {
-      $("#statusReport").html("Sorry!! User already registered with this mobile number");
-    }
-    else if(response['status'] == 2)
-    {
-      window.location.href = "/OTPvalidation/";
-    }
-    else
-    {
-      $("#statusReport").html("Connection problem or invalid Mobile Number");
-    }
-  });
-});
-</script> -->
+ 
 </html>

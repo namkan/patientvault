@@ -1,0 +1,104 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Vyala | We care</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="/static/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+    <!-- <style type="text/css">
+      input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -moz-appearance:none;
+    -webkit-appearance: none;
+    margin: 0; /* Apparently some margin are still there even though it's hidden */
+}
+    </style> -->
+    <script src="/static/register/script.js"></script>
+    <script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/static/jQuery/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/static/register/validation.js"></script> 
+  </head>
+
+  <body class="login">
+  
+    
+      <div class="login_wrapper">
+        
+
+        <div id="register" class="animate form">
+          <section class="login_content">
+            <form name="registration" id="registration" autocomplete="off" method="POST" action="/register/">{% csrf_token %}
+              <h1>Create Account</h1>
+
+              <div>
+                <input name="first_name" id="first-name" type="text" class="form-control" placeholder="First Name" required="" />
+              </div>
+              <div>
+                <input name="last_name" id="last_name" type="text" class="form-control" placeholder="Last Name" required="" />
+              </div>
+              <div>
+                <input name="mobile_number" id="phone" type="text" class="form-control" placeholder="Mobile Number" required="" />
+              </div>
+              <div>
+                <input name="email" id="email" type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input name="password" id="password" type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <input name="cpassword" id="cpassword" type="password" class="form-control" placeholder="Confirm Password" required="" />
+              </div>
+              <div id="statusReport">
+                {% if messages %}
+                  {% for msg in messages %}
+                    {{msg.message}}
+          
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <div>
+                <button type="submit" name="submit" id="register" class="btn btn-default submit">Register</button>
+              </div>
+              <button type="button" id="btn-next-page-fb" class="form-control" onclick="fb_login()" style="width: 100%">Facebook</button>
+              
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already a member ?
+                  <a href="/login" class="to_register"> Log in </a>
+                </p>
+                <p class="change_link">Not Activated your accout? 
+                <a href="/FindAccount" class="to_register">Activate Account</a>
+                </p>
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Vyala | We Care !!</h1>
+                  <p>©All Rights Reserved. Vyala is a Health care organisation which lets you take priscription<br>from any doctor you want</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      <!-- </div> -->
+    </div>
+  </body>
+ 
+</html>
