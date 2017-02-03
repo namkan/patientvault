@@ -8,7 +8,7 @@ from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .forms import RegistrationForm,LoginForm
+from .forms import RegistrationForm
 from django.http import HttpResponse,HttpResponseRedirect
 from random import randint
 import requests
@@ -24,42 +24,42 @@ def contextCall(request):
 #view for login page
 def signIn(request):
 	if request.method == 'POST':
-		form1 = LoginForm(request.POST or None)
-		form = RegistrationForm()
-		if form.is_valid():
-			username = form.cleaned_data["username"]
-			password = form.cleaned_data["password"]
-			rremember_me = form.cleaned_data["remember_me"]
+		form = request.POST
+		form1 = RegistrationForm()
+#		remember_me = form.cleaned_data["remember_me"]
+		print(request.POST)
+		print(form['username'])
+		try:
+			username = User.objects.get(username = form['username'])
+		except:	
 			try:
-				username = User.objects.get(username = username)
-			except:	
-				try:
-					username = PvUser.objects.get(mobile_number = username).user.username
-				except:
-					messages.warning(request,'Invalid Credentials!!')
-					return render(request,'login.html',{'form1':form})		
-			try:
-				user = authenticate(username = username, password = password)
-				if user is not None:
-		    	# the password verified for the user
-					if user.is_active:
-						login(request,user)
-						return render(request,'dashboard.html')	
-					else:
-						messages.warning(request,"The password is valid, but the account has been disabled!")
-				else:
-					messages.warning(request,"Invalid Credentials !!!")
-	#			user = User.objects.get(username=form['username'],password=form['password'])
-	#			print("user is found")
-				return render(request,'login.html',{'form1':form1,'form':form})
-					
+				username = PvUser.objects.get(mobile_number = form['username']).user.username
 			except:
-				print("user is not found,please create account!!")	
-				return render(request,'login.html',{'form1':form1,'form':form})
+				messages.warning(request,'Invalid Credentials!!')
+				return render(request,'login.html',{'form':form1})		
+		try:
+			user = authenticate(username = form['username'], password = form['password'])
+			if user is not None:
+	    	# the password verified for the user
+				if user.is_active:
+					login(request,user)
+					if form['remember_me']=='on':
+						request.session.set_expiry(1209600)
+					return render(request,'dashboard.html')	
+				else:
+					messages.warning(request,"The account is disabled. please activate our account.")
+			else:
+				messages.warning(request,"Invalid Credentials !!!")
+#			user = User.objects.get(username=form['username'],password=form['password'])
+#			print("user is found")
+			return render(request,'login.html',{'form':form1})
+				
+		except:
+			print("user is not found,please create account!!")	
+			return render(request,'login.html',{'form':form1})
 	else:		
-		form1 = LoginForm()
-		form = RegistrationForm()
-		return render(request,'login.html',{'form1':form1,'form':form})
+		form1 = RegistrationForm()
+		return render(request,'login.html',{'form':form1})
 
 
 @csrf_exempt
@@ -88,7 +88,7 @@ def register(request):
 					print("code base 1")
 					if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
 						messages.warning(request,"Connection problem or Invalid Phone Number !!!")
-						return render(request, 'login.html',{'form':form})
+					return render(request, 'login.html',{'form':form})
 			except:
 				print("code base 2")
 				messages.warning(request,"Connection problem or Invalid Phone Number !!!")
@@ -115,7 +115,7 @@ def register(request):
 	else:
 		form = RegistrationForm()
         
-	return redirect('/login/')
+		return redirect('/login/')
 
 #View for OTP validation
 @csrf_exempt
@@ -488,7 +488,6 @@ def sendSms(recipientNumber, content):
 
 
 	data=r.json()
-	print(data)
 	return(data['status'])
 
 #function for generating activationToken
@@ -498,4 +497,4 @@ def randomWithNDigits(n):
 	return randint(range_start, range_end)
 
 def relation(request):
-	return render(request,'profile.html')
+	return render(request,'SetPassword.html')

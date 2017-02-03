@@ -47,7 +47,13 @@ input[type=number]::-webkit-inner-spin-button {
             <form name="login" method="POST" autocomplete="off" >{% csrf_token %}
               <h1>Login Form</h1>
               
-              {{ form1.as_p }}
+              <div>
+                <input type="text" class="form-control" placeholder="VHN Number or Mobile No." name="username" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" name="password" required="" />
+              </div>
+              remember me:<input type="checkbox" name="remember_me" id="remember_me">
                <div id="statusReport">
                 {% if messages %}
                 {% for msg in messages %}
@@ -89,7 +95,7 @@ input[type=number]::-webkit-inner-spin-button {
             <form name="registration" id="registration" autocomplete="off" method="POST">{% csrf_token %}
               <h1>Create Account</h1>
 
-              {{ form.as_table }}
+              {{ form.as_p }}
 
               <div id="statusReport">
                 {% if messages %}
