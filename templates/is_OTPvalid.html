@@ -1,73 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>OTP validation</title>
-	
-<script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>	
-	</head>
-	<body>
-		<h1>Activate your Account</h1>
-		<form method="POST" autocomplete="off" action='/OTPvalidation/'>
-		<input type="text" value="{% if vhn %}{{vhn}}{%endif%}" name="vhn" placeholder="VHN Number" />
-		{% csrf_token %}
-			<input type='number' required="" name='OTP' maxlength="8" minlength="8" placeholder="OTP validation" />
-			<br><br>
-			<button type="submit" value="varify" id="verify" >varify</button>
-			<button type="button" id="resend">Resend OTP</button>
-			<div id='statusReport'></div>
-			<div id="otpStaus">
-                {% if messages %}
-                {% for msg in messages %}
-                    {{msg.message}}
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
+  <title> Activate Your Account </title>
+</head>
+
+<body>
+  <div class="x_panel">
+      <div class="x_title">
+        <h1> Activate Your Account</h1>
+        <div class="clearfix"></div>
+      </div>
+      <!-- <div class="x_content"> -->
+        <br>
+        <form method="POST" autocomplete="off" action='/OTPvalidation/'>{% csrf_token %}
+
+          <!-- <div> -->
+          <table>
+            <tbody>
+            <tr>
+              <td>
+              <input class="form-control" size="30" type="text" value="{% if vhn %}{{vhn}}{%endif%}" name="vhn" placeholder="VHN Number"><br></td>
+              
+            </tr>
           
-                {% endfor %}
-                {% endif %}
-            </div>
-		</form>
-		
-		
-			
-			
-	
-	</body>
-	<script type="text/javascript">
-		$(document).ready(function(){
+            <tr>
+              <td>
+            <input class="form-control" size="30" placeholder="Enter OTP" type="text" required="" name='OTP' maxlength="8" minlength="8"></td>
+            </tr>
+            </tbody>
+          </table>
+           <br><br>
+          
+          <div class="form-group">
+            
+              <button type="submit" value="varify" id="verify" class="btn btn-primary">Verify</button>
+              <button type="button" id="resend" class="btn btn-success">Resend OTP</button>
+           
+          </div>
+
+        </form>
+        <div id='statusReport'></div>
+        <div id="otpStatus">
+            {% if messages %}
+              {% for msg in messages %}
+                {{msg.message}}
+              {% endfor %}
+            {% endif %}
+        </div>
+      </div>
+    
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
   setTimeout((function(){$("#verify").prop('disabled',true);}),120000)   
 });
 
 
 
 function theAjax(uri,data){
-	return $.ajax({
-	    type:"POST",
-	    dataType:"json",
-	    url: uri,
-	    data: data
-	})
+  return $.ajax({
+      type:"POST",
+      dataType:"json",
+      url: uri,
+      data: data
+  })
 }
 $("#resend").on("click",function(){
-	var data = {
-		"csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
-		"vhn": $("input[name=vhn]").val(),
-		"resend":1
-	};
-	console.log(data);
-	theAjax("/resendOTP/",data)
-	.done(function(response){
-		if(response['status'] == 1)
-		{
-			$("#statusReport").html("OTP sent to your Mobile!!");
-			setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
-		}
-		else if(response['status'] == 2)
-		{
-			$("#statusReport").html("Please recheck your VHN number .");
-		}
-		else
-		{
-			$("#statusReport").html("Please try Again after sometime(connection error).");
-		}
-	});
+  var data = {
+    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+    "vhn": $("input[name=vhn]").val(),
+    "resend":1
+  };
+  console.log(data);
+  theAjax("/resendOTP/",data)
+  .done(function(response){
+    if(response['status'] == 1)
+    {
+      $("#statusReport").html("OTP sent to your Mobile!!");
+      setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
+    }
+    else if(response['status'] == 2)
+    {
+      $("#statusReport").html("Please recheck your VHN number .");
+    }
+    else
+    {
+      $("#statusReport").html("Please try Again after sometime(connection error).");
+    }
+  });
 });
 </script>
-</html>
+</html>    
