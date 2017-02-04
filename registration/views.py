@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core import mail
 from datetime import datetime
+from django.views.decorators.cache import cache_control
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
@@ -22,13 +23,14 @@ def contextCall(request):
 
 #view for login page
 @csrf_exempt
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def signIn(request):
 	if request.method == 'POST':
 		form = request.POST
 #		remember_me = form.cleaned_data["remember_me"]
-		print(form)
-		print(form['username'])
-		print(form['password'])
+		# print(form)
+		# print(form['username'])
+		# print(form['password'])
 		try:
 			username = User.objects.get(username = form['username'])
 			print(1)
@@ -41,16 +43,17 @@ def signIn(request):
 				messages.warning(request,'Invalid Credentials!!')
 				return render(request,'login.html')		
 		try:
-			user = authenticate(username = str(form['username']), password = form['password'])
+			user = authenticate(username = username, password = form['password'])
 			print(user)
 			if user is not None:
 	    	# the password verified for the user
 				if user.is_active:
-					print(3)
+					# print(3)
 					login(request,user)
 					if 'remember_me' in form:
 						request.session.set_expiry(1209600)
-					return render(request,'dashboard.html')	
+					first_name = user.first_name	
+					return render(request,'dashboard.html',{'first_name':first_name})	
 				else:
 					messages.warning(request,"The account is disabled. please activate our account.")
 			else:
@@ -82,37 +85,37 @@ def register(request):
 		lastUserId = User.objects.latest('id').id
 		vhn = "VHN"+str(100000+lastUserId+1)
 		try:
-			# try:
-			PvUser.objects.get(mobile_number = mobile_number)
-			messages.warning(request,"User already registered with this Mobile Number.")
-			return render(request, 'register.html')
+			try:
+				PvUser.objects.get(mobile_number = mobile_number)
+				messages.warning(request,"User already registered with this Mobile Number.")
+				return render(request, 'register.html')
 #					response['status'] = 1
 #					return JsonResponse(response) #User already registered with this mobile number
-			# except:
-			# 	print("code base 1")
-			# 	if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
-			# 		messages.warning(request,"Connection problem or Invalid Phone Number !!!")
-			# 		return render(request, 'register.html')
+			except:
+				print("code base 1")
+				if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
+					messages.warning(request,"Connection problem or Invalid Phone Number !!!")
+					return render(request, 'register.html')
 
 		except:
-			# print("code base 2")
-			# messages.warning(request,"Connection problem or Invalid Phone Number !!!")
-			# return render(request, 'register.html')
-#				response['status'] = 0
-#				return JsonResponse(response) #connection problem or invalid phone number
-			user = User.objects.create_user(
-				username=vhn,
-				first_name=first_name,
-				last_name=last_name,
-				password=password,)
-			pvUser = PvUser.objects.get_or_create(
-			email=email,
-			mobile_number=mobile_number,activationToken = activationToken,user = user)
+			print("code base 2")
+			messages.warning(request,"Connection problem or Invalid Phone Number !!!")
+			return render(request, 'register.html')
+				# response['status'] = 0
+				# return JsonResponse(response) #connection problem or invalid phone number
+		user = User.objects.create_user(
+			username=vhn,
+			first_name=first_name,
+			last_name=last_name,
+			password=password,)
+		pvUser = PvUser.objects.get_or_create(
+		email=email,
+		mobile_number=mobile_number,activationToken = activationToken,user = user)
 
-			if email:
-				subject = "Welcome To Vyala Family"
-				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
-				sendEmail(email,subject,body)
+		# if email:
+		# 	subject = "Welcome To Vyala Family"
+		# 	body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
+		# 	sendEmail(email,subject,body)
 
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
 #			response['status'] = 2 #OTP sent successfully and redirected to otp validation page
@@ -201,7 +204,7 @@ def FindAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					# sendSms(mobileNumber,"Your Vyala OTP : "+activationToken)
+					sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
 					pvUser.activationToken = activationToken
 					pvUser.save()
 					response['status'] = 1 
