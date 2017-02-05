@@ -146,10 +146,10 @@ def OTPvalidation(request):
 			return redirect('/completeprofile/')
 		else:
 			pvUser.activationAttempts += 1
-			if pvUser.activationAttempts > 3
+			if pvUser.activationAttempts > 3:
 				messages.warning(request,'Maybe you have entered wrong phone number. Please register again.')
 				pvUser.delete()
-				return render(request,'is_OTPvalid.html')
+				return render(request,'register.html')
 			pvUser.save()
 			messages.warning(request,'Please enter correct OTP !!')
 			return render(request,'is_OTPvalid.html')	
