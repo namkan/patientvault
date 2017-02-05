@@ -146,6 +146,10 @@ def OTPvalidation(request):
 			return redirect('/completeprofile/')
 		else:
 			pvUser.activationAttempts += 1
+			if pvUser.activationAttempts > 3
+				messages.warning(request,'Maybe you have entered wrong phone number. Please register again.')
+				pvUser.delete()
+				return render(request,'is_OTPvalid.html')
 			pvUser.save()
 			messages.warning(request,'Please enter correct OTP !!')
 			return render(request,'is_OTPvalid.html')	
@@ -499,8 +503,8 @@ def sendSms(recipientNumber, content):
 
 
 	data=r.json()
-	# return(data)
-	return(data['status'])
+	print(data)
+	#return(data['status'])
 
 #function for generating activationToken
 def randomWithNDigits(n):
@@ -510,4 +514,4 @@ def randomWithNDigits(n):
 
 def relation(request):
 	# form = RegistrationForm()
-	return render(request,'Untitled.html')
+	return render(request,'profile.html')
