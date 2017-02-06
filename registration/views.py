@@ -96,6 +96,7 @@ def register(request):
 				if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
 					messages.warning(request,"Connection problem or Invalid Phone Number !!!")
 					return render(request, 'register.html')
+						
 
 		except:
 			print("code base 2")
@@ -112,11 +113,14 @@ def register(request):
 		email=email,
 		mobile_number=mobile_number,activationToken = activationToken,user = user)
 
-		# if email:
-		# 	subject = "Welcome To Vyala Family"
-		# 	body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
-		# 	sendEmail(email,subject,body)
-
+		if email:
+			try:
+				subject = "Welcome To Vyala Family"
+				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
+				sendEmail(email,subject,body)
+			except:
+				messages.warning('connection problem or invalid email!!')
+				return render(request,'register.html')	
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
 #			response['status'] = 2 #OTP sent successfully and redirected to otp validation page
 #			return JsonResponse(response)
@@ -173,6 +177,7 @@ def resendOTP(request):
 			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.")
 			pvUser.activationToken = activationToken
 			pvUser.save()
+
 			response['status'] = 1 
 			return JsonResponse(response)
 		except:
@@ -233,7 +238,7 @@ def SetPassword(request,pvUser):
 		pv.set_password(form['password'])
 		pv.save()
 		messages.success(request,'Password is successfully set.')
-		return render(rquest,'login.html')
+		return render(request,'login.html')
 	else:
 		return render(request,'SetPassword.html',{"vhn":pvUser})	
 
@@ -514,4 +519,4 @@ def randomWithNDigits(n):
 
 def relation(request):
 	# form = RegistrationForm()
-	return render(request,'profile.html')
+	return render(request,'SetPassword.html')

@@ -31,7 +31,7 @@
         <h4>Bored with same old password? 
         <a id="change" href="#">change Password</a>
         </h4>
-        <form method="POST" autocomplete="off" action="/changePass/">{% csrf_token %}
+        <form method="POST" autocomplete="off">{% csrf_token %}
 
           <!-- <div> -->
           <table>
@@ -58,7 +58,7 @@
           
           <div class="form-group">
             
-              <button style="display:none;" type="button" id="submit" class="btn btn-primary">OK</button>
+              <button type="button" id="submit" class="btn btn-primary">OK</button>
               
            
           </div>
@@ -71,6 +71,10 @@
 </body>
 <script type="text/javascript">
 $("#change").on("click",function(event){
+  $("#newPassword").attr("type","hidden");
+  $("#newPassword").attr("value","");
+  $("#confNewPssword").attr("type","hidden");
+  $("#confNewPssword").attr("value","");
   $("#currentPassword").attr("type","password");
   $("#submit").css("display","block");
     
@@ -103,7 +107,7 @@ $("#submit").on("click",function(event){
     "submit":1
   };
 
-  
+  console.log(data)
   theAjax("/changePass/",data)
   .done(function(response){
     if(response['status'] == 1)
@@ -122,7 +126,8 @@ $("#submit").on("click",function(event){
     }
     else if(response['status']==4)
     {
-      $("#currentPassword").css("display","none");
+      $("#currentPassword").attr("type","hidden");
+      $("#currentPassword").attr("value","");
       $("#newPassword").attr("type","password");
       $("#confNewPassword").attr("type","password");
 
