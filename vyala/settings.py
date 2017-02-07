@@ -174,3 +174,4 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
 STATICFILES_DIRS = (
         os.path.join(PROJECT_DIR, 'static').replace('\\','/'),
     )
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

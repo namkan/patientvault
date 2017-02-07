@@ -75,6 +75,7 @@ $("#change").on("click",function(event){
   $("#newPassword").attr("value","");
   $("#confNewPssword").attr("type","hidden");
   $("#confNewPssword").attr("value","");
+  $("#currentPassword").val("");
   $("#currentPassword").attr("type","password");
   $("#submit").css("display","block");
     
@@ -127,7 +128,7 @@ $("#submit").on("click",function(event){
     else if(response['status']==4)
     {
       $("#currentPassword").attr("type","hidden");
-      $("#currentPassword").attr("value","");
+      //$("#currentPassword").attr("value","");
       $("#newPassword").attr("type","password");
       $("#confNewPassword").attr("type","password");
 

@@ -25,6 +25,8 @@ def contextCall(request):
 @csrf_exempt
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def signIn(request):
+	if request.user.is_authenticated():
+		return render(request,"dashboard.html")
 	if request.method == 'POST':
 		form = request.POST
 #		remember_me = form.cleaned_data["remember_me"]
@@ -50,8 +52,8 @@ def signIn(request):
 				if user.is_active:
 					# print(3)
 					login(request,user)
-					if 'remember_me' in form:
-						request.session.set_expiry(1209600)
+					#if 'remember_me' in form:
+					#	request.session.set_expiry(1209600)
 					first_name = user.first_name	
 					return render(request,'dashboard.html',{'first_name':first_name})	
 				else:
@@ -73,6 +75,8 @@ def signIn(request):
 @csrf_exempt
 #View for registration page
 def register(request):
+	if request.user.is_authenticated():
+		return redirect("/login")
 	response = {}
 	if request.method == 'POST':
 		form = request.POST
@@ -93,10 +97,7 @@ def register(request):
 #					return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
-				if sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.") == 'failure':
-					messages.warning(request,"Connection problem or Invalid Phone Number !!!")
-					return render(request, 'register.html')
-						
+				sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")				
 
 		except:
 			print("code base 2")
@@ -138,7 +139,11 @@ def OTPvalidation(request):
 			user = User.objects.get(username = form['vhn'])
 			pvUser = user.pvuser
 		except:
-			return HttpResponse("Forbidden!!!")
+			messages.warning(request,"Entered VHN number does not exist.")
+			return render(request,"is_OTPvalid.html")
+		if not pvUser.otpValidTime(3):
+			messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			return render(request,"is_OTPvalid.html")	
 		if form["OTP"] == pvUser.activationToken:
 			user.is_active = True
 			pvUser.activeYesNo = True
@@ -174,7 +179,7 @@ def resendOTP(request):
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		try:
-			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.")
+			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
 			pvUser.activationToken = activationToken
 			pvUser.save()
 
