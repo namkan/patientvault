@@ -61,7 +61,7 @@ class PvUser(models.Model):
 	activeYesNo = models.BooleanField(default = False)
 	otpTime = models.DateTimeField(null = True,blank = True)
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
-	otpTime = models.DateTImeField(null = True, blank = True)
+	otpTime = models.DateTimeField(null = True, blank = True)
 	class meta:
 		db_table='PvUser'
 	def otpValidTime(self,minutes):
@@ -84,7 +84,7 @@ class PvProfile(models.Model):
 	countrtyId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
 	stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
 	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE)
-	address = models.CharField(max_length=100)
+	address = models.CharField(max_length=100, null = True, blank = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField()
 	class meta:

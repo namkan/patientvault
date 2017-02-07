@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^changePass/',changePass,name='change password'),
     url(r'^completeprofile/',profile,name='complete your profile'),
     url(r'^relTest/',relation,name='rel'),
-    url(r'^saveRelation/',relationship,name='rel'),
-    url(r'^deleteMember/',deleteFamilyMember,name='rel'),
+    # url(r'^saveRelation/',relationship,name='rel'),
+    # url(r'^deleteMember/',deleteFamilyMember,name='rel'),
     url(r'^logout/',logout_view,name='logout the user'),
     ]

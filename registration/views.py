@@ -282,173 +282,198 @@ def changePass(request):
 	# 	response['status']=4
 	# 	return JsonResponse(response)	
 
-@login_required(login_url = "/login/")
+# @login_required(login_url = "/login/")
 def profile(request):
 	response = {}
 	username = None
 	i=0
+	d={}
 	if request.method == 'POST':
 		relative_names = None
 		relations = None
 		relative_vhnNumbers = None
 		medical_history = None
-		username = request.user.username
-		user = User.objects.get(username = username)
-		pvUser = user.pvuser
+		# username = request.user.username
+		# user = User.objects.get(username = username)
+		# pvUser = user.pvuser
 		form = request.POST
+		country = form['country']
+		state = form['state']
+		city = form['city']
+		gender = form['gender']
 		relative_names = form.getlist('relative-name[]')
 		relations = form.getlist('ralation[]')
 		relative_vhnNumbers = form.getlist('relative-vhnNumber[]')
 		medical_history = form.getlist('medicalHistory[]')
 		surgical_history = form.getlist('sergicalHistory[]')
-		if not isinstance(form['country'],CountryMaster):
-			form['country'] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-		if not isinstance(form['state'],StateMaster):
-			form['state'] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = form['country'])
-		if not isinstance(form['city'],CityMaster):
-			form['city'] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = form['state'])
-		for relation in relations:
-			if not isinstance(ralation,RelationshipMaster):
-				relation = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
-		for medhistory in medical_history:
-			if not isinstance(medhistory,MedicalhistoryMaster):
-					medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
+		try:
+			cMaster = CountryMaster.objects.get(name = country)
+		except:	
+			print(country)
+			d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+			d["{0}".format(country)].save()
+		try:
+			sMaster = StateMaster.objects.get(name = city)
+		except:	
+			print(state)
+			try:
+				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])
+			except:
+				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = cMaster)	
+			d["{0}".format(state)].save()
+		try:
+			CityMaster.objects.get(name = city)
+		except:	
+			print(city)
+			try:
+				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])
+			except:
+				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = sMaster)
+			d["{0}".format(city)].save()
+		# for relation in relations:
+		# 	if not isinstance(ralation,RelationshipMaster):
+		# 		relation = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
+		# for medhistory in medical_history:
+		# 	if not isinstance(medhistory,MedicalhistoryMaster):
+		# 			medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
 		#for surhistory in surgical_history:
 			
-		if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
-				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
+		# if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
+		# 		form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
 		pvProfile = PvProfile.objects.get_or_create(
-			userId = pvUser,
+			# userId = pvUser,
 			country = form['country'],
 			state = form['state'],
 			city = form['city'],
-			profilePhoto = request.FILES['profilePic'],
+			# profilePhoto = request.FILES['profilePic'],
 			address = form['address'],
 			dob = form['DOB'],
+			gender = form['gender'],
 			)
 		
-		for relative in realative-names:
-			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
-				patientId = pvUser,
-				relativeName = relative,
-				relationshipId = relations[i],
-				relative = User.objects.get(relative-vhnNumbers[i]).pvuser,
-				lastModifiedDateTime = datetime.now())
+		# for relative in realative-names:
+		# 	pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
+		# 		patientId = pvUser,
+		# 		relativeName = relative,
+		# 		relationshipId = relations[i],
+		# 		relative = User.objects.get(relative-vhnNumbers[i]).pvuser,
+		# 		lastModifiedDateTime = datetime.now())
 		
-		pvSocialHistory = PvSocialHistory.objects.get_or_create(
-			paatientId = pvUser,
-			alcoholUsage = form['acheck'],
-			drinksPerWeek = form['drinks/week'],
-			tobacoUsage = form['tcheck'],
-			tobacoQuitDate = form['whenTobacoLeft'],
-			drugUsage = form['dcheck'],
-			drugQuitDate = form['whenDrugLeft'],
-			drugDetails = form['drugDetails'])
+		# pvSocialHistory = PvSocialHistory.objects.get_or_create(
+		# 	paatientId = pvUser,
+		# 	alcoholUsage = form['acheck'],
+		# 	drinksPerWeek = form['drinks/week'],
+		# 	tobacoUsage = form['tcheck'],
+		# 	tobacoQuitDate = form['whenTobacoLeft'],
+		# 	drugUsage = form['dcheck'],
+		# 	drugQuitDate = form['whenDrugLeft'],
+		# 	drugDetails = form['drugDetails'])
 
-		for medhistory in medical_history:
-			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
-				patientId = pvUser,
-				mediacalHistoryId = medhistory,
-				lastModifiedDateTime = datetime.now())
+		# for medhistory in medical_history:
+		# 	pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
+		# 		patientId = pvUser,
+		# 		mediacalHistoryId = medhistory,
+		# 		lastModifiedDateTime = datetime.now())
 
-		
-		response['status'] = 1
-		return JsonResponse(response)
+		messages.success('saved')
+		return render(request,'profile.html')
+		# response['status'] = 1
+		# return JsonResponse(response)
 	else:
 		return render(request,'profile.html')
 	
 
-@login_required(login_url = "/login/")
-def relationship(request):
-	response = {}
-	if request.method == 'POST':
-		pvUser = request.user.pvuser
-		form = request.POST
-		try:
-			relative = User.objects.get(username = form['relVhnNo']).pvuser
-		except:
-			response['status'] = 2
-			response['error'] = "Invalid VHN No. Of Relative"
-			return JsonResponse(response)
-		if not isinstance(form['relationship'],RelationshipMaster):
-			form['relationship'] = RelationshipMaster(name = form['relationship'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-		pvRelationship = PvFamilyRelationship.objects.get_or_create(
-		paatientId = pvUser,
-		relativeName = form['name'],
-		relationshipId = form['relationship'],
-		relative = relative,
-		lastModifiedDateTime = datetime.now())					
-		response['status'] = 1
-		return JsonResponse(response)
-	else:
-		response['status'] = 0
-		response['error'] = 'Invalid Request !!'
-		return JsonResponse(response)
+# @login_required(login_url = "/login/")
+# def relationship(request):
+# 	response = {}
+# 	if request.method == 'POST':
+# 		pvUser = request.user.pvuser
+# 		form = request.POST
+# 		try:
+# 			relative = User.objects.get(username = form['relVhnNo']).pvuser
+# 		except:
+# 			response['status'] = 2
+# 			response['error'] = "Invalid VHN No. Of Relative"
+# 			return JsonResponse(response)
+# 		if not isinstance(form['relationship'],RelationshipMaster):
+# 			form['relationship'] = RelationshipMaster(name = form['relationship'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+# 		pvRelationship = PvFamilyRelationship.objects.get_or_create(
+# 		paatientId = pvUser,
+# 		relativeName = form['name'],
+# 		relationshipId = form['relationship'],
+# 		relative = relative,
+# 		lastModifiedDateTime = datetime.now())					
+# 		response['status'] = 1
+# 		return JsonResponse(response)
+# 	else:
+# 		response['status'] = 0
+# 		response['error'] = 'Invalid Request !!'
+# 		return JsonResponse(response)
 
-@login_required(login_url = "/login/")
-def deleteFamilyMember(request):
-	response = {}
-	if request.method == 'POST':
-		pvUser = request.user.pvuser
-		form = request.POST
-		try:
-			relative = User.objects.get(username = form['relVhnNo']).pvuser
-		except:
-			response['status'] = 0
-			response['error0'] = "Invalid VHN No. Of Relative"
-			return JsonResponse(response)
-		try:
-			pvRelationship = PvFamilyRelationship.objects.get(relative = relative)
-			pvRelationship.delete()
-			response['status'] = 1
-		except:
-			response['status'] = 2
-			response['error2'] = "Not your family member"
-		return JsonResponse(response)	
-	else:
-		response['status'] = 0
-		response['error'] = 'Invalid Request !!'
-		return JsonResponse(response)
+# @login_required(login_url = "/login/")
+# def deleteFamilyMember(request):
+# 	response = {}
+# 	if request.method == 'POST':
+# 		pvUser = request.user.pvuser
+# 		form = request.POST
+# 		try:
+# 			relative = User.objects.get(username = form['relVhnNo']).pvuser
+# 		except:
+# 			response['status'] = 0
+# 			response['error0'] = "Invalid VHN No. Of Relative"
+# 			return JsonResponse(response)
+# 		try:
+# 			pvRelationship = PvFamilyRelationship.objects.get(relative = relative)
+# 			pvRelationship.delete()
+# 			response['status'] = 1
+# 		except:
+# 			response['status'] = 2
+# 			response['error2'] = "Not your family member"
+# 		return JsonResponse(response)	
+# 	else:
+# 		response['status'] = 0
+# 		response['error'] = 'Invalid Request !!'
+# 		return JsonResponse(response)
 
-def medicalHistory(request):
-	username = None
-	if request.user.is_authenticated():
-		username = request.user.username
-		if request.method == 'POST':
-			user = User.objects.get(username = username)
-			pvUser = user.pvuser
-			form = request.POST
-			if not isinstance(form['medicalHistory'],MedicalhistoryMaster):
-				form['medicalHistory'] = MedicalhistoryMaster(name = form['medicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-			pvRelationship = PvFamilyRelationship.objects.get_or_create(
-			paatientId = pvUser,
-			medicalHistoryId = form['medicalHistory'],
-			sharedYesNo = form['isShared'],
-			activeYesNo = form['isActive'],
-			lastModifiedDateTime = datetime.now())					
+# def medicalHistory(request):
+# 	username = None
+# 	if request.user.is_authenticated():
+# 		username = request.user.username
+# 		if request.method == 'POST':
+# 			user = User.objects.get(username = username)
+# 			pvUser = user.pvuser
+# 			form = request.POST
+# 			if not isinstance(form['medicalHistory'],MedicalhistoryMaster):
+# 				form['medicalHistory'] = MedicalhistoryMaster(name = form['medicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+# 			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+# 			paatientId = pvUser,
+# 			medicalHistoryId = form['medicalHistory'],
+# 			sharedYesNo = form['isShared'],
+# 			activeYesNo = form['isActive'],
+# 			lastModifiedDateTime = datetime.now())					
 
-	else:
-		return redirect('/login/')
+# 	else:
+# 		return redirect('/login/')
 
-def SurgicalHistory(request):
-	username = None
-	if request.user.is_authenticated():
-		username = request.user.username
-		if request.method == 'POST':
-			user = User.objects.get(username = username)
-			pvUser = user.pvuser
-			form = request.POST
-			if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
-				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-			pvRelationship = PvFamilyRelationship.objects.get_or_create(
-			paatientId = pvUser,
-			surgicalHistoryId = form['surgicalHistory'],
-			sharedYesNo = form['isShared'],
-			activeYesNo = form['isActive'],
-			lastModifiedDateTime = datetime.now())					
+# def SurgicalHistory(request):
+# 	username = None
+# 	if request.user.is_authenticated():
+# 		username = request.user.username
+# 		if request.method == 'POST':
+# 			user = User.objects.get(username = username)
+# 			pvUser = user.pvuser
+# 			form = request.POST
+# 			if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
+# 				form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+# 			pvRelationship = PvFamilyRelationship.objects.get_or_create(
+# 			paatientId = pvUser,
+# 			surgicalHistoryId = form['surgicalHistory'],
+# 			sharedYesNo = form['isShared'],
+# 			activeYesNo = form['isActive'],
+# 			lastModifiedDateTime = datetime.now())					
 
-	else:
-		return redirect('/login/')	
+# 	else:
+# 		return redirect('/login/')	
 '''
 def SocialHistory(request):
 	username = None
@@ -524,4 +549,4 @@ def randomWithNDigits(n):
 
 def relation(request):
 	# form = RegistrationForm()
-	return render(request,'SetPassword.html')
+	return render(request,'profile.html')
