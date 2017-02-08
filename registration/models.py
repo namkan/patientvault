@@ -77,29 +77,29 @@ class PvUser(models.Model):
 
 #Patient's Profile
 class PvProfile(models.Model):
-	userId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
-	dob	= models.DateField()
-	profilePhoto = models.TextField()	
-	gender = models.ForeignKey(GenderMaster,on_delete=models.CASCADE)
-	countrtyId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
-	stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
-	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE)
+	userId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	dob	= models.DateField(null = True, blank = True)
+	profilePhoto = models.TextField(null = True, blank = True)	
+	gender = models.ForeignKey(GenderMaster,on_delete=models.CASCADE, null = True, blank = True)
+	countryId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE, null = True, blank = True)
+	stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE, null = True, blank = True)
+	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE, null = True, blank = True)
 	address = models.CharField(max_length=100, null = True, blank = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
+	lastModifiedDateTime = models.DateTimeField(null = True, blank = True)
 	class meta:
-		db_table='PvUser'
+		db_table='PvProfile'
 	def __str__(self):
 		return '%s %s %s' % (self.user.userId.user.username,self.userId.user.first_name,self.userId.email)
 
 class PvFamilyRelationship(models.Model):
-	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)
-	relativeName = models.CharField(max_length = 30)
-	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE)
-	relative = models.ForeignKey(PvUser, related_name = "relative",blank = True, null = True)
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	relativeName = models.CharField(max_length = 30, null = True, blank = True)
+	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE, null = True, blank = True)
+	relative = models.ForeignKey(PvUser, related_name = "relative", blank = True, null = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
-
+	lastModifiedDateTime = models.DateTimeField(blank = True, null = True)
+	
 class PvSocialHistory(models.Model):
 	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
 	alcoholUsage = models.IntegerField(null = True,blank = True)

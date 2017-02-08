@@ -286,7 +286,7 @@ def changePass(request):
 def profile(request):
 	response = {}
 	username = None
-	i=0
+	global i
 	d={}
 	if request.method == 'POST':
 		relative_names = None
@@ -297,42 +297,49 @@ def profile(request):
 		# user = User.objects.get(username = username)
 		# pvUser = user.pvuser
 		form = request.POST
-		country = form['country']
-		state = form['state']
-		city = form['city']
-		gender = form['gender']
-		relative_names = form.getlist('relative-name[]')
-		relations = form.getlist('ralation[]')
-		relative_vhnNumbers = form.getlist('relative-vhnNumber[]')
+		# country = form['country']
+		# state = form['state']
+		# city = form['city']
+		# gender = form['gender']
+		relative_names = form.getlist('relative-name')
+		print(relative_names) 
+		relations = form.getlist('relation')
+		print(relations)
+		relative_vhnNumbers = form.getlist('relative-vhnNumber')
+		print(relative_vhnNumbers)
 		medical_history = form.getlist('medicalHistory[]')
 		surgical_history = form.getlist('sergicalHistory[]')
-		try:
-			cMaster = CountryMaster.objects.get(name = country)
-		except:	
-			print(country)
-			d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
-			d["{0}".format(country)].save()
-		try:
-			sMaster = StateMaster.objects.get(name = city)
-		except:	
-			print(state)
+		# try:
+		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
+		# except:	
+		# 	print(country)
+		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		# 	d["{0}".format(country)].save()
+		# try:
+		# 	d["{0}".format(state)] = StateMaster.objects.get(name = state)
+		# except:	
+		# 	print(state)
+		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])	
+		# 	d["{0}".format(state)].save()
+		# try:
+		# 	d["{0}".format(city)] = CityMaster.objects.get(name = city)
+		# except:	
+		# 	print(city)
+		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = d["{0}".format(state)])
+		# 	d["{0}".format(city)].save()
+		# try:
+		# 	d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
+		# except:
+		# 	print(gender)
+		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		# 	d["{0}".format(gender)].save()
+		for relation in relations:
 			try:
-				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])
+				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
 			except:
-				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = cMaster)	
-			d["{0}".format(state)].save()
-		try:
-			CityMaster.objects.get(name = city)
-		except:	
-			print(city)
-			try:
-				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])
-			except:
-				d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = sMaster)
-			d["{0}".format(city)].save()
-		# for relation in relations:
-		# 	if not isinstance(ralation,RelationshipMaster):
-		# 		relation = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
+				print(relation)	
+				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
+				d["{0}".format(relation)].save()
 		# for medhistory in medical_history:
 		# 	if not isinstance(medhistory,MedicalhistoryMaster):
 		# 			medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
@@ -340,25 +347,26 @@ def profile(request):
 			
 		# if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
 		# 		form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
-		pvProfile = PvProfile.objects.get_or_create(
-			# userId = pvUser,
-			country = form['country'],
-			state = form['state'],
-			city = form['city'],
-			# profilePhoto = request.FILES['profilePic'],
-			address = form['address'],
-			dob = form['DOB'],
-			gender = form['gender'],
-			)
-		
-		# for relative in realative-names:
-		# 	pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
-		# 		patientId = pvUser,
-		# 		relativeName = relative,
-		# 		relationshipId = relations[i],
-		# 		relative = User.objects.get(relative-vhnNumbers[i]).pvuser,
-		# 		lastModifiedDateTime = datetime.now())
-		
+		# pvProfile = PvProfile.objects.get_or_create(
+		# 	# userId = pvUser,
+		# 	countryId = d["{0}".format(country)],
+		# 	stateId = d["{0}".format(state)],
+		# 	cityId = d["{0}".format(city)],
+		# 	# profilePhoto = request.FILES['profilePic'],
+		# 	address = form['address'],
+		# 	dob = form['DOB'],
+		# 	gender = d["{0}".format(gender)],
+		# 	lastModifiedDateTime = datetime.now(),
+		# 	)
+		i=0
+		for relative in relative_names:
+			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
+				# patientId = pvUser,
+				relativeName = relative,
+				relationshipId = d["{0}".format(relations[i])],
+				# relative = User.objects.get(relative_vhnNumbers[i]).pvuser,
+				lastModifiedDateTime = datetime.now())
+			i += 1
 		# pvSocialHistory = PvSocialHistory.objects.get_or_create(
 		# 	paatientId = pvUser,
 		# 	alcoholUsage = form['acheck'],
@@ -375,7 +383,7 @@ def profile(request):
 		# 		mediacalHistoryId = medhistory,
 		# 		lastModifiedDateTime = datetime.now())
 
-		messages.success('saved')
+		messages.success(request,'saved')
 		return render(request,'profile.html')
 		# response['status'] = 1
 		# return JsonResponse(response)
