@@ -61,7 +61,7 @@ class PvUser(models.Model):
 	activeYesNo = models.BooleanField(default = False)
 	#otpTime = models.DateTimeField(null = True,blank = True)
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
-	pTime = models.DateTimeField(null = True,blank = True)
+	#pTime = models.DateTimeField(null = True,blank = True)
 	# otpTime = models.DateTimeField(null = True, blank = True)
 	class meta:
 		db_table='PvUser'
