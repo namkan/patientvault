@@ -59,7 +59,7 @@ class PvUser(models.Model):
 	activationAttempts = models.IntegerField(default=0,null=True,blank=True)
 	isProfileComplete = models.BooleanField(default = False)
 	activeYesNo = models.BooleanField(default = False)
-	#otpTime = models.DateTimeField(null = True,blank = True)
+	otpTime = models.DateTimeField(null = True,blank = True)
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
 	# otpTime = models.DateTimeField(null = True, blank = True)
 	class meta:
