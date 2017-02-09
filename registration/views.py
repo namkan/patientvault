@@ -113,7 +113,7 @@ def register(request):
 			password=password,)
 		pvUser = PvUser.objects.get_or_create(
 		email=email,
-		mobile_number=mobile_number,activationToken = activationToken,user = user)
+		mobile_number=mobile_number,activationToken = activationToken,user = user,otpTime = datetime.utcnow().replace(tzinfo = utc))
 
 		if email:
 			try:
