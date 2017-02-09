@@ -38,9 +38,9 @@ class MedicalhistoryMaster(models.Model):
 	lastModifiedDateTime = models.CharField(max_length=30)
 
 class SurgicalhistoryMaster(models.Model):
-	name = models.CharField(max_length=30)
+	name = models.CharField(max_length=100)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=30)
+	lastModifiedDateTime = models.CharField(max_length=100)
 
 class FamilyhistoryMaster(models.Model):	
 	name = models.CharField(max_length=30)
@@ -114,18 +114,18 @@ class PvSocialHistory(models.Model):
 	lastModifiedDateTime = models.DateTimeField()
 
 class PvMedicalHistory(models.Model):
-	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)
-	mediacalHistoryId = models.ForeignKey(MedicalhistoryMaster,on_delete=models.CASCADE)
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	mediacalHistoryId = models.ForeignKey(MedicalhistoryMaster,on_delete=models.CASCADE, null = True, blank = True)
 	sharedYesNo = models.BooleanField(default=False)
-	activeYesNo = models.BooleanField(default=False)
+	activeYesNo = models.BooleanField(default=True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField()
 
-class SurgicalHistory(models.Model):
-	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
-	surgicalhistoryId = models.ForeignKey(SurgicalhistoryMaster,on_delete=models.CASCADE)	
+class PvSurgicalHistory(models.Model):
+	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	surgicalhistoryId = models.ForeignKey(SurgicalhistoryMaster,on_delete=models.CASCADE, null = True, blank = True)	
 	sharedYesNo = models.BooleanField(default=True)
-	activeYesNo = models.BooleanField()
+	activeYesNo = models.BooleanField(default=False)
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField()
 

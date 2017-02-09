@@ -16,6 +16,7 @@ from django.core.mail import EmailMessage
 from django.core import mail
 from datetime import datetime
 from django.views.decorators.cache import cache_control
+from django.utils import timezone
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
@@ -286,7 +287,7 @@ def changePass(request):
 def profile(request):
 	response = {}
 	username = None
-	global i
+	i = 0
 	d={}
 	if request.method == 'POST':
 		relative_names = None
@@ -297,56 +298,68 @@ def profile(request):
 		# user = User.objects.get(username = username)
 		# pvUser = user.pvuser
 		form = request.POST
+		print(form)
 		# country = form['country']
 		# state = form['state']
 		# city = form['city']
 		# gender = form['gender']
-		relative_names = form.getlist('relative-name')
-		print(relative_names) 
-		relations = form.getlist('relation')
-		print(relations)
-		relative_vhnNumbers = form.getlist('relative-vhnNumber')
-		print(relative_vhnNumbers)
-		medical_history = form.getlist('medicalHistory[]')
-		surgical_history = form.getlist('sergicalHistory[]')
+		# relative_names = form.getlist('relative-name')
+		# print(relative_names) 
+		# relations = form.getlist('relation')
+		# print(relations)
+		# relative_vhnNumbers = form.getlist('relative-vhnNumber')
+		# print(relative_vhnNumbers)
+		# medical_history = form.getlist('medicalHistory')
+		# print(medical_history)
+		surgical_history = form.getlist('surgicalHistory')
+		print(surgical_history)
 		# try:
 		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
 		# except:	
 		# 	print(country)
-		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
 		# 	d["{0}".format(country)].save()
 		# try:
 		# 	d["{0}".format(state)] = StateMaster.objects.get(name = state)
 		# except:	
 		# 	print(state)
-		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), country = d["{0}".format(country)])	
+		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
 		# 	d["{0}".format(state)].save()
 		# try:
 		# 	d["{0}".format(city)] = CityMaster.objects.get(name = city)
 		# except:	
 		# 	print(city)
-		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = datetime.now(), state = d["{0}".format(state)])
+		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
 		# 	d["{0}".format(city)].save()
 		# try:
 		# 	d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
 		# except:
 		# 	print(gender)
-		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = datetime.now())
+		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
 		# 	d["{0}".format(gender)].save()
-		for relation in relations:
-			try:
-				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
-			except:
-				print(relation)	
-				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = datetime.now())
-				d["{0}".format(relation)].save()
+		# for relation in relations:
+		# 	try:
+		# 		d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
+		# 	except:
+		# 		print(relation)	
+		# 		d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(relation)].save()
 		# for medhistory in medical_history:
-		# 	if not isinstance(medhistory,MedicalhistoryMaster):
-		# 			medhistory = MedicalhistoryMaster(name = medhistory, activeYesNo = True, lastModifiedDateTime = datetime.now())
-		#for surhistory in surgical_history:
-			
-		# if not isinstance(form['surgicalHistory'],SurgicalhistoryMaster):
-		# 		form['surgicalHistory'] = SurgicalhistoryMaster(name = form['surgicalHistory'], activeYesNo = True, lastModifiedDateTime = datetime.now())	
+		# 	try:
+		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
+		# 	except:
+		# 		print(medhistory)	
+		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(medhistory)].save()
+		for surhistory in surgical_history:
+			try:
+				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
+			except:
+				print(surhistory)	
+				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+				d["{0}".format(surhistory)].save()
+		
+		# 			
 		# pvProfile = PvProfile.objects.get_or_create(
 		# 	# userId = pvUser,
 		# 	countryId = d["{0}".format(country)],
@@ -356,17 +369,18 @@ def profile(request):
 		# 	address = form['address'],
 		# 	dob = form['DOB'],
 		# 	gender = d["{0}".format(gender)],
-		# 	lastModifiedDateTime = datetime.now(),
+		# 	lastModifiedDateTime = timezone.now(),
 		# 	)
-		i=0
-		for relative in relative_names:
-			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
-				# patientId = pvUser,
-				relativeName = relative,
-				relationshipId = d["{0}".format(relations[i])],
-				# relative = User.objects.get(relative_vhnNumbers[i]).pvuser,
-				lastModifiedDateTime = datetime.now())
-			i += 1
+		
+		# for relative in relative_names:
+		# 	pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
+		# 		# patientId = pvUser,
+		# 		relativeName = relative,
+		# 		relationshipId = d["{0}".format(relations[i])],
+		# 		# relative = User.objects.get(relative_vhnNumbers[i]).pvuser,
+		# 		lastModifiedDateTime = timezone.now())
+		# 	i += 1
+		
 		# pvSocialHistory = PvSocialHistory.objects.get_or_create(
 		# 	paatientId = pvUser,
 		# 	alcoholUsage = form['acheck'],
@@ -379,9 +393,15 @@ def profile(request):
 
 		# for medhistory in medical_history:
 		# 	pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
-		# 		patientId = pvUser,
-		# 		mediacalHistoryId = medhistory,
-		# 		lastModifiedDateTime = datetime.now())
+		# 		# patientId = pvUser,
+		# 		mediacalHistoryId = d["{0}".format(medical_history)],
+		# 		lastModifiedDateTime = timezone.now())
+
+		for surhistory in surgical_history:
+			pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
+				# patientId = pvUser,
+				surgicalhistoryId = d["{0}".format(surhistory)],
+				lastModifiedDateTime = timezone.now())
 
 		messages.success(request,'saved')
 		return render(request,'profile.html')
