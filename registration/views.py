@@ -113,7 +113,7 @@ def register(request):
 			password=password,)
 		pvUser = PvUser.objects.get_or_create(
 		email=email,
-		mobile_number=mobile_number,activationToken = activationToken,user = user,otpTime = datetime.utcnow().replace(tzinfo = utc))
+		mobile_number=mobile_number,activationToken = activationToken,user = user)
 
 		if email:
 			try:
@@ -142,9 +142,9 @@ def OTPvalidation(request):
 		except:
 			messages.warning(request,"Entered VHN number does not exist.")
 			return render(request,"is_OTPvalid.html")
-		if not pvUser.otpValidTime(3):
-			messages.warning(request,"Plese resend OTP, OTP is expired now.")
-			return render(request,"is_OTPvalid.html")	
+		# if not pvUser.otpValidTime(3):
+		# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
+		# 	return render(request,"is_OTPvalid.html")	
 		if form["OTP"] == pvUser.activationToken:
 			user.is_active = True
 			pvUser.activeYesNo = True

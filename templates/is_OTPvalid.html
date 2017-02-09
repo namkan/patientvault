@@ -68,7 +68,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-  setTimeout((function(){$("#verify").prop('disabled',true);}),120000)   
+  // setTimeout((function(){$("#verify").prop('disabled',true);}),120000)   
 });
 
 
@@ -93,7 +93,7 @@ $("#resend").on("click",function(){
     if(response['status'] == 1)
     {
       $("#statusReport").html("OTP sent to your Mobile!!");
-      setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
+      // setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
     }
     else if(response['status'] == 2)
     {
