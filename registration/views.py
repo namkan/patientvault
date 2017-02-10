@@ -95,8 +95,8 @@ def register(request):
 				PvUser.objects.get(mobile_number = mobile_number)
 				messages.warning(request,"User already registered with this Mobile Number.")
 				return render(request, 'register.html')
-#					response['status'] = 1
-#					return JsonResponse(response) #User already registered with this mobile number
+				# response['status'] = 1
+				# return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
 				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
@@ -105,8 +105,8 @@ def register(request):
 			print("code base 2")
 			messages.warning(request,"Connection problem or Invalid Phone Number !!!")
 			return render(request, 'register.html')
-				# response['status'] = 0
-				# return JsonResponse(response) #connection problem or invalid phone number
+			# response['status'] = 0
+			# return JsonResponse(response) #connection problem or invalid phone number
 		user = User.objects.create_user(
 			username=vhn,
 			first_name=first_name,
@@ -123,10 +123,13 @@ def register(request):
 				sendEmail(email,subject,body)
 			except:
 				messages.warning('connection problem or invalid email!!')
-				return render(request,'register.html')	
+				return render(request,'register.html')
+				# response['status'] = 2
+				# return JsonResponse(response)	
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
-#			response['status'] = 2 #OTP sent successfully and redirected to otp validation page
-#			return JsonResponse(response)
+		# response['vhn'] = vhn
+		# response['status'] = 3 #OTP sent successfully and redirected to otp validation page
+		# return JsonResponse(response)
 	else:
 		# form = RegistrationForm()
         
@@ -205,6 +208,11 @@ def FindAccount(request):
 		try:
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
+			if not pvUser.otpValidTime(3):
+			messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			# return render(request,"is_OTPvalid.html")
+			response['status'] = 4
+			return JsonResponse(response)
 			if form['OTP']:
 				if form['OTP'] == pvUser.activationToken:
 					print(5)

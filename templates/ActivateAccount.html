@@ -50,7 +50,6 @@
             
               <button type="button" id="continue" class="btn btn-primary">Send OTP</button>
               
-              
           </div>
 
         </form>
@@ -97,6 +96,31 @@ $("#continue").on("click",function(){
       $("#statusReport").html("Please enter correct OTP .");
     } 
     else if(response['status'] == 4) window.location.href = "/login/";
+    else
+    {
+      $("#statusReport").html("Please try Again after sometime(connection error).");
+    }
+  });
+});
+
+$("#resend").on("click",function(){
+  var data = {
+    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+    "vhn": $("input[name=vhn]").val(),
+    "resend":1
+  };
+  console.log(data);
+  theAjax("/resendOTP/",data)
+  .done(function(response){
+    if(response['status'] == 1)
+    {
+      $("#statusReport").html("OTP sent to your Mobile!!");
+      // setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
+    }
+    else if(response['status'] == 2)
+    {
+      $("#statusReport").html("Please recheck your VHN number .");
+    }
     else
     {
       $("#statusReport").html("Please try Again after sometime(connection error).");
