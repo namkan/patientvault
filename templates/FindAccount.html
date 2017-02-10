@@ -49,7 +49,7 @@
           <div class="form-group">
             
               <button type="button" id="continue" class="btn btn-primary">Send OTP</button>
-              <button type="button" id="resend" class="btn btn-success">Resend OTP</button>
+              
            
           </div>
 
@@ -61,6 +61,7 @@
 </body>
 
 <script type="text/javascript">
+html = '<button type="button" id="resend" class="btn btn-success">Resend OTP</button>';
 function theAjax(uri,data){
   return $.ajax({
       type:"POST",
@@ -81,8 +82,10 @@ $("#continue").on("click",function(){
   .done(function(response){
     if(response['status'] == 1)
     {
-      $('#continue').html("verify OTP")
-      $('#OTP').attr("type","text")
+      $('.form-group').append(html);
+      html = '';
+      $('#continue').html("verify OTP");
+      $('#OTP').attr("type","text");
       $("#statusReport").html("OTP sent to your Mobile!!");
       // setTimeout((function(){$("#verify").prop('disabled',true);}),120000)
     }
@@ -95,6 +98,31 @@ $("#continue").on("click",function(){
       $("#statusReport").html("Please enter correct OTP .");
     }
     else if(response['status'] == 5) window.location.href = "/SetPassword/"+response['vhn'];  
+    else
+    {
+      $("#statusReport").html("Please try Again after sometime(connection error).");
+    }
+  });
+});
+
+$("#resend").on("click",function(){
+  var data = {
+    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+    "VHN": $("input[name=VHN]").val(),
+    "resend":1
+  };
+  console.log(data);
+  theAjax("/resendOTP/",data)
+  .done(function(response){
+    if(response['status'] == 1)
+    {
+      $("#statusReport").html("OTP sent to your Mobile!!");
+      // setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
+    }
+    else if(response['status'] == 2)
+    {
+      $("#statusReport").html("Please recheck your VHN number .");
+    }
     else
     {
       $("#statusReport").html("Please try Again after sometime(connection error).");
