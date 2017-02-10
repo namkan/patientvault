@@ -44,7 +44,7 @@ input[type=number]::-webkit-inner-spin-button {
 
         <div id="register" class="animate form">
           <section class="login_content">
-            <form name="registration" id="registration" autocomplete="off">{% csrf_token %}
+            <form name="registration" id="registration" autocomplete="off" method="post" action="/register/">{% csrf_token %}
               <h1>Create Account</h1>
 
               <div>
@@ -68,7 +68,7 @@ input[type=number]::-webkit-inner-spin-button {
               <div id="statusReport">
               </div>
               <div>
-                <button type="button" name="register" id="register" class="btn btn-default submit">Register</button>
+                <button type="submit" name="register" id="register" class="btn btn-default submit">Register</button>
               </div>
               <button type="button" id="btn-next-page-fb" class="form-control" onclick="fb_login()" style="width: 100%">Facebook</button>
               
@@ -96,7 +96,7 @@ input[type=number]::-webkit-inner-spin-button {
     </div>
   </body>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
  function theAjax(uri,data){
   return $.ajax({
       type:"POST",
@@ -137,5 +137,5 @@ $("#register").on("click",function(event){
     }
   });
 });
-</script>
+</script> -->
 </html>
