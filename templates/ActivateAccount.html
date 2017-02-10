@@ -27,14 +27,14 @@
       </div>
       <!-- <div class="x_content"> -->
         <br>
-        <form method="POST" autocomplete="off">{% csrf_token %}
+        <form autocomplete="off" method="POST">{% csrf_token %}
 
           <!-- <div> -->
           <table>
             <tbody>
             <tr>
               <td>
-              <input class="form-control" size="30" type="text" type="text" name="VHN" placeholder="Enter Your VHN" required><br></td>
+              <input class="form-control" size="30" type="text" name="VHN" id="VHN" placeholder="Enter Your VHN" required><br></td>
               
             </tr>
           
@@ -61,6 +61,26 @@
 
 <script type="text/javascript">
 html = '<button type="button" id="resend" class="btn btn-success">Resend OTP</button>';
+
+
+// $(document).ready(function(){
+//     $("VHN").live("keyup",function(e){
+//       e.preventDefault();
+//       // if(e.keyCode==13)
+//       // $("#continue").click();
+//       alert('bdh');
+//     });
+// });
+// $(function() {
+//     $('#VHN').on('keyup', function(event) {
+//         // alert(event.keyCode);
+//         //  event.preventDefault();
+//         if(event.keyCode == '13'){
+//       $("#continue").trigger('click');
+//     }
+//    });
+// });
+
 function theAjax(uri,data){
   return $.ajax({
       type:"POST",
@@ -69,7 +89,8 @@ function theAjax(uri,data){
       data: data
   })
 }
-$("#continue").on("click",function(){
+$("#continue").on("click",function(e){
+   e.preventDefault();
   var data = {
     "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
     "VHN": $("input[name=VHN]").val(),
@@ -128,5 +149,6 @@ $("#resend").on("click",function(){
     }
   });
 });
+
 </script>
 </html>    

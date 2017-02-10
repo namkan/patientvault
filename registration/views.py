@@ -99,7 +99,7 @@ def register(request):
 				# return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
-				#print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
+				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
 
 		except:
 			print("code base 2")
@@ -115,14 +115,14 @@ def register(request):
 		pvUser = PvUser.objects.get_or_create(
 		email=email,
 		mobile_number=mobile_number,activationToken = activationToken,user = user,pTime = datetime.utcnow().replace(tzinfo = utc))
-		# if email:
-		# 	try:
-		# 		subject = "Welcome To Vyala Family"
-		# 		body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
-		# 		sendEmail(email,subject,body)
-		# 	except:
-		# 		messages.warning('connection problem or invalid email!!')
-		# 		return render(request,'register.html')	
+		if email:
+			try:
+				subject = "Welcome To Vyala Family"
+				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
+				sendEmail(email,subject,body)
+			except:
+				messages.warning('connection problem or invalid email!!')
+				return render(request,'register.html')	
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
 		# response['vhn'] = vhn
 		# response['status'] = 3 #OTP sent successfully and redirected to otp validation page
@@ -181,7 +181,8 @@ def resendOTP(request):
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		try:
-			# sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
+			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
+			pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 			pvUser.activationToken = activationToken
 			pvUser.save()
 			response['status'] = 1 
@@ -204,8 +205,8 @@ def FindAccount(request):
 		try:
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
-			# if not pvUser.otpValidTime(3):
-			# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			if not pvUser.otpValidTime(3):
+				messages.warning(request,"Plese resend OTP, OTP is expired now.")
 			if form['OTP']:
 				if form['OTP'] == pvUser.activationToken:
 					print(5)
@@ -221,7 +222,8 @@ def FindAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					# sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
+					sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
+					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
 					response['status'] = 1 
@@ -246,8 +248,8 @@ def ActivateAccount(request):
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
 			print(1)
-			# if not pvUser.otpValidTime(3):
-			# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			if not pvUser.otpValidTime(3):
+				messages.warning(request,"Plese resend OTP, OTP is expired now.")
 			if form['OTP']:
 				print(2)
 				if form['OTP'] == pvUser.activationToken:
@@ -265,7 +267,8 @@ def ActivateAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					# sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
 					response['status'] = 1 
