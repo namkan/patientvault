@@ -15,22 +15,22 @@ class RelationshipMaster(models.Model):
 	activeYesNo = models.BooleanField(default=True)
 	lastModifiedDateTime = models.CharField(max_length=30)
 
-class CountryMaster(models.Model):
-	name = models.CharField(max_length=30)
-	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=30)
+# class CountryMaster(models.Model):
+# 	name = models.CharField(max_length=30)
+# 	activeYesNo = models.BooleanField(default=False)
+# 	lastModifiedDateTime = models.CharField(max_length=30)
 
-class StateMaster(models.Model):
-	name = models.CharField(max_length=30)
-	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
-	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=30)
+# class StateMaster(models.Model):
+# 	name = models.CharField(max_length=30)
+# 	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
+# 	activeYesNo = models.BooleanField(default=False)
+# 	lastModifiedDateTime = models.CharField(max_length=30)
 
-class CityMaster(models.Model):
-	name = models.CharField(max_length=30)
-	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
-	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=30)
+# class CityMaster(models.Model):
+# 	name = models.CharField(max_length=30)
+# 	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
+# 	activeYesNo = models.BooleanField(default=False)
+# 	lastModifiedDateTime = models.CharField(max_length=30)
 
 class MedicalhistoryMaster(models.Model):
 	name = models.CharField(max_length=30)
@@ -83,8 +83,8 @@ class PvProfile(models.Model):
 	profilePhoto = models.TextField(null = True, blank = True)	
 	gender = models.ForeignKey(GenderMaster,on_delete=models.CASCADE, null = True, blank = True)
 	# countryId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE, null = True, blank = True)
-	stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE, null = True, blank = True)
-	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE, null = True, blank = True)
+	# stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE, null = True, blank = True)
+	# cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE, null = True, blank = True)
 	address = models.CharField(max_length=100, null = True, blank = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField(null = True, blank = True)
