@@ -49,8 +49,8 @@
           <div class="form-group">
             
               <button type="button" id="continue" class="btn btn-primary">Send OTP</button>
-              <button type="button" id="resend" class="btn btn-success">Resend OTP</button>
-           
+              
+              
           </div>
 
         </form>
@@ -61,6 +61,7 @@
 </body>
 
 <script type="text/javascript">
+html = '<button type="button" id="resend" class="btn btn-success">Resend OTP</button>';
 function theAjax(uri,data){
   return $.ajax({
       type:"POST",
@@ -77,10 +78,11 @@ $("#continue").on("click",function(){
     "OTP": $("input[name=OTP]").val()
   };
   console.log(data);
-  theAjax("/FindAccount/",data)
+  theAjax("/ActivateAccount/",data)
   .done(function(response){
     if(response['status'] == 1)
     {
+      $('.form-group').append(html)
       $('#continue').html("verify OTP")
       $('#OTP').attr("type","text")
       $("#statusReport").html("OTP sent to your Mobile!!");
@@ -93,8 +95,8 @@ $("#continue").on("click",function(){
     else if(response['status']==3)
     {
       $("#statusReport").html("Please enter correct OTP .");
-    }
-    else if(response['status'] == 5) window.location.href = "/SetPassword/"+response['vhn'];  
+    } 
+    else if(response['status'] == 4) window.location.href = "/login/";
     else
     {
       $("#statusReport").html("Please try Again after sometime(connection error).");

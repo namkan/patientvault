@@ -17,6 +17,7 @@ from django.core import mail
 from datetime import datetime
 from django.views.decorators.cache import cache_control
 from django.utils import timezone
+from django.utils.timezone import utc
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
@@ -26,8 +27,8 @@ def contextCall(request):
 @csrf_exempt
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def signIn(request):
-	if request.user.is_authenticated():
-		return render(request,"dashboard.html")
+	# if request.user.is_authenticated():
+	# 	return render(request,"dashboard.html")
 	if request.method == 'POST':
 		form = request.POST
 #		remember_me = form.cleaned_data["remember_me"]
@@ -58,7 +59,7 @@ def signIn(request):
 					first_name = user.first_name	
 					return render(request,'dashboard.html',{'first_name':first_name})	
 				else:
-					messages.warning(request,"The account is disabled. please activate our account.")
+					messages.warning(request,"The account is disabled. please activate your account.")
 			else:
 				print(4)
 				messages.warning(request,"Invalid Credentials !!!")
@@ -76,8 +77,8 @@ def signIn(request):
 @csrf_exempt
 #View for registration page
 def register(request):
-	if request.user.is_authenticated():
-		return redirect("/login")
+	# if request.user.is_authenticated():
+	# 	return redirect("/login")
 	response = {}
 	if request.method == 'POST':
 		form = request.POST
@@ -98,7 +99,7 @@ def register(request):
 #					return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
-				sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")				
+				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
 
 		except:
 			print("code base 2")
@@ -113,7 +114,7 @@ def register(request):
 			password=password,)
 		pvUser = PvUser.objects.get_or_create(
 		email=email,
-		mobile_number=mobile_number,activationToken = activationToken,user = user)
+		mobile_number=mobile_number,activationToken = activationToken,user = user,pTime = datetime.utcnow().replace(tzinfo = utc))
 
 		if email:
 			try:
@@ -142,9 +143,9 @@ def OTPvalidation(request):
 		except:
 			messages.warning(request,"Entered VHN number does not exist.")
 			return render(request,"is_OTPvalid.html")
-		# if not pvUser.otpValidTime(3):
-		# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
-		# 	return render(request,"is_OTPvalid.html")	
+		if not pvUser.otpValidTime(3):
+			messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			return render(request,"is_OTPvalid.html")	
 		if form["OTP"] == pvUser.activationToken:
 			user.is_active = True
 			pvUser.activeYesNo = True
@@ -232,7 +233,44 @@ def FindAccount(request):
 			return JsonResponse(response)
 		
 	else:
-		return render(request,'FindAccount.html')		
+		return render(request,'FindAccount.html')
+
+@csrf_exempt
+def ActivateAccount(request):
+	response={}
+	if request.method == 'POST':
+		form = request.POST
+		activationToken = str(randomWithNDigits(8))
+		try:
+			user = User.objects.get(username = form['VHN'])
+			pvUser = user.pvuser
+			print(form['VHN'])
+			if form['OTP']:
+				if form['OTP'] == pvUser.activationToken:
+					print(form['OTP'])
+					messages.success(request,'Congratulations !! Your account is activated.')
+					response['status']=4
+					return JsonResponse(response)
+				else:
+					response['status']=3
+					return JsonResponse(response)
+			else:		
+				try :
+					mobileNumber = "+91"+str(pvUser.mobile_number) 
+					print(mobileNumber)
+					sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					pvUser.activationToken = activationToken
+					pvUser.save()
+					response['status'] = 1 
+					return JsonResponse(response)
+				except:
+					response['status'] = 0 ### connection error or unknown error
+					return JsonResponse(response)				
+		except:
+			response['status'] = 2 # INvalid VHN Number
+			return JsonResponse(response)			
+	else:
+		return render(request,'ActivateAccount.html')
 
 #view to reset password	
 @login_required(login_url = "/login")	
@@ -566,8 +604,8 @@ def sendSms(recipientNumber, content):
 
 
 	data=r.json()
-	print(data)
-	#return(data['status'])
+	# return data
+	print(data['status'])
 
 #function for generating activationToken
 def randomWithNDigits(n):

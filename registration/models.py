@@ -65,14 +65,14 @@ class PvUser(models.Model):
 	# otpTime = models.DateTimeField(null = True, blank = True)
 	class meta:
 		db_table='PvUser'
-	# def otpValidTime(self,minutes):
-	# 	now = datetime.datetime.utcnow().replace(tzinfo = utc)
-	# 	timediff = now - self.otpTime
-	# 	print(timediff.total_seconds())
-	# 	if timediff.total_seconds() > minutes*60:
-	# 		return False
-	# 	else:
-	# 		return True	
+	def otpValidTime(self,minutes):
+		now = datetime.datetime.utcnow().replace(tzinfo = utc)
+		timediff = now - self.pTime
+		print(timediff.total_seconds())
+		if timediff.total_seconds() > minutes*60:
+			return False
+		else:
+			return True	
 	def __str__(self):
 		return '%s %s %s' % (self.user.username,self.user.first_name,self.email)	
 

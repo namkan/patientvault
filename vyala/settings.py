@@ -89,9 +89,9 @@ DATABASES = {
      
 }
 
-FILE_UPLOAD_HANDLERS = (
-    "testapp.dropbox_upload_handler.DropboxFileUploadHandler",
-)
+# FILE_UPLOAD_HANDLERS = (
+#     "testapp.dropbox_upload_handler.DropboxFileUploadHandler",
+# )
 DROPBOX_APP_KEY = "ves55dpyfxanqg0"
 DROPBOX_APP_SECRET_KEY = "tygyq0xdtky4ici"
 DROPBOX_APP_ACCESS_TOKEN = ""
