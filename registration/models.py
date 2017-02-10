@@ -82,7 +82,7 @@ class PvProfile(models.Model):
 	dob	= models.DateField(null = True, blank = True)
 	profilePhoto = models.TextField(null = True, blank = True)	
 	gender = models.ForeignKey(GenderMaster,on_delete=models.CASCADE, null = True, blank = True)
-	countryId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE, null = True, blank = True)
+	# countryId = models.ForeignKey(CountryMaster,on_delete=models.CASCADE, null = True, blank = True)
 	stateId = models.ForeignKey(StateMaster,on_delete=models.CASCADE, null = True, blank = True)
 	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE, null = True, blank = True)
 	address = models.CharField(max_length=100, null = True, blank = True)
