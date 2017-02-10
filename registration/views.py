@@ -356,8 +356,8 @@ def profile(request):
 		# print(relative_vhnNumbers)
 		# medical_history = form.getlist('medicalHistory')
 		# print(medical_history)
-		surgical_history = form.getlist('surgicalHistory')
-		print(surgical_history)
+		# surgical_history = form.getlist('surgicalHistory')
+		# print(surgical_history)
 		# try:
 		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
 		# except:	
@@ -396,13 +396,13 @@ def profile(request):
 		# 		print(medhistory)	
 		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
 		# 		d["{0}".format(medhistory)].save()
-		for surhistory in surgical_history:
-			try:
-				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
-			except:
-				print(surhistory)	
-				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
-				d["{0}".format(surhistory)].save()
+		# for surhistory in surgical_history:
+		# 	try:
+		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
+		# 	except:
+		# 		print(surhistory)	
+		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(surhistory)].save()
 		
 		# 			
 		# pvProfile = PvProfile.objects.get_or_create(
