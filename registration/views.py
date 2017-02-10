@@ -289,7 +289,7 @@ def SetPassword(request,pvUser):
 		pv.set_password(form['password'])
 		pv.save()
 		messages.success(request,'Password is successfully set.')
-		return render(request,'login.html')
+		return redirect('/login/')
 	else:
 		return render(request,'SetPassword.html',{"vhn":pvUser})	
 
