@@ -81,9 +81,10 @@ $("#continue").on("click",function(){
   .done(function(response){
     if(response['status'] == 1)
     {
-      $('.form-group').append(html)
-      $('#continue').html("verify OTP")
-      $('#OTP').attr("type","text")
+      $('.form-group').append(html);
+      html = '';
+      $('#continue').html("verify OTP");
+      $('#OTP').attr("type","text");
       $("#statusReport").html("OTP sent to your Mobile!!");
       // setTimeout((function(){$("#verify").prop('disabled',true);}),120000)
     }
@@ -106,7 +107,7 @@ $("#continue").on("click",function(){
 $("#resend").on("click",function(){
   var data = {
     "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
-    "vhn": $("input[name=vhn]").val(),
+    "VHN": $("input[name=VHN]").val(),
     "resend":1
   };
   console.log(data);

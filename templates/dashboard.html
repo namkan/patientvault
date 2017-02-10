@@ -58,7 +58,7 @@
           
           <div class="form-group">
             
-              <button type="button" id="submit" class="btn btn-primary">OK</button>
+              <button style="display:none;" type="button" id="submit" class="btn btn-primary">OK</button>
               
            
           </div>
@@ -72,9 +72,7 @@
 <script type="text/javascript">
 $("#change").on("click",function(event){
   $("#newPassword").attr("type","hidden");
-  $("#newPassword").attr("value","");
-  $("#confNewPssword").attr("type","hidden");
-  $("#confNewPssword").attr("value","");
+  $("#confNewPassword").attr("type","hidden");
   $("#currentPassword").val("");
   $("#currentPassword").attr("type","password");
   $("#submit").css("display","block");
@@ -128,8 +126,9 @@ $("#submit").on("click",function(event){
     else if(response['status']==4)
     {
       $("#currentPassword").attr("type","hidden");
-      //$("#currentPassword").attr("value","");
+      $("#newPassword").val("");
       $("#newPassword").attr("type","password");
+      $("#confNewPassword").val("");
       $("#confNewPassword").attr("type","password");
 
     } 
