@@ -209,9 +209,9 @@ def FindAccount(request):
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
 			if not pvUser.otpValidTime(3):
-			messages.warning(request,"Plese resend OTP, OTP is expired now.")
-			# return render(request,"is_OTPvalid.html")
-			response['status'] = 4
+				messages.warning(request,"Plese resend OTP, OTP is expired now.")
+				# return render(request,"is_OTPvalid.html")
+				response['status'] = 4
 			return JsonResponse(response)
 			if form['OTP']:
 				if form['OTP'] == pvUser.activationToken:
