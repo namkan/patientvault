@@ -27,14 +27,14 @@
       </div>
       <!-- <div class="x_content"> -->
         <br>
-        <form method="POST" autocomplete="off">{% csrf_token %}
+        <!-- <form method="POST" autocomplete="off">{% csrf_token %} -->
 
           <!-- <div> -->
           <table>
             <tbody>
             <tr>
               <td>
-              <input class="form-control" size="30" type="text" type="text" name="VHN" placeholder="Enter Your VHN" required><br></td>
+              <input class="form-control" size="30" type="text" type="text" name="VHN" id="VHN" placeholder="Enter Your VHN" required><br></td>
               
             </tr>
           
@@ -53,7 +53,7 @@
            
           </div>
 
-        </form>
+       <!--  </form> -->
         <div id='statusReport'></div>
         
       </div>
@@ -61,6 +61,11 @@
 </body>
 
 <script type="text/javascript">
+$('#VHN').keyup(function(e){
+  if(e.keyCode == 13){
+    $('#continue').click();
+  }
+})
 html = '<button type="button" id="resend" class="btn btn-success">Resend OTP</button>';
 function theAjax(uri,data){
   return $.ajax({
