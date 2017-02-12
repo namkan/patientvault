@@ -95,18 +95,18 @@ def register(request):
 				PvUser.objects.get(mobile_number = mobile_number)
 				messages.warning(request,"User already registered with this Mobile Number.")
 				return render(request, 'register.html')
-#					response['status'] = 1
-#					return JsonResponse(response) #User already registered with this mobile number
+				# response['status'] = 1
+				# return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
-				#print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
+				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
 
 		except:
 			print("code base 2")
 			messages.warning(request,"Connection problem or Invalid Phone Number !!!")
 			return render(request, 'register.html')
-				# response['status'] = 0
-				# return JsonResponse(response) #connection problem or invalid phone number
+			# response['status'] = 0
+			# return JsonResponse(response) #connection problem or invalid phone number
 		user = User.objects.create_user(
 			username=vhn,
 			first_name=first_name,
@@ -115,18 +115,18 @@ def register(request):
 		pvUser = PvUser.objects.get_or_create(
 		email=email,
 		mobile_number=mobile_number,activationToken = activationToken,user = user,pTime = datetime.utcnow().replace(tzinfo = utc))
-
-		# if email:
-		# 	try:
-		# 		subject = "Welcome To Vyala Family"
-		# 		body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
-		# 		sendEmail(email,subject,body)
-		# 	except:
-		# 		messages.warning('connection problem or invalid email!!')
-		# 		return render(request,'register.html')	
+		if email:
+			try:
+				subject = "Welcome To Vyala Family"
+				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
+				sendEmail(email,subject,body)
+			except:
+				messages.warning('connection problem or invalid email!!')
+				return render(request,'register.html')	
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
-#			response['status'] = 2 #OTP sent successfully and redirected to otp validation page
-#			return JsonResponse(response)
+		# response['vhn'] = vhn
+		# response['status'] = 3 #OTP sent successfully and redirected to otp validation page
+		# return JsonResponse(response)
 	else:
 		# form = RegistrationForm()
         
@@ -181,7 +181,8 @@ def resendOTP(request):
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		try:
-			# sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
+			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
+			pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 			pvUser.activationToken = activationToken
 			pvUser.save()
 			response['status'] = 1 
@@ -204,8 +205,8 @@ def FindAccount(request):
 		try:
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
-			# if not pvUser.otpValidTime(3):
-			# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			if not pvUser.otpValidTime(3):
+				messages.warning(request,"Plese resend OTP, OTP is expired now.")
 			if form['OTP']:
 				if form['OTP'] == pvUser.activationToken:
 					print(5)
@@ -221,7 +222,8 @@ def FindAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					# sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
+					sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
+					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
 					response['status'] = 1 
@@ -246,8 +248,8 @@ def ActivateAccount(request):
 			user = User.objects.get(username = form['VHN'])
 			pvUser = user.pvuser
 			print(1)
-			# if not pvUser.otpValidTime(3):
-			# 	messages.warning(request,"Plese resend OTP, OTP is expired now.")
+			if not pvUser.otpValidTime(3):
+				messages.warning(request,"Plese resend OTP, OTP is expired now.")
 			if form['OTP']:
 				print(2)
 				if form['OTP'] == pvUser.activationToken:
@@ -265,7 +267,8 @@ def ActivateAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					# sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
 					response['status'] = 1 
@@ -289,7 +292,7 @@ def SetPassword(request,pvUser):
 		pv.set_password(form['password'])
 		pv.save()
 		messages.success(request,'Password is successfully set.')
-		return render(request,'login.html')
+		return redirect('/login/')
 	else:
 		return render(request,'SetPassword.html',{"vhn":pvUser})	
 
@@ -344,66 +347,67 @@ def profile(request):
 		# pvUser = user.pvuser
 		form = request.POST
 		print(form)
-		country = form['country']
-		print(country)
-		state = form['state']
-		city = form['city']
-		gender = form['gender']
-		relative_names = form.getlist('relative-name')
-		print(relative_names) 
-		relations = form.getlist('relation')
-		print(relations)
-		relative_vhnNumbers = form.getlist('relative-vhnNumber')
-		print(relative_vhnNumbers)
-		medical_history = form.getlist('medicalHistory')
-		print(medical_history)
-		surgical_history = form.getlist('surgicalHistory')
-		print(surgical_history)
-		try:
-			d["{0}".format(country)] = CountryMaster.objects.get(name = country)
-		except:	
-			print(country)
-			d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-			d["{0}".format(country)].save()
-		try:
-			d["{0}".format(state)] = StateMaster.objects.get(name = state)
-		except:	
-			print(state)
-			d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
-			d["{0}".format(state)].save()
-		try:
-			d["{0}".format(city)] = CityMaster.objects.get(name = city)
-		except:	
-			print(city)
-			d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
-			d["{0}".format(city)].save()
-		try:
-			d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
-		except:
-			print(gender)
-			d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-			d["{0}".format(gender)].save()
-		for relation in relations:
-			try:
-				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
-			except:
-				print(relation)	
-				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
-				d["{0}".format(relation)].save()
-		for medhistory in medical_history:
-			try:
-				d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
-			except:
-				print(medhistory)	
-				d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
-				d["{0}".format(medhistory)].save()
-		for surhistory in surgical_history:
-			try:
-				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
-			except:
-				print(surhistory)	
-				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
-				d["{0}".format(surhistory)].save()
+
+		# country = form['country']
+		# state = form['state']
+		# city = form['city']
+		# gender = form['gender']
+		# relative_names = form.getlist('relative-name')
+		# print(relative_names) 
+		# relations = form.getlist('relation')
+		# print(relations)
+		# relative_vhnNumbers = form.getlist('relative-vhnNumber')
+		# print(relative_vhnNumbers)
+		# medical_history = form.getlist('medicalHistory')
+		# print(medical_history)
+		# surgical_history = form.getlist('surgicalHistory')
+		# print(surgical_history)
+		# try:
+		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
+		# except:	
+		# 	print(country)
+		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 	d["{0}".format(country)].save()
+		# try:
+		# 	d["{0}".format(state)] = StateMaster.objects.get(name = state)
+		# except:	
+		# 	print(state)
+		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
+		# 	d["{0}".format(state)].save()
+		# try:
+		# 	d["{0}".format(city)] = CityMaster.objects.get(name = city)
+		# except:	
+		# 	print(city)
+		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
+		# 	d["{0}".format(city)].save()
+		# try:
+		# 	d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
+		# except:
+		# 	print(gender)
+		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 	d["{0}".format(gender)].save()
+		# for relation in relations:
+		# 	try:
+		# 		d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
+		# 	except:
+		# 		print(relation)	
+		# 		d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(relation)].save()
+		# for medhistory in medical_history:
+		# 	try:
+		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
+		# 	except:
+		# 		print(medhistory)	
+		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(medhistory)].save()
+		# for surhistory in surgical_history:
+		# 	try:
+		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
+		# 	except:
+		# 		print(surhistory)	
+		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+		# 		d["{0}".format(surhistory)].save()
+
 		
 					
 		pvProfile = PvProfile.objects.get_or_create(

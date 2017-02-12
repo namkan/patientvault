@@ -32,7 +32,8 @@ input[type=number]::-webkit-inner-spin-button {
     <script src="/static/register/script.js"></script>
     <script type="text/javascript" src="/static/jQuery/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="/static/jQuery/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="/static/register/validation.js"></script> 
+    <script type="text/javascript" src="/static/register/validation.js"></script>
+    <script type="text/javascript" src="/static/register/jquery.redirect.js"></script> 
   </head>
 
   <body class="login">
@@ -43,7 +44,7 @@ input[type=number]::-webkit-inner-spin-button {
 
         <div id="register" class="animate form">
           <section class="login_content">
-            <form name="registration" id="registration" autocomplete="off" method="POST" action="/register/">{% csrf_token %}
+            <form name="registration" id="registration" autocomplete="off" method="post" action="/register/">{% csrf_token %}
               <h1>Create Account</h1>
 
               <div>
@@ -65,15 +66,9 @@ input[type=number]::-webkit-inner-spin-button {
                 <input name="cpassword" id="cpassword" type="password" class="form-control" placeholder="Confirm Password" required="" />
               </div>
               <div id="statusReport">
-                {% if messages %}
-                  {% for msg in messages %}
-                    {{msg.message}}
-          
-                  {% endfor %}
-                {% endif %}
               </div>
               <div>
-                <button type="submit" name="submit" id="register" class="btn btn-default submit">Register</button>
+                <button type="submit" name="register" id="register" class="btn btn-default submit">Register</button>
               </div>
               <button type="button" id="btn-next-page-fb" class="form-control" onclick="fb_login()" style="width: 100%">Facebook</button>
               
@@ -100,5 +95,47 @@ input[type=number]::-webkit-inner-spin-button {
       <!-- </div> -->
     </div>
   </body>
- 
+
+<!-- <script type="text/javascript">
+ function theAjax(uri,data){
+  return $.ajax({
+      type:"POST",
+      dataType:"json",
+      url: uri,
+      data: data
+  })
+}
+$("#register").on("click",function(event){
+  event.preventDefault();
+  var data = {
+    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+    "first_name": $("input[name=first_name]").val(),
+    "last_name": $("input[name=last_name]").val(),
+    "email": $("input[name=email]").val(),
+    "mobile_number": $("input[name=mobile_number]").val(),
+    "password": $("input[name=password]").val(),
+    "register":1
+  };
+  console.log(data);
+  theAjax("/register/",data)
+  .done(function(response){
+    if(response['status'] == 0)
+    {
+      $("#statusReport").html("connection problem or invalid phone number");
+      // setTimeout((function(){ $("#verify").prop('disabled',true); }), 120000);
+    }
+    else if(response['status'] == 1)
+    {
+      $("#statusReport").html("user already registred with this mobile number");
+    }
+    else if(response['status'] == 2)
+    {
+      $("#statusReport").html("connection problem or invalid email");
+    }
+    else{
+      $().redirect('is_OTPvalid.html',{'vhn':response['vhn']})
+    }
+  });
+});
+</script> -->
 </html>
