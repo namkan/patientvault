@@ -401,7 +401,7 @@
                             {% endfor %}
                           {% endif %}
                           </div>
-                          <button type="submit" id="form1Submit">Submit</button>
+                          <!-- <button type="submit" id="form1Submit">Submit</button> -->
                         </form>
 
                         <h2 class="StepTitle">Family History</h2>
@@ -415,6 +415,7 @@
 
                     <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
                     <div class="table-responsive">
+                    <form id="form2" method="POST" action="/completeprofile/">{% csrf_token %}
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
@@ -450,7 +451,7 @@
                         <div class="x_panel">
                   
                   <div class="x_content">
-
+                  <form id="form3" method="POST" action="/completeprofile/">{% csrf_token %}
                     <table class="table">
                       <tbody>
                         <tr>
@@ -513,16 +514,17 @@
                       </tbody>
                     
                       </table>
+                      <!-- <button id="form3submit" type="submit">Submit</button> -->
+                      </form>
                       </div>
                   </div>
-                  <!-- <button type="submit" id="form3Submit"></button>
-                  </form>
- -->
+                  
                   <h2 class="StepTitle">Medical History</h2>
                   <!-- <form class="form-horizontal form-label-left" id="form2" method="POST" action="/completeprofile/">{% csrf_token %} -->
                         <div class="x_panel">
                   
                   <div class="x_content">
+                  <form id="form4" method="POST" action="/completeprofile/">{% csrf_token %}
                     <table class="table">
                       <tbody>
                         <tr>
@@ -567,14 +569,10 @@
                       </tbody>
                     
                       </table>
-                      <!-- </div>
-                  
-                      </div> -->  
-                      <!-- </div>
-                      </div> -->
+                     
                       
-                      <!-- <button type="submit" id="form4Submit"></button>
-                      </form> -->
+                      <button type="submit" id="form4Submit">Submit</button>
+                      </form>
                       </div>
                   </div>
                       </div> 

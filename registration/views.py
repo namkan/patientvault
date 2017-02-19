@@ -348,10 +348,10 @@ def profile(request):
 		form = request.POST
 		print(form)
 
-		country = form['country']
-		state = form['state']
-		city = form['city']
-		gender = form['gender']
+		# country = form['country']
+		# state = form['state']
+		# city = form['city']
+		# gender = form['gender']
 		relative_names = form.getlist('relative-name')
 		print(relative_names) 
 		relations = form.getlist('relation')
@@ -362,30 +362,30 @@ def profile(request):
 		print(medical_history)
 		surgical_history = form.getlist('surgicalHistory')
 		print(surgical_history)
-		try:
-			d["{0}".format(country)] = CountryMaster.objects.get(name = country)
-		except:	
-			print(country)
-			d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-			d["{0}".format(country)].save()
-		try:
-			d["{0}".format(state)] = StateMaster.objects.get(name = state)
-		except:	
-			print(state)
-			d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
-			d["{0}".format(state)].save()
-		try:
-			d["{0}".format(city)] = CityMaster.objects.get(name = city)
-		except:	
-			print(city)
-			d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
-			d["{0}".format(city)].save()
-		try:
-			d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
-		except:
-			print(gender)
-			d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-			d["{0}".format(gender)].save()
+		# try:
+		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
+		# except:	
+		# 	print(country)
+		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 	d["{0}".format(country)].save()
+		# try:
+		# 	d["{0}".format(state)] = StateMaster.objects.get(name = state)
+		# except:	
+		# 	print(state)
+		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
+		# 	d["{0}".format(state)].save()
+		# try:
+		# 	d["{0}".format(city)] = CityMaster.objects.get(name = city)
+		# except:	
+		# 	print(city)
+		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
+		# 	d["{0}".format(city)].save()
+		# try:
+		# 	d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
+		# except:
+		# 	print(gender)
+		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+		# 	d["{0}".format(gender)].save()
 		for relation in relations:
 			try:
 				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
@@ -410,17 +410,17 @@ def profile(request):
 
 		
 					
-		pvProfile = PvProfile.objects.get_or_create(
-			# userId = pvUser,
-			countryId = d["{0}".format(country)],
-			stateId = d["{0}".format(state)],
-			cityId = d["{0}".format(city)],
-			# profilePhoto = request.FILES['profilePic'],
-			address = form['address'],
-			dob = form['DOB'],
-			gender = d["{0}".format(gender)],
-			lastModifiedDateTime = timezone.now(),
-			)
+		# pvProfile = PvProfile.objects.get_or_create(
+		# 	# userId = pvUser,
+		# 	countryId = d["{0}".format(country)],
+		# 	stateId = d["{0}".format(state)],
+		# 	cityId = d["{0}".format(city)],
+		# 	# profilePhoto = request.FILES['profilePic'],
+		# 	address = form['address'],
+		# 	dob = form['DOB'],
+		# 	gender = d["{0}".format(gender)],
+		# 	lastModifiedDateTime = timezone.now(),
+		# 	)
 		
 		# for relative in relative_names:
 		# 	pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
@@ -441,11 +441,11 @@ def profile(request):
 		# 	drugQuitDate = form['whenDrugLeft'],
 		# 	drugDetails = form['drugDetails'])
 
-		# for medhistory in medical_history:
-		# 	pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
-		# 		# patientId = pvUser,
-		# 		mediacalHistoryId = d["{0}".format(medical_history)],
-		# 		lastModifiedDateTime = timezone.now())
+		for medhistory in medical_history:
+			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
+				# patientId = pvUser,
+				mediacalHistoryId = d["{0}".format(medhistory)],
+				lastModifiedDateTime = timezone.now())
 
 		# for surhistory in surgical_history:
 		# 	pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
