@@ -401,9 +401,11 @@
                             {% endfor %}
                           {% endif %}
                           </div>
-                        
+                          <button type="submit" id="form1Submit">Submit</button>
+                        </form>
 
                         <h2 class="StepTitle">Family History</h2>
+                        <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">{% csrf_token %}
                         <button type="button" id="addFamily" class="btn btn-info">Add Information for one more Family Member</button>
                         <div class="x_panel">
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -439,12 +441,12 @@
                   </div>
                 </div>
                 </div>
-                <button type="submit" >Submit</button>
+                <!-- <button type="submit" id="form2Submmit">Submit</button> -->
                   </form>
                       </div>
                       <div id="step-2">
                         <h2 class="StepTitle">Social History</h2>
-                        <form class="form-horizontal form-label-left" id="form2" method="POST" action="/completeprofile/">{% csrf_token %}
+                        <!-- <form class="form-horizontal form-label-left" id="form2" method="POST" action="/completeprofile/">{% csrf_token %} -->
                         <div class="x_panel">
                   
                   <div class="x_content">
@@ -513,8 +515,11 @@
                       </table>
                       </div>
                   </div>
-
+                  <!-- <button type="submit" id="form3Submit"></button>
+                  </form>
+ -->
                   <h2 class="StepTitle">Medical History</h2>
+                  <!-- <form class="form-horizontal form-label-left" id="form2" method="POST" action="/completeprofile/">{% csrf_token %} -->
                         <div class="x_panel">
                   
                   <div class="x_content">
@@ -562,17 +567,21 @@
                       </tbody>
                     
                       </table>
-                      </div>
+                      <!-- </div>
                   
-                      </div>  
-                      </form>
+                      </div> -->  
+                      <!-- </div>
+                      </div> -->
+                      
+                      <!-- <button type="submit" id="form4Submit"></button>
+                      </form> -->
                       </div>
-                 <!--  </div> -->
-                      <!-- </div> -->
+                  </div>
+                      </div> 
 
                   <div id="step-3">
                   <h2 class="StepTitle">Surgical History</h2>
-                  <form id="form3" class="form-horizontal form-label-left" method="POST" action="/completeprofile/">{% csrf_token %}
+                  <!-- <form id="form3" class="form-horizontal form-label-left" method="POST" action="/completeprofile/">{% csrf_token %} -->
                   <div class="x_panel">
                   
                   <div class="x_content">
@@ -625,7 +634,9 @@
                   </div>
 
                   </div>
-                     <h2>Family History     </h2>
+                 <!--  <button type="submit" id="form5Submit"></button>
+                  </form> -->
+                  <h2>Family History     </h2>
                   <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -708,49 +719,41 @@
                         </tbody>
                       </table>
                     </div>
-                  </div>
+                   </div>
                 </div>
+              </div> 
+              <!-- </form> -->
+              <!-- <button type="button" id="karlo" >karlo<button> -->
+             <!--  </div> -->
+               </div>
+              <!-- </div>
               </div>
-              </form>
-              <button type="button" id="karlo" >karlo<button>
-              </div>
+              </div> -->
+              
+              <!--</div>
+              </div> -->
                 
-                      <!-- <div id="step-4">
-                        <h2 class="StepTitle">Step 4 Content</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
                       
-                        </div> -->
-                    </div>
                     <!-- End SmartWizard Content -->
                     <!-- End SmartWizard Content -->
-                  </div>
+                  <!-- </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
+        <!-- <footer>
           <div class="pull-right">
             Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
           <div class="clearfix"></div>
-        </footer>
+        </footer> -->
         <!-- /footer content -->
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
 
     <!-- jQuery -->
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>

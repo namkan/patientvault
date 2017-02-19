@@ -61,7 +61,11 @@
 </body>
 
 <script type="text/javascript">
-
+$('#VHN').keyup(function(){
+  if(e.keyCode == 13){
+    $('#continue').click();
+  }
+})
 
 
 html = '<button type="button" id="resend" class="btn btn-success">Resend OTP</button>';
