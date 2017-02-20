@@ -122,13 +122,13 @@ class PvMedicalHistory(models.Model):
 	#lastModifiedBy = models.ForeignKey(PvUser)
 	lastModifiedDateTime = models.DateTimeField()
 
-# class PvSurgicalHistory(models.Model):
-# 	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
-# 	surgicalhistoryId = models.ForeignKey(SurgicalhistoryMaster,on_delete=models.CASCADE, null = True, blank = True)	
-# 	sharedYesNo = models.BooleanField(default=True)
-# 	activeYesNo = models.BooleanField(default=False)
-# 	#lastModifiedBy = models.ForeignKey(PvUser)
-# 	lastModifiedDateTime = models.DateTimeField()
+class PvSurgicalHistory(models.Model):
+	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	surgicalhistoryId = models.ForeignKey(SurgicalhistoryMaster,on_delete=models.CASCADE, null = True, blank = True)	
+	sharedYesNo = models.BooleanField(default=True)
+	activeYesNo = models.BooleanField(default=False)
+	#lastModifiedBy = models.ForeignKey(PvUser)
+	lastModifiedDateTime = models.DateTimeField()
 
 class PvFamilyHisotry(models.Model):
 	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)	
