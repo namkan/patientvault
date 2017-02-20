@@ -15,22 +15,22 @@ class RelationshipMaster(models.Model):
 	activeYesNo = models.BooleanField(default=True)
 	lastModifiedDateTime = models.CharField(max_length=50)
 
-# class CountryMaster(models.Model):
-# 	name = models.CharField(max_length=50)
-# 	activeYesNo = models.BooleanField(default=False)
-# 	lastModifiedDateTime = models.CharField(max_length=50)
+class CountryMaster(models.Model):
+	name = models.CharField(max_length=50)
+	activeYesNo = models.BooleanField(default=False)
+	lastModifiedDateTime = models.CharField(max_length=50)
 
-# class StateMaster(models.Model):
-# 	name = models.CharField(max_length=30)
-# 	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
-# 	activeYesNo = models.BooleanField(default=False)
-# 	lastModifiedDateTime = models.CharField(max_length=50)
+class StateMaster(models.Model):
+	name = models.CharField(max_length=30)
+	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
+	activeYesNo = models.BooleanField(default=False)
+	lastModifiedDateTime = models.CharField(max_length=50)
 
-# class CityMaster(models.Model):
-# 	name = models.CharField(max_length=30)
-# 	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
-# 	activeYesNo = models.BooleanField(default=False)
-# 	lastModifiedDateTime = models.CharField(max_length=50)
+class CityMaster(models.Model):
+	name = models.CharField(max_length=30)
+	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
+	activeYesNo = models.BooleanField(default=False)
+	lastModifiedDateTime = models.CharField(max_length=50)
 
 class MedicalhistoryMaster(models.Model):
 	name = models.CharField(max_length=30)
