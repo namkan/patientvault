@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'vyala.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -88,7 +88,18 @@ DATABASES = {
     }
      
 }
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME':'hospi',
+        'USER':'postgres',
+        'PASSWORD' :'caportal1',
+        'HOST':'localhost',
+        'PORT':'',
+    }
+}
 # FILE_UPLOAD_HANDLERS = (
 #     "testapp.dropbox_upload_handler.DropboxFileUploadHandler",
 # )

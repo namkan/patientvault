@@ -864,8 +864,11 @@ $(document).on("click","#delete",function(event){
 }
 $("#form2Submit").on("click",function(e){
   e.preventDefault();
+  relativeName = []
+  $.each($("input[name='relative-vhnNumber']"),function(i,valuea){ relativeName.push(valuea.value);
+});
 	var data = {
-		"relative-name": $("input[name=relative-name]").get(),
+		"relative-name": relativeName,
 		"relation": $("input[name=relation]").get(),
 		"relative-vhnNumber":$("input[name=relative-vhnNumber]").get(),
 		"form2Submit":1,
