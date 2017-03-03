@@ -863,11 +863,14 @@ $(document).on("click","#delete",function(event){
 	})
 }
 $("#form2Submit").on("click",function(e){
-  e.preventDefault();
+  e.preventDefault();                                                                               
+  var rname = [];
+  var r = [];
+  var rnumber = [];
 	var data = {
-		"relative-name": $("input[name=relative-name]").get(),
-		"relation": $("input[name=relation]").get(),
-		"relative-vhnNumber":$("input[name=relative-vhnNumber]").get(),
+		"relative-name": $.each($("input[name=relative-name]"),function(i,valuea){ rname.push(valuea.rname);}),
+		"relation": $.each($("input[name=relation]"),function(i,valuea){ r.push(valuea.r);}),
+		"relative-vhnNumber":$.each($("input[name=relative-vhnNumber]"),function(i,valuea){ rnumber.push(valuea.rnumber); }),
 		"form2Submit":1,
 	};
 	console.log(data);
