@@ -441,9 +441,10 @@
                   </div>
                 </div>
                 </div>
-                <button type="button" id="form2Submit">Submit</button>
+                 <div id="statusReport"></div>
+                <button type="button" id="form2Submit" value="">Submit</button>
                   </form>
-                  <div id="statusReport"></div>
+                 
                       </div>
                       <div id="step-2">
                         <h2 class="StepTitle">Social History</h2>
@@ -863,14 +864,21 @@ $(document).on("click","#delete",function(event){
 	})
 }
 $("#form2Submit").on("click",function(e){
-  e.preventDefault();                                                                               
-  var rname = [];
-  var r = [];
-  var rnumber = [];
+  e.preventDefault();
+  relativeName = []
+  $.each($("input[name='relative-vhnNumber']"),function(i,valuea){ relativeName.push(valuea.value);
+});
+  relation = []
+  $.each($("input[name='relation']"),function(i,valuea){ relation.push(valuea.value);
+});
+  relativeVhnNumber = []
+  $.each($("input[name='relative-vhnNumber']"),function(i,valuea){ relativeVhnNumber.push(valuea.value);
+});
 	var data = {
-		"relative-name": $.each($("input[name=relative-name]"),function(i,valuea){ rname.push(valuea.rname);}),
-		"relation": $.each($("input[name=relation]"),function(i,valuea){ r.push(valuea.r);}),
-		"relative-vhnNumber":$.each($("input[name=relative-vhnNumber]"),function(i,valuea){ rnumber.push(valuea.rnumber); }),
+    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
+		"relative-name": relativeName,
+		"relation": relation,
+		"relative-vhnNumber":relativeVhnNumber,
 		"form2Submit":1,
 	};
 	console.log(data);
@@ -884,8 +892,11 @@ $("#form2Submit").on("click",function(e){
 		{
 			$("#statusReport").html("VHN number " + response['vhn'] + " doesn't match with name " + response['name']);
 		}
+    else
+    {
+      $("#form2").submit();
+    }
 	});
-  $("#form2").submit();
 });
 	
 	function theAjax(uri,data){

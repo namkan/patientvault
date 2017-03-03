@@ -458,10 +458,11 @@ def profile(request):
 	else:
 		return render(request,'profile.html')
 	
-
+@csrf_exempt
 def checkRelation(request):
+	i=0
+	response = {}
 	if request.method == 'POST':
-		i=0; response = {}
 		details = request.POST
 		relative_names = details.getlist('relative-name')
 		print(relative_names)
@@ -482,10 +483,12 @@ def checkRelation(request):
 					return JsonResponse(response)
 			except:
 				response['status'] = 0
-				response['name'] = respective_name
+				response['name'] = relative_names[i]
 				response['vhn']	 = vhn
 				i += 1
 				return JsonResponse(response)
+	else:
+		return HttpResponse('karlo')			
 
 
 def logout_view(request):
