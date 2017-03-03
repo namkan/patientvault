@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^completeprofile/',profile,name='complete your profile'),
     url(r'^relTest/',relation,name='rel'),
     url(r'^ActivateAccount/',ActivateAccount,name='for activation of account'),
-    # url(r'^saveRelation/',relationship,name='rel'),
+    url(r'^checkrelation/',checkRelation,name='check'),
     # url(r'^deleteMember/',deleteFamilyMember,name='rel'),
     url(r'^logout/',logout_view,name='logout the user'),
     ]

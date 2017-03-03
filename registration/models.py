@@ -90,8 +90,8 @@ class PvProfile(models.Model):
 	lastModifiedDateTime = models.DateTimeField(null = True, blank = True)
 	class meta:
 		db_table='PvProfile'
-	def __str__(self):
-		return '%s %s %s' % (self.user.userId.user.username,self.userId.user.first_name,self.userId.email)
+	# def __str__(self):
+	# 	return '%s %s %s' % (self.userId.user.username,self.userId.user.first_name,self.userId.email)
 
 class PvFamilyRelationship(models.Model):
 	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)

@@ -405,7 +405,6 @@
                         </form>
 
                         <h2 class="StepTitle">Family History</h2>
-                        <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">{% csrf_token %}
                         <button type="button" id="addFamily" class="btn btn-info">Add Information for one more Family Member</button>
                         <div class="x_panel">
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -442,8 +441,9 @@
                   </div>
                 </div>
                 </div>
-                <!-- <button type="submit" id="form2Submmit">Submit</button> -->
+                <button type="button" id="form2Submit">Submit</button>
                   </form>
+                  <div id="statusReport"></div>
                       </div>
                       <div id="step-2">
                         <h2 class="StepTitle">Social History</h2>
@@ -546,7 +546,7 @@
                         </tr>
                          </tbody>
                     </table>
-                    
+                    </form>
                     
                     </div>
                         <div class="form-group">
@@ -572,7 +572,7 @@
                       </table>
                      
                       
-                      <button type="submit" id="form4Submit">Submit</button>
+                      <!-- <button type="submit" id="form4Submit">Submit</button> -->
                       </form>
                       </div>
                   </div>
@@ -580,10 +580,11 @@
 
                   <div id="step-3">
                   <h2 class="StepTitle">Surgical History</h2>
-                  <!-- <form id="form3" class="form-horizontal form-label-left" method="POST" action="/completeprofile/">{% csrf_token %} -->
+                  
                   <div class="x_panel">
                   
                   <div class="x_content">
+                  <form id="form4" method="POST" action="/completeprofile/">{% csrf_token %}
                     <table class="table">
                       <tbody>
                         <tr>
@@ -627,7 +628,7 @@
                       </tbody>
                     
                       </table>
-                      
+                      </form>
                      <!--  </div> -->
                   <!-- </div> -->
                   </div>
@@ -649,6 +650,7 @@
                    
 
                     <div class="table-responsive">
+                    <form id="form6" method="POST" action="/completeprofile/">{% csrf_token %}
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
@@ -717,6 +719,7 @@
                           
                         </tbody>
                       </table>
+                      </form>
                     </div>
                    </div>
                 </div>
@@ -785,11 +788,11 @@
         $('.buttonPrevious').addClass('btn btn-primary');
         $('.buttonFinish').addClass('btn btn-default');
       });
-$('#karlo').on("click",function(){
-  $("#form1").submit();
-  $("#form2").submit();
-  $("#form3").submit();
-});
+// $('#karlo').on("click",function(){
+//   $("#form1").submit();
+//   $("#form2").submit();
+//   $("#form3").submit();
+// });
     </script>
     <script type="text/javascript">
       htmlOdd = '<tr class="even pointer"><td class="a-center "><div class="icheckbox_flat-green checked" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-name" name="relative-name" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relation" name="relation" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relativevhnNumber" name="relative-vhnNumber" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';
@@ -859,27 +862,27 @@ $(document).on("click","#delete",function(event){
 	    data: data
 	})
 }
-$("#save").on("click",function(){
+$("#form2Submit").on("click",function(e){
+  e.preventDefault();
 	var data = {
-		"relative-name": $("input[name=relative-name]").val(),
-		"relation": $("input[name=realtion]").val(),
-		"relative-vhnNumber":$("input[name=relative-vhnNumber]").val(),
-		"save":1,
+		"relative-name": $("input[name=relative-name]").get(),
+		"relation": $("input[name=relation]").get(),
+		"relative-vhnNumber":$("input[name=relative-vhnNumber]").get(),
+		"form2Submit":1,
 	};
 	console.log(data);
-	theAjax("/saveRelation/",data)
+	theAjax("/checkrelation/",data)
 	.done(function(response){
-		if(response['status'] == 2)
+		if(response['status'] == 0)
 		{
-			$("#statusReport").html("Invalid VHN Number");
-	    }
+			$("#statusReport").html("VHN number " + response['vhn'] + " is not valid.");
+	  }
 		else if(response['status'] == 1)
 		{
-			$("#statusReport").html("Saved");
-			$("#save").html("Delete");
-			$(".action").attr("id","delete-member")
+			$("#statusReport").html("VHN number " + response['vhn'] + " doesn't match with name " + response['name']);
 		}
 	});
+  $("#form2").submit();
 });
 	
 	function theAjax(uri,data){
