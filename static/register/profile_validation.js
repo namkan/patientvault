@@ -1,5 +1,5 @@
 $(function(){
-	$('#profile_validation').validate({
+	$('#form1').validate({
 		rules:{
 			country:{
 				required: true,
@@ -14,7 +14,7 @@ $(function(){
 		messages:{
 			country:"Please enter country name",
 			state:"Please enter state name",
-			city:"vPlease enter city name",
+			city:"Please enter city name",
 		},
 	});
 });

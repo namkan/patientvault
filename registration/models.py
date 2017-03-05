@@ -9,43 +9,59 @@ class GenderMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=True)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class RelationshipMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=True)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class CountryMaster(models.Model):
 	name = models.CharField(max_length=50)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class StateMaster(models.Model):
 	name = models.CharField(max_length=30)
 	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class CityMaster(models.Model):
 	name = models.CharField(max_length=30)
 	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class MedicalhistoryMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class SurgicalhistoryMaster(models.Model):
 	name = models.CharField(max_length=100)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=100)
+	def __str__(self):
+		return '%s' % (self.name)
 
 class FamilyhistoryMaster(models.Model):	
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=False)
 	lastModifiedDateTime = models.CharField(max_length=50)
+	def __str__(self):
+		return '%s' % (self.name)
 
 #Model to save user's account details	
 class PvUser(models.Model):
@@ -123,7 +139,7 @@ class PvMedicalHistory(models.Model):
 	lastModifiedDateTime = models.DateTimeField()
 
 class PvSurgicalHistory(models.Model):
-	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)
 	surgicalhistoryId = models.ForeignKey(SurgicalhistoryMaster,on_delete=models.CASCADE, null = True, blank = True)	
 	sharedYesNo = models.BooleanField(default=True)
 	activeYesNo = models.BooleanField(default=False)
@@ -131,7 +147,7 @@ class PvSurgicalHistory(models.Model):
 	lastModifiedDateTime = models.DateTimeField()
 
 class PvFamilyHisotry(models.Model):
-	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)	
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)	
 	familyhistoryId = models.ForeignKey(FamilyhistoryMaster,on_delete=models.CASCADE)
 	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE)
 	sharedYesNo = models.BooleanField(default=True)

@@ -335,128 +335,259 @@ def changePass(request):
 def profile(request):
 	response = {}
 	username = None
-	i = 0
 	d={}
 	if request.method == 'POST':
 		relative_names = None
 		relations = None
 		relative_vhnNumbers = None
 		medical_history = None
+		family_history = []
 		# username = request.user.username
 		# user = User.objects.get(username = username)
 		# pvUser = user.pvuser
 		form = request.POST
 		print(form)
 
-		# country = form['country']
-		# state = form['state']
-		# city = form['city']
-		# gender = form['gender']
+		country = form['country']
+		state = form['state']
+		city = form['city']
+		gender = form['gender']
 		relative_names = form.getlist('relative-name')
 		print(relative_names) 
 		relations = form.getlist('relation')
 		print(relations)
 		relative_vhnNumbers = form.getlist('relative-vhnNumber')
 		print(relative_vhnNumbers)
-		# medical_history = form.getlist('medicalHistory')
-		# print(medical_history)
-		# surgical_history = form.getlist('surgicalHistory')
-		# print(surgical_history)
-		# try:
-		# 	d["{0}".format(country)] = CountryMaster.objects.get(name = country)
-		# except:	
-		# 	print(country)
-		# 	d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-		# 	d["{0}".format(country)].save()
-		# try:
-		# 	d["{0}".format(state)] = StateMaster.objects.get(name = state)
-		# except:	
-		# 	print(state)
-		# 	d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
-		# 	d["{0}".format(state)].save()
-		# try:
-		# 	d["{0}".format(city)] = CityMaster.objects.get(name = city)
-		# except:	
-		# 	print(city)
-		# 	d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
-		# 	d["{0}".format(city)].save()
-		# try:
-		# 	d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
-		# except:
-		# 	print(gender)
-		# 	d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
-		# 	d["{0}".format(gender)].save()
+		medical_history = form.getlist('medicalHistory')
+		print(medical_history)
+		surgical_history = form.getlist('surgicalHistory')
+		print(surgical_history)
+		familyhistory_objects = FamilyhistoryMaster.objects.all()
+		for var in familyhistory_objects:
+			family_history.append(var.name)
+		family_history = family_history + form.getlist('disease')
+		relationship = form.getlist(relationship)	
+		try:
+			d["{0}".format(country)] = CountryMaster.objects.get(name = country)
+		except:	
+			print(country)
+			d["{0}".format(country)] = CountryMaster(name = form['country'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+			d["{0}".format(country)].save()
+		try:
+			d["{0}".format(state)] = StateMaster.objects.get(name = state)
+		except:	
+			print(state)
+			d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
+			d["{0}".format(state)].save()
+		try:
+			d["{0}".format(city)] = CityMaster.objects.get(name = city)
+		except:	
+			print(city)
+			d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
+			d["{0}".format(city)].save()
+		try:
+			d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
+		except:
+			print(gender)
+			d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
+			d["{0}".format(gender)].save()
 		for relation in relations:
+			print(1)
 			try:
 				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
 			except:
 				print(relation)	
 				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
 				d["{0}".format(relation)].save()
-		# for medhistory in medical_history:
-		# 	try:
-		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
-		# 	except:
-		# 		print(medhistory)	
-		# 		d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
-		# 		d["{0}".format(medhistory)].save()
-		# for surhistory in surgical_history:
-		# 	try:
-		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
-		# 	except:
-		# 		print(surhistory)	
-		# 		d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
-		# 		d["{0}".format(surhistory)].save()
+		for medhistory in medical_history:
+			try:
+				d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
+			except:
+				print(medhistory)	
+				d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
+				d["{0}".format(medhistory)].save()
+		for surhistory in surgical_history:
+			try:
+				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
+			except:
+				print(surhistory)	
+				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+				d["{0}".format(surhistory)].save()
 
+		for famhistory in family_history:
+			famhistory = famhistory.replace(" ","_")
+			try:
+				d["{0}".format(famhistory)] = FamilyhistoryMaster.objects.get(name = famhistory)
+			except:
+				print(surhistory)	
+				d["{0}".format(famhistory)] = FamilyhistoryMaster(name = famhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+				d["{0}".format(famhistory)].save()
 		
 					
-		# pvProfile = PvProfile.objects.get_or_create(
-		# 	# userId = pvUser,
-		# 	countryId = d["{0}".format(country)],
-		# 	stateId = d["{0}".format(state)],
-		# 	cityId = d["{0}".format(city)],
-		# 	# profilePhoto = request.FILES['profilePic'],
-		# 	address = form['address'],
-		# 	dob = form['DOB'],
-		# 	gender = d["{0}".format(gender)],
-		# 	lastModifiedDateTime = timezone.now(),
-		# 	)
+		pvProfile = PvProfile.objects.get_or_create(
+			# userId = pvUser,
+			countryId = d["{0}".format(country)],
+			stateId = d["{0}".format(state)],
+			cityId = d["{0}".format(city)],
+			# profilePhoto = request.FILES['profilePic'],
+			address = form['address'],
+			dob = form['DOB'],
+			gender = d["{0}".format(gender)],
+			lastModifiedDateTime = timezone.now(),
+			)
 		
+		i=0
 		for relative in relative_names:
+			user = User.objects.get(username = relative_vhnNumbers[i])
+			pvUser = user.pvuser
 			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
 				# patientId = pvUser,
 				relativeName = relative,
 				relationshipId = d["{0}".format(relations[i])],
-				relative = User.objects.get(relative_vhnNumbers[i]).pvuser,
+				relative = pvUser,
 				lastModifiedDateTime = timezone.now())
-		
-		# pvSocialHistory = PvSocialHistory.objects.get_or_create(
-		# 	# patientId = pvUser,
-		# 	alcoholUsage = form['acheck'],
-		# 	drinksPerWeek = form['drinks/week'],
-		# 	tobacoUsage = form['tcheck'],
-		# 	tobacoQuitDate = form['whenTobacoLeft'],
-		# 	drugUsage = form['dcheck'],
-		# 	drugQuitDate = form['whenDrugLeft'],
-		# 	drugDetails = form['drugDetails'])
+			i+=1
 
-		# for medhistory in medical_history:
-		# 	pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
-		# 		# patientId = pvUser,
-		# 		mediacalHistoryId = d["{0}".format(medhistory)],
-		# 		lastModifiedDateTime = timezone.now())
+		pvSocialHistory = PvSocialHistory.objects.get_or_create(
+			# patientId = pvUser,
+			alcoholUsage = form['acheck'],
+			drinksPerWeek = form['drinks/week'],
+			tobacoUsage = form['tcheck'],
+			tobacoQuitDate = form['whenTobacoLeft'],
+			drugUsage = form['dcheck'],
+			drugQuitDate = form['whenDrugLeft'],
+			drugDetails = form['drugDetails'])
 
-		# for surhistory in surgical_history:
-		# 	pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
-		# 		# patientId = pvUser,
-		# 		surgicalhistoryId = d["{0}".format(surhistory)],
-		# 		lastModifiedDateTime = timezone.now())
+		for medhistory in medical_history:
+			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
+				# patientId = pvUser,
+				mediacalHistoryId = d["{0}".format(medhistory)],
+				lastModifiedDateTime = timezone.now())
+
+		for surhistory in surgical_history:
+			pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
+				# patientId = pvUser,
+				surgicalhistoryId = d["{0}".format(surhistory)],
+				lastModifiedDateTime = timezone.now())
+		i=0
+		for famhistory in family_history:
+			pvMedicalHistory = PvFamilyHistory.objects.get_or_create(
+				# patientId = pvUser,
+				familyhistoryId = d["{0}".format(famhistory)],
+				relationshipId = relationship[i],
+				lastModifiedDateTime = timezone.now())	
+			i += 1
 
 		messages.success(request,'saved')
 		return render(request,'profile.html')
 		
 	else:
 		return render(request,'profile.html')
+
+# def relationship(request):
+# 	response = {}
+# 	if request.method == 'POST':
+# 		# pvUser = request.user.pvuser
+# 		# form = request.POST
+# 		i=0
+# 		d={}
+# 		relative_names = None
+# 		relations = None
+# 		relative_vhnNumbers = None
+# 		relative_names = form.getlist('relative-name')
+# 		print(relative_names) 
+# 		relations = form.getlist('relation')
+# 		print(relations)
+# 		relative_vhnNumbers = form.getlist('relative-vhnNumber')
+# 		print(relative_vhnNumbers)
+# 		for relation in relations:
+# 			print(1)
+# 			try:
+# 				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
+# 			except:
+# 				print(relation)	
+# 				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
+# 				d["{0}".format(relation)].save()
+# 		for relative in relative_names:
+# 			user = User.objects.get(username = relative_vhnNumbers[i])
+# 			pvUser = user.pvuser
+# 			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
+# 				# patientId = pvUser,
+# 				relativeName = relative,
+# 				relationshipId = d["{0}".format(relations[i])],
+# 				relative = pvUser,
+# 				lastModifiedDateTime = timezone.now())
+# 	else:
+# 		return HttpResponse('error 403')
+
+# def medicalHistory(request):
+# 	# username = request.user.username
+# 	if request.method == 'POST':
+# 		medical_history = None
+# 		d={}
+# 		# user = User.objects.get(username = username)
+# 		# pvUser = user.pvuser
+# 		form = request.POST
+# 		medical_history = form.getlist('medicalHistory')
+# 		print(medical_history)
+# 		for medhistory in medical_history:
+# 			try:
+# 				d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
+# 			except:
+# 				print(medhistory)	
+# 				d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
+# 				d["{0}".format(medhistory)].save()
+# 		for medhistory in medical_history:
+# 			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
+# 				# patientId = pvUser,
+# 				mediacalHistoryId = d["{0}".format(medhistory)],
+# 				lastModifiedDateTime = timezone.now())					
+
+# 	else:
+# 		return HttpResponse('403 bad request')	
+
+# def surgicalHistory(request):
+# 	# username = None
+# 	# username = request.user.username
+# 	if request.method == 'POST':
+# 		# user = User.objects.get(username = username)
+# 		# pvUser = user.pvuser
+# 		form = request.POST
+# 		for surhistory in surgical_history:
+# 			try:
+# 				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
+# 			except:
+# 				print(surhistory)	
+# 				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
+# 				d["{0}".format(surhistory)].save()
+# 		for surhistory in surgical_history:
+# 			pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
+# 				# patientId = pvUser,
+# 				surgicalhistoryId = d["{0}".format(surhistory)],
+# 				lastModifiedDateTime = timezone.now())				
+
+# 	else:
+# 		return HttpResponse('403 bad request')
+
+# def socialHistory(request):
+# 	# username = None
+# 	# username = request.user.username
+# 	if request.method == 'POST':
+# 		# user = User.objects.get(username = username)
+# 		# pvUser = user.pvuser
+# 		form = request.POST
+# 		pvSocialHistory = PvSocialHistory.objects.get_or_create(
+# 		# patientId = pvUser,
+# 		alcoholUsage = form['acheck'],
+# 		drinksPerWeek = form['drinks/week'],
+# 		tobacoUsage = form['tcheck'],
+# 		tobacoQuitDate = form['whenTobacoLeft'],
+# 		drugUsage = form['dcheck'],
+# 		drugQuitDate = form['whenDrugLeft'],
+# 		drugDetails = form['drugDetails'])					
+
+# 	else:
+# 		return HttpResponse('403 bad request')											
 	
 @csrf_exempt
 def checkRelation(request):
@@ -464,32 +595,38 @@ def checkRelation(request):
 	response = {}
 	if request.method == 'POST':
 		details = request.POST
-		relative_names = details.getlist('relative-name')
+		print(details)
+		relative_names = details.getlist('relative-name[]')
 		print(relative_names)
-		vhn_numbers = details.getlist('relative-vhnNumber')
+		vhn_numbers = details.getlist('relative-vhnNumber[]')
 		print(vhn_numbers)
 		for vhn in vhn_numbers:
 			try:
+				print(1)
 				user = User.objects.get(username = vhn)
-				respective_name = user.first_name + user.last_name
+				respective_name = user.first_name +' '+ user.last_name
+				print(respective_name)
+				print(relative_names[i])
 				if respective_name == relative_names[i]:
+					print(3)
 					i += 1
-					continue
 				else:
 					response['status'] = 1
-					response['name'] = respective_name
+					response['name'] = relative_names[i]
 					response['vhn']	= vhn
 					i += 1
 					return JsonResponse(response)
 			except:
+				print(0)
 				response['status'] = 0
 				response['name'] = relative_names[i]
 				response['vhn']	 = vhn
 				i += 1
 				return JsonResponse(response)
+		response['status'] = 2
+		return JsonResponse(response)		
 	else:
-		return HttpResponse('karlo')			
-
+		return HttpResponse('error 404')			
 
 def logout_view(request):
 	logout(request)
