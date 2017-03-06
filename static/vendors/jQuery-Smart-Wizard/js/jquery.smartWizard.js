@@ -23,7 +23,7 @@ function SmartWizard(target, options) {
     this.buttons = {
         next : $('<a>'+options.labelNext+'</a>').attr("href","#").addClass("buttonNext"),
         previous : $('<a>'+options.labelPrevious+'</a>').attr("href","#").addClass("buttonPrevious"),
-        finish  : $('<a>'+options.labelFinish+'</a>').attr("type","button").addClass("buttonFinish")
+        finish  : $('<button>'+options.labelFinish+'</button>').attr("type","submit").addClass("buttonFinish")
     };
 
     /*
@@ -96,15 +96,15 @@ function SmartWizard(target, options) {
         });
 
         // Enable keyboard navigation
-        if($this.options.keyNavigation){
-            $(document).keyup(function(e){
-                if(e.which==39){ // Right Arrow
-                    $this.goForward();
-                }else if(e.which==37){ // Left Arrow
-                    $this.goBackward();
-                }
-            });
-        }
+        // if($this.options.keyNavigation){
+        //     $(document).keyup(function(e){
+        //         if(e.which==39){ // Right Arrow
+        //             $this.goForward();
+        //         }else if(e.which==37){ // Left Arrow
+        //             $this.goBackward();
+        //         }
+        //     });
+        // }
         //  Prepare the steps
         _prepareSteps($this);
         // Show the first slected step

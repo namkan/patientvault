@@ -470,10 +470,16 @@ def profile(request):
 				surgicalhistoryId = d["{0}".format(surhistory)],
 				lastModifiedDateTime = timezone.now())
 		i=0
+		x=None
 		for famhistory in family_history:
+			if i==1:
+				x = form['table_records_hbp']
+			if i==2:
+				x = form['table_records_aut']
 			pvMedicalHistory = PvFamilyHistory.objects.get_or_create(
 				# patientId = pvUser,
 				familyhistoryId = d["{0}".format(famhistory)],
+				relationshipStatus = form['table_records_hbp'],	
 				relationshipId = relationship[i],
 				lastModifiedDateTime = timezone.now())	
 			i += 1

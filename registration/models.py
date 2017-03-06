@@ -149,6 +149,7 @@ class PvSurgicalHistory(models.Model):
 class PvFamilyHisotry(models.Model):
 	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)	
 	familyhistoryId = models.ForeignKey(FamilyhistoryMaster,on_delete=models.CASCADE)
+	familyhistoryStatus = models.BooleanField(default = True)
 	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE)
 	sharedYesNo = models.BooleanField(default=True)
 	activeYesNo = models.BooleanField()

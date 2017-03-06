@@ -343,7 +343,6 @@
                       <div id="step-1">
                       <h2 class="StepTitle">Personal Details</h2><br>
                         <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">{% csrf_token %}
-
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"> Country <span class="required" required>*</span>
                             </label>
@@ -788,7 +787,7 @@
     <script type="text/javascript">
       htmlOdd = '<tr class="even pointer"><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-name" name="relative-name" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relation" name="relation" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relativevhnNumber" name="relative-vhnNumber" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';
 
-      htmlEven = '<tr class="odd pointer"><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="disease" name="disease" required="required" class="form-control col-md-7 col-xs-12"></div></td><td><input type="radio" name="table_records_aut" value="1"></td><td><input type="radio" name="table_records_aut" value="0"></td><td><input type="radio" name="table_records_aut" value="2"></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relationship" name="relationship" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';
+      htmlEven = '<tr class="odd pointer"><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="disease" name="disease" placeholder="enter Disease" required="required" class="form-control col-md-7 col-xs-12"></div></td><td></td><td></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relationship" name="relationship" required="required" placeholder="enter Relationhip" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';
      
       htmlE='<tr class="even pointer"><td class=" "><input id="oth" class="form-control col-md-7 col-xs-12" type="text" name="others" name="medicalHistory" placeholder="If other Mention here" size="15"></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';
 
@@ -888,7 +887,31 @@ $(document).on("click","#delete",function(event){
 	})
 }
 $(document).ready(function() {
-$(".buttonFinish").on("click",function(e){
+  state = 0
+  $(".buttonNext").on("click",function(e) { 
+    state += 1 
+    id = "#step-"+String(state)
+    alert(id)
+    if (state == 1){radioNumber = 1}
+    if (state == 2){radioNumber = 3}
+    if(!registerProfileValidate(id,radioNumber)){
+      alert("*All Fields are mandatory*");
+      $(".buttonPrevious").click();
+    }
+  }); 
+  $("#form1").on("submit",function(e) {
+    if(!registerProfileValidate("#step-3",2)) {
+      alert("*All Fields are mandatory*");
+      e.preventDefault();
+      return false;
+    }
+    else{
+      return true;} 
+  });
+  $(".buttonPrevious").on("click",function(){
+    state -= 1
+  });
+$(".buttonNext").on("click",function(e){
   e.preventDefault();
   relativeName = []
   $.each($("input[name='relative-name']"),function(i,valuea){ relativeName.push(valuea.value);
@@ -912,33 +935,25 @@ $(".buttonFinish").on("click",function(e){
 		if(response['status'] == 0)
 		{
 			$("#statusReport").html("VHN number " + response['vhn'] + " is not valid.");
+      $(".buttonPrevious").click();
 	  }
 		else if(response['status'] == 1)
 		{
 			$("#statusReport").html("VHN number " + response['vhn'] + " doesn't match with name " + response['name']);
+      $(".buttonPrevious").click();
 		}
     else
     { 
-      // alert('karlo')
-      // $("#form1Submit").click();
-      // $("#form2Submit").click();
-      // $("#form3Submit").click();
-      // $("#form4Submit").click();
-      // $("#form5Submit").click();
-      $("#form6Submit").click();
+      return true;
     }
 	});
 });
-});
-$("#form6Submit").on("click",function(e) {
-if ($('input').val() == "") {
-alert("*All Fields are mandatory*");
-return false;
-} else {
-return true;
-}
+$(".buttonFinish").on("click",function(){
+  $("#form1").submit();
+})
 });
 
+  
 // $("#delete-member").on("click",function(){
 // 	var data = {
 // 		"relative-name": $("input[name=relative-name]").val(),
@@ -1024,6 +1039,20 @@ $(function() {
     invalidate_input();
 });
 
+
+function registerProfileValidate(id,radioNumber)
+{
+  
+  if($(id).find('input[type="radio"]:checked').length < radioNumber)
+    return false;
+  var inputs = $(id).find("input[type='text']:enabled").filter(function() 
+  {
+    return this.value === "";
+  });     
+  if(inputs.length>0) 
+    return false;                                                            
+  return true; 
+}
 // $(document).ready(function(){
 //   $('input').iCheck({
 //      checkboxClass: 'icheckbox_flat-green',
