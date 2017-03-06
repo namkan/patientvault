@@ -340,9 +340,11 @@
                           </a>
                         </li> -->
                       </ul>
+                      <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">
                       <div id="step-1">
                       <h2 class="StepTitle">Personal Details</h2><br>
-                        <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">{% csrf_token %}
+
+                        {% csrf_token %}
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"> Country <span class="required" required>*</span>
                             </label>
@@ -680,7 +682,7 @@
                            </td>
                             <td>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="first-name" required="required" name="relationship" class="form-control col-md-7 col-xs-12">
                         </div>
                           </td>
                             
@@ -699,7 +701,7 @@
                            </td>
                             <td>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="first-name" required="required" name="relationship" class="form-control col-md-7 col-xs-12">
                         </div>
                           </td>
                             <td>
@@ -708,16 +710,19 @@
                           </tr>
                         </tbody>
                       </table>
-                      <button style="display:none;" type="submit" id="form6Submit"></button>
-                      </form>
+                      
                     </div>
+
                    </div>
+
                 </div>
+                
               </div> 
               <!-- </form> -->
               <!-- <button type="button" id="karlo" >karlo<button> -->
              <!--  </div> -->
                </div>
+               </form>
               <!-- </div>
               </div>
               </div> -->
@@ -887,11 +892,13 @@ $(document).on("click","#delete",function(event){
 	})
 }
 $(document).ready(function() {
+  $(".stepContainer").removeAttr("style");
   state = 0
   $(".buttonNext").on("click",function(e) { 
+    $(".stepContainer").removeAttr("style");
     state += 1 
     id = "#step-"+String(state)
-    alert(id)
+    // alert(id)
     if (state == 1){radioNumber = 1}
     if (state == 2){radioNumber = 3}
     if(!registerProfileValidate(id,radioNumber)){
@@ -909,6 +916,7 @@ $(document).ready(function() {
       return true;} 
   });
   $(".buttonPrevious").on("click",function(){
+    $(".stepContainer").removeAttr("style");
     state -= 1
   });
 $(".buttonNext").on("click",function(e){
@@ -996,7 +1004,7 @@ $(function() {
                if (value == 1)
                    e.stopImmediatePropagation();                    
             });
-          $('#drug_input').removeAttr('disabled');
+          //$('#drug_input').removeAttr('disabled');
         }
     };
 

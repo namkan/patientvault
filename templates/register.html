@@ -66,6 +66,11 @@ input[type=number]::-webkit-inner-spin-button {
                 <input name="cpassword" id="cpassword" type="password" class="form-control" placeholder="Confirm Password" required="" />
               </div>
               <div id="statusReport">
+              {% if messages %}
+                {% for msg in messages %}
+                  {{msg.message}}  
+                {% endfor %}
+              {% endif %}
               </div>
               <div>
                 <button type="submit" name="register" id="register" class="btn btn-default submit">Register</button>
