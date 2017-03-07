@@ -20,7 +20,6 @@
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
     <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
   </head>
-
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
@@ -343,7 +342,7 @@
                       <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">
                       <div id="step-1">
                       <h2 class="StepTitle">Personal Details</h2><br>
-
+                        <form>
                         {% csrf_token %}
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"> Country <span class="required" required>*</span>
@@ -392,8 +391,7 @@
                               <textarea id="address" class="form-control col-md-7 col-xs-12" type="text" name="address"></textarea>
                             </div>
                           </div>
-                          <div>
-                          </div>
+                          
                           <div id="statusReport">
                           {% if messages %}
                             {% for msg in messages %}
@@ -402,8 +400,8 @@
                             {% endfor %}
                           {% endif %}
                           </div>
-                          <!-- <button style="display:none;" type="submit" id="form1Submit">Submit</button>
-                        </form> -->
+                          <!-- <button style="display:none;" type="submit" id="form1Submit">Submit</button>-->
+                        </form>
 
                         <h2 class="StepTitle">Family History</h2>
                         <button type="button" id="addFamily" class="btn btn-info">Add Information for one more Family Member</button>
@@ -527,12 +525,12 @@
                             </label></td>
                           
                           <td>
-                          	<label class="">Asthma
+                            <label class="">Asthma
                               <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" name="medicalHistory" style="position: absolute; opacity: 0;" type="checkbox" value="Asthma"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
                             </label>
                           </td>
                           <td>
-                        	<label class=""> Dipression
+                          <label class=""> Dipression
                               <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" name="medicalHistory" style="position: absolute; opacity: 0;" type="checkbox" value="Dipression"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
                             </label>
                           </td>
@@ -570,11 +568,9 @@
                       </div>
                   </div>
                       </div> 
-
-                  <div id="step-3">
-                  <h2 class="StepTitle">Surgical History</h2>
-                  
-                  <div class="x_panel">
+                      <div id="step-3">
+                        <h2 class="StepTitle">Surgical History</h2>
+                         <div class="x_panel">
                   
                   <div class="x_content">
                   <!-- <form id="form4" method="POST" action="/completeprofile/">{% csrf_token %} -->
@@ -586,12 +582,12 @@
                             </label></td>
                           
                           <td>
-                          	<label class="">Catarast
+                            <label class="">Catarast
                               <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox" name="surgicalHistory" value="Catarast"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
                             </label>
                           </td>
                           <td>
-                        	<label class=""> Angioplasty
+                          <label class=""> Angioplasty
                               <div class="icheckbox_flat-green" style="position: relative;"><input class="flat" style="position: absolute; opacity: 0;" type="checkbox" name="surgicalHistory" value="Angioplasty"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> 
                             </label>
                           </td>
@@ -627,11 +623,11 @@
                   </div>
 
                   </div>
-                  <!-- <button style="display:none;" type="submit" id="form5Submit"></button>
-                  </form> -->
-                  <h2>Family History     </h2>
-                  <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
+             <!-- <button style="display:none;" type="submit" id="form5Submit"></button>
+             </form> -->
+                        <h2>Family History     </h2>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
                   <div class="x_title">
                    
                      <button type="button" id="addDisease" class="btn btn-info">Add Information for one more Family Member</button>
@@ -705,7 +701,7 @@
                         </div>
                           </td>
                             <td>
-                            
+              
                             </td>
                           </tr>
                         </tbody>
@@ -718,39 +714,20 @@
                 </div>
                 
               </div> 
-              <!-- </form> -->
-              <!-- <button type="button" id="karlo" >karlo<button> -->
-             <!--  </div> -->
-               </div>
-               </form>
-              <!-- </div>
-              </div>
-              </div> -->
-              
-              <!--</div>
-              </div> -->
-                
-                      
+                      </form>
+           </div> 
                     <!-- End SmartWizard Content -->
-                    <!-- End SmartWizard Content -->
-                  <!-- </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <!-- /page content -->
 
-        <!-- footer content -->
-        <!-- <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer> -->
-        <!-- /footer content -->
-      <!-- </div>
-    </div> -->
+        
+       </div>
+    </div> 
 
     <!-- jQuery -->
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
@@ -883,27 +860,31 @@ $(document).on("click","#delete",function(event){
 })
     
 
-	function theAjax(uri,data){
-	return $.ajax({
-	    type:"POST",
-	    dataType:"json",
-	    url: uri,
-	    data: data
-	})
+  function theAjax(uri,data){
+  return $.ajax({
+      type:"POST",
+      dataType:"json",
+      url: uri,
+      data: data
+  })
 }
 $(document).ready(function() {
   $(".stepContainer").removeAttr("style");
   state = 0
   $(".buttonNext").on("click",function(e) { 
-    $(".stepContainer").removeAttr("style");
+    // $(".stepContainer").removeAttr("style");
     state += 1 
     id = "#step-"+String(state)
     // alert(id)
     if (state == 1){radioNumber = 1}
     if (state == 2){radioNumber = 3}
     if(!registerProfileValidate(id,radioNumber)){
-      alert("*All Fields are mandatory*");
-      $(".buttonPrevious").click();
+      setTimeout(function(){
+        $(".buttonPrevious").click();
+      },500);
+      setTimeout(function(){
+        alert("All Fields Are Mendatory");
+      },1000);
     }
   }); 
   $("#form1").on("submit",function(e) {
@@ -930,31 +911,31 @@ $(".buttonNext").on("click",function(e){
   relativeVhnNumber = []
   $.each($("input[name='relative-vhnNumber']"),function(i,valuea){ relativeVhnNumber.push(valuea.value);
 });
-	var data = {
+  var data = {
     "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
-		"relative-name": relativeName,
-		"relation": relation,
-		"relative-vhnNumber":relativeVhnNumber,
-		"form2Submit":1,
-	};
-	// console.log(data);
-	theAjax("/checkrelation/",data)
-	.done(function(response){
-		if(response['status'] == 0)
-		{
-			$("#statusReport").html("VHN number " + response['vhn'] + " is not valid.");
+    "relative-name": relativeName,
+    "relation": relation,
+    "relative-vhnNumber":relativeVhnNumber,
+    "form2Submit":1,
+  };
+  // console.log(data);
+  theAjax("/checkrelation/",data)
+  .done(function(response){
+    if(response['status'] == 0)
+    {
+      $("#statusReport").html("VHN number " + response['vhn'] + " is not valid.");
       $(".buttonPrevious").click();
-	  }
-		else if(response['status'] == 1)
-		{
-			$("#statusReport").html("VHN number " + response['vhn'] + " doesn't match with name " + response['name']);
+    }
+    else if(response['status'] == 1)
+    {
+      $("#statusReport").html("VHN number " + response['vhn'] + " doesn't match with name " + response['name']);
       $(".buttonPrevious").click();
-		}
+    }
     else
     { 
       return true;
     }
-	});
+  });
 });
 $(".buttonFinish").on("click",function(){
   $("#form1").submit();
@@ -963,27 +944,27 @@ $(".buttonFinish").on("click",function(){
 
   
 // $("#delete-member").on("click",function(){
-// 	var data = {
-// 		"relative-name": $("input[name=relative-name]").val(),
-// 		"relation": $("input[name=realtion]").val(),
-// 		"relative-vhnNumber":$("input[name=relative-vhnNumber]").val(),
-// 		"delete-member":1,
-// 	};
-// 	console.log(data);
-// 	theAjax("/deleteMember/",data)
-// 	.done(function(response){
-// 		if(response['status'] == 2)
-// 		{
-// 			$("#statusReport").html("response['error2']");
-// 	    }
-// 		else if(response['status'] == 1)
-// 		{
-// 			$("#statusReport").html("Deleted");
-// 		}
-// 		else{
-// 			$("#statusReport").html("response['error0']")
-// 		}
-// 	});
+//  var data = {
+//    "relative-name": $("input[name=relative-name]").val(),
+//    "relation": $("input[name=realtion]").val(),
+//    "relative-vhnNumber":$("input[name=relative-vhnNumber]").val(),
+//    "delete-member":1,
+//  };
+//  console.log(data);
+//  theAjax("/deleteMember/",data)
+//  .done(function(response){
+//    if(response['status'] == 2)
+//    {
+//      $("#statusReport").html("response['error2']");
+//      }
+//    else if(response['status'] == 1)
+//    {
+//      $("#statusReport").html("Deleted");
+//    }
+//    else{
+//      $("#statusReport").html("response['error0']")
+//    }
+//  });
 // });
 
 
@@ -1070,6 +1051,7 @@ function registerProfileValidate(id,radioNumber)
 </script>
 
     <!-- /jQuery Smart Wizard -->
+  </div>
   </body>
 </html>
 
