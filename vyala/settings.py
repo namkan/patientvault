@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'registration',
+    'ephr_module'
 ]
 
 MIDDLEWARE_CLASSES = [
