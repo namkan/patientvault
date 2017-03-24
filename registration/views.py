@@ -108,7 +108,6 @@ def register(request):
 			except:
 				print("code base 1")
 				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
-
 		except:
 			print("code base 2")
 			messages.warning(request,"Connection problem or Invalid Phone Number !!!")

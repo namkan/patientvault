@@ -110,7 +110,7 @@ def reminder(request):
 
 	return render(request,'reminder.html',{'info':zip(patients,reminder),'date':date})
 
-	def daignosis(request):
+def daignosis(request):
 	response = {}
 	codes = icd10.objects.all()
 	modes = daignosisstatus_master.objects.all()
