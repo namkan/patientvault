@@ -4,7 +4,10 @@ import cloudinary,cloudinary.uploader,cloudinary.api
 from .models import *
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required(login_url='/login')
 def uploadDocuments(request):
 	if request.method == "POST":
 		info_dic = None
@@ -22,6 +25,7 @@ def uploadDocuments(request):
 		return render(request,'upload_reports.html',{'reports':reports})
 
 @csrf_exempt
+@login_required(login_url='/login')
 def changeDocumentShareStatus(request):
 	response = {}
 	if request.method == 'POST':
@@ -34,16 +38,19 @@ def changeDocumentShareStatus(request):
 	else:
 		return HttpResponse('403 bad request')
 			
+@login_required(login_url='/login')			
 def labview(request):
 	orders = PvLaborders.objects.all()
 	results = PvLabresults.objects.all()
 	return render(request,'lab_reports.html',{'info': zip(orders, results)})
 
+@login_required(login_url='/login')
 def radioview(request):
 	orders = PvRadorders.objects.all()
 	results = PvRadresults.objects.all()
 	return render(request,'lab_reports.html',{'info': zip(orders, results)})
 
+@login_required(login_url='/login')
 def allergies(request):
 	response = {}
 	categories = AllergyCategoryMaster.objects.all()
@@ -67,7 +74,7 @@ def allergies(request):
 		
 		return render(request,'allergies.html',{'categories':categories,'effects':effects})
 
-
+@login_required(login_url='/login')
 def medication(request):
 	response = {}
 	doctors = DpUser.objects.all()
@@ -79,6 +86,7 @@ def medication(request):
 
 	return render(request,'medication.html',{'info' : zip(drugs,dosages,nums),'info1' : zip(nums,doctors,names)})
 
+@login_required(login_url='/login')
 def visit(request):
 	# return render(request,'visit.html')
 	response = {}
@@ -89,6 +97,7 @@ def visit(request):
 	
 	return render(request,'visit.html',{'doc':zip(doctors,patients,visits)})
 
+@login_required(login_url='/login')
 def reminder(request):
 	response = {}
 	# created_by = pv_user.objects.all()

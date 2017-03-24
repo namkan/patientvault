@@ -40,11 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'registration',
-<<<<<<< HEAD
     'django_gravatar',
-=======
     'ephr_module'
->>>>>>> 9758cbbccb7d18b8c4c8d6a782bde485348d7e9b
 ]
 
 MIDDLEWARE_CLASSES = [
