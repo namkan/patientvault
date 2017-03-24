@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
 import cloudinary,cloudinary.uploader,cloudinary.api
 from .models import *
+from registration.models import *
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -12,13 +13,16 @@ def uploadDocuments(request):
 	if request.method == "POST":
 		info_dic = None
 		data = request.POST
+		pvuser = request.user.pvuser
 		print(request.FILES)
 		info_dic = cloudinary.uploader.upload(request.FILES['report'])
 		reports = PvUploadedFiles.objects.get_or_create(
 			file_name = data['Report Name'],
 			file_type = data['Report Type'],
 			file_url = info_dic['secure_url'],
-			added_on = datetime.now().date())
+			added_on = datetime.now().date(),
+			last_modified_by = pvuser
+			)
 		return HttpResponse('haha')
 	else:
 		reports = PvUploadedFiles.objects.all()
@@ -56,6 +60,7 @@ def allergies(request):
 	categories = AllergyCategoryMaster.objects.all()
 	effects = AllergyServerityMaster.objects.all()
 	if request.method == 'POST':
+		pvuser = request.user.pvuser
 		form = request.POST
 		substance = form["substance"]
 		reaction_details = form["reaction_details"]
@@ -66,6 +71,7 @@ def allergies(request):
 		category_id = categoryOjbect,
 		serverity_id = serverityObjects,
 		reactions = reaction_details,
+		last_modified_by = pvuser
 			)
 
 		return HttpResponse('fine')
