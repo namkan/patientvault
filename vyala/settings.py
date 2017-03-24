@@ -96,9 +96,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME':'hospi',
-        'USER':'postgres',
-        'PASSWORD' :'caportal1',
+        'NAME':'patientvault',
+        'USER':'root',
+        'PASSWORD' :'jishnu12',
         'HOST':'localhost',
         'PORT':'',
     }

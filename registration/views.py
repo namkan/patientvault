@@ -711,4 +711,4 @@ def relation(request):
 
 def gravTest(email):
 	url = get_gravatar_url(email, size=150)
-	print url
+	print(url)

@@ -3,7 +3,7 @@ $(function () {
   //It has the name attribute "registration"
 
   
-  $("#login").validate({
+  $("#loginForm").validate({
     // Specify validation rules
     rules: {
     	username:{
