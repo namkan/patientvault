@@ -99,6 +99,7 @@ def register(request):
 		vhn = "VHN"+str(100000+lastUserId+1)
 		try:
 			try:
+				print('code base 0')
 				PvUser.objects.get(mobile_number = mobile_number)
 				messages.warning(request,"User already registered with this Mobile Number.")
 				return render(request, 'register.html')
@@ -339,6 +340,7 @@ def changePass(request):
 	# 	return JsonResponse(response)	
 
 # @login_required(login_url = "/login/")
+@csrf_exempt
 def profile(request):
 	response = {}
 	username = None
@@ -348,11 +350,14 @@ def profile(request):
 		relations = None
 		relative_vhnNumbers = None
 		medical_history = None
-		family_history = []
-		# username = request.user.username
-		# user = User.objects.get(username = username)
-		# pvUser = user.pvuser
-		form = request.POST
+		family_history = ['High_Blood_Pressure','Autism']
+		relationship = None
+		surgical_history = None
+		username = request.user.username
+		user = User.objects.get(username = username)
+		pvUser = user.pvuser
+		form = request.POST.copy()
+
 		print(form)
 
 		country = form['country']
@@ -360,20 +365,32 @@ def profile(request):
 		city = form['city']
 		gender = form['gender']
 		relative_names = form.getlist('relative-name')
-		print(relative_names) 
+		#print(relative_names) 
 		relations = form.getlist('relation')
-		print(relations)
+		#print(relations)
 		relative_vhnNumbers = form.getlist('relative-vhnNumber')
-		print(relative_vhnNumbers)
+		#print(relative_vhnNumbers)
 		medical_history = form.getlist('medicalHistory')
-		print(medical_history)
+		#print(medical_history)
 		surgical_history = form.getlist('surgicalHistory')
-		print(surgical_history)
-		familyhistory_objects = FamilyhistoryMaster.objects.all()
-		for var in familyhistory_objects:
-			family_history.append(var.name)
-		family_history = family_history + form.getlist('disease')
-		relationship = form.getlist(relationship)	
+		#print(surgical_history)
+		# familyhistory_objects = FamilyhistoryMaster.objects.all()
+		# for var in familyhistory_objects:
+		# 	family_history.append(var.name)
+		# 	print(family_history)
+		family_history += form.getlist('disease')
+		print(family_history)
+		relationship = form.getlist('relationship')
+		print(relationship)
+		if 'drinks/week' not in form:
+			form['drinks/week'] = 0
+		if 'whenTobacoLeft' not in form:
+			form['whenTobacoLeft'] = 'no tobacco'
+		if 'drugDetails' not in form:
+			form['drugDetails'] = 'no drugs'
+		if 'drugQuitDate' not in form:
+			form['whenDrugLeft'] = 'no drugs'
+
 		try:
 			d["{0}".format(country)] = CountryMaster.objects.get(name = country)
 		except:	
@@ -383,41 +400,41 @@ def profile(request):
 		try:
 			d["{0}".format(state)] = StateMaster.objects.get(name = state)
 		except:	
-			print(state)
+			#print(state)
 			d["{0}".format(state)] = StateMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), country = d["{0}".format(country)])	
 			d["{0}".format(state)].save()
 		try:
 			d["{0}".format(city)] = CityMaster.objects.get(name = city)
 		except:	
-			print(city)
+			#print(city)
 			d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
 			d["{0}".format(city)].save()
 		try:
 			d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
 		except:
-			print(gender)
+			#print(gender)
 			d["{0}".format(gender)] = GenderMaster(name = form['gender'], activeYesNo = True, lastModifiedDateTime = timezone.now())
 			d["{0}".format(gender)].save()
 		for relation in relations:
-			print(1)
+			#print(1)
 			try:
 				d["{0}".format(relation)] = RelationshipMaster.objects.get(name = relation)
 			except:
-				print(relation)	
+				#print(relation)	
 				d["{0}".format(relation)] = RelationshipMaster(name = relation, activeYesNo = True, lastModifiedDateTime = timezone.now())
 				d["{0}".format(relation)].save()
 		for medhistory in medical_history:
 			try:
 				d["{0}".format(medhistory)] = MedicalhistoryMaster.objects.get(name = medhistory)
 			except:
-				print(medhistory)	
+				#print(medhistory)	
 				d["{0}".format(medhistory)] = MedicalhistoryMaster(name = medhistory, activeYesNo = False, lastModifiedDateTime = timezone.now())
 				d["{0}".format(medhistory)].save()
 		for surhistory in surgical_history:
 			try:
 				d["{0}".format(surhistory)] = SurgicalhistoryMaster.objects.get(name = surhistory)
 			except:
-				print(surhistory)	
+				#print(surhistory)	
 				d["{0}".format(surhistory)] = SurgicalhistoryMaster(name = surhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
 				d["{0}".format(surhistory)].save()
 
@@ -426,13 +443,13 @@ def profile(request):
 			try:
 				d["{0}".format(famhistory)] = FamilyhistoryMaster.objects.get(name = famhistory)
 			except:
-				print(surhistory)	
+				#print(famhistory)	
 				d["{0}".format(famhistory)] = FamilyhistoryMaster(name = famhistory, activeYesNo =False, lastModifiedDateTime = timezone.now())
 				d["{0}".format(famhistory)].save()
 		
 					
 		pvProfile = PvProfile.objects.get_or_create(
-			# userId = pvUser,
+			userId = pvUser,
 			countryId = d["{0}".format(country)],
 			stateId = d["{0}".format(state)],
 			cityId = d["{0}".format(city)],
@@ -448,7 +465,7 @@ def profile(request):
 			user = User.objects.get(username = relative_vhnNumbers[i])
 			pvUser = user.pvuser
 			pvFamilyRelationship = PvFamilyRelationship.objects.get_or_create(
-				# patientId = pvUser,
+				patientId = pvUser,
 				relativeName = relative,
 				relationshipId = d["{0}".format(relations[i])],
 				relative = pvUser,
@@ -456,37 +473,44 @@ def profile(request):
 			i+=1
 
 		pvSocialHistory = PvSocialHistory.objects.get_or_create(
-			# patientId = pvUser,
+			patientId = pvUser,
 			alcoholUsage = form['acheck'],
-			drinksPerWeek = form['drinks/week'],
+			drinksPerWeek = form['drinks/week'],	
 			tobacoUsage = form['tcheck'],
 			tobacoQuitDate = form['whenTobacoLeft'],
 			drugUsage = form['dcheck'],
-			drugQuitDate = form['whenDrugLeft'],
+			# drugQuitDate = form['whenDrugLeft'],
 			drugDetails = form['drugDetails'])
 
 		for medhistory in medical_history:
 			pvMedicalHistory = PvMedicalHistory.objects.get_or_create(
-				# patientId = pvUser,
+				patientId = pvUser,
 				mediacalHistoryId = d["{0}".format(medhistory)],
 				lastModifiedDateTime = timezone.now())
 
 		for surhistory in surgical_history:
 			pvSurgicalHistory = PvSurgicalHistory.objects.get_or_create(
-				# patientId = pvUser,
+				patientId = pvUser,
 				surgicalhistoryId = d["{0}".format(surhistory)],
 				lastModifiedDateTime = timezone.now())
 		i=0
+		x=None
 		for famhistory in family_history:
-			pvMedicalHistory = PvFamilyHistory.objects.get_or_create(
-				# patientId = pvUser,
+			if i==0:
+				x = form['table_records_hbp']
+			if i==1:
+				x = form['table_records_aut']
+			pvFamilyHistory = PvFamilyHistory.objects.get_or_create(
+				patientId = pvUser,
 				familyhistoryId = d["{0}".format(famhistory)],
-				relationshipId = relationship[i],
+				familyhistoryStatus = x,	
+				# relationshipId = relationship[i],
 				lastModifiedDateTime = timezone.now())	
 			i += 1
 
-		messages.success(request,'saved')
-		return render(request,'profile.html')
+		# messages.success(request,'saved')
+		pvUser.isProfileComplete = True
+		return render(request,'dashboard.html',{'first_name':user.first_name})
 		
 	else:
 		return render(request,'profile.html')

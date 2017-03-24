@@ -8,21 +8,21 @@ from django.utils.timezone import utc
 class GenderMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=True)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
 class RelationshipMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=True)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
 class CountryMaster(models.Model):
 	name = models.CharField(max_length=50)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
@@ -30,7 +30,7 @@ class StateMaster(models.Model):
 	name = models.CharField(max_length=30)
 	country = models.ForeignKey(CountryMaster,on_delete=models.CASCADE)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
@@ -38,28 +38,28 @@ class CityMaster(models.Model):
 	name = models.CharField(max_length=30)
 	state = models.ForeignKey(StateMaster,on_delete=models.CASCADE)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
 class MedicalhistoryMaster(models.Model):
 	name = models.CharField(max_length=30)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=50, null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
 class SurgicalhistoryMaster(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, null = True, blank  = True)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=100)
+	lastModifiedDateTime = models.CharField(max_length=100,null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
 class FamilyhistoryMaster(models.Model):	
-	name = models.CharField(max_length=30)
+	name = models.CharField(max_length=100)
 	activeYesNo = models.BooleanField(default=False)
-	lastModifiedDateTime = models.CharField(max_length=50)
+	lastModifiedDateTime = models.CharField(max_length=100,null = True, blank = True)
 	def __str__(self):
 		return '%s' % (self.name)
 
@@ -76,7 +76,7 @@ class PvUser(models.Model):
 	isProfileComplete = models.BooleanField(default = False)
 	activeYesNo = models.BooleanField(default = False)
 	#otpTime = models.DateTimeField(null = True,blank = True)
-	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
+	lastModifiedDateTime = models.DateTimeField(auto_now_add = True, null = True, blank = True)
 	pTime = models.DateTimeField(null = True,blank = True)
 	# otpTime = models.DateTimeField(null = True, blank = True)
 	class meta:
@@ -103,7 +103,7 @@ class PvProfile(models.Model):
 	cityId = models.ForeignKey(CityMaster,on_delete=models.CASCADE, null = True, blank = True)
 	address = models.CharField(max_length=100, null = True, blank = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField(null = True, blank = True)
+	lastModifiedDateTime = models.DateTimeField(auto_now_add=True, null = True, blank = True)
 	class meta:
 		db_table='PvProfile'
 	# def __str__(self):
@@ -115,20 +115,20 @@ class PvFamilyRelationship(models.Model):
 	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE, null = True, blank = True)
 	relative = models.ForeignKey(PvUser, related_name = "relative", blank = True, null = True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField(blank = True, null = True)
+	lastModifiedDateTime = models.DateTimeField(auto_now_add = True,blank = True, null = True)
 	
 class PvSocialHistory(models.Model):
-	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE)
+	patientId = models.OneToOneField(PvUser,on_delete=models.CASCADE, null = True, blank = True)
 	alcoholUsage = models.IntegerField(null = True,blank = True)
 	drinksPerWeek = models.IntegerField(null = True, blank = True)
 	tobacoUsage = models.IntegerField(null = True, blank = True)
-	tobacoQuitDate = models.DateField(blank = True, null = True)
+	tobacoQuitDate = models.CharField(max_length= 100,blank = True, null = True)
 	drugUsage = models.IntegerField(null = True, blank = True)
-	#drugQuitDate = models.DateField(blank = True, null = True)
-	drugDetails = models.CharField(max_length = 250)
+	drugQuitDate = models.DateField(blank = True, null = True)
+	drugDetails = models.CharField(max_length = 250,null= True, blank = True)
 	shareYesNo = models.BooleanField(default = False)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
+	lastModifiedDateTime = models.DateTimeField(auto_now_add=True, null = True, blank = True)
 
 class PvMedicalHistory(models.Model):
 	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)
@@ -136,7 +136,7 @@ class PvMedicalHistory(models.Model):
 	sharedYesNo = models.BooleanField(default=False)
 	activeYesNo = models.BooleanField(default=True)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
+	lastModifiedDateTime = models.DateTimeField(null = True, blank = True)
 
 class PvSurgicalHistory(models.Model):
 	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)
@@ -144,13 +144,14 @@ class PvSurgicalHistory(models.Model):
 	sharedYesNo = models.BooleanField(default=True)
 	activeYesNo = models.BooleanField(default=False)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
+	lastModifiedDateTime = models.DateTimeField(auto_now_add=True, null = True, blank = True)
 
-class PvFamilyHisotry(models.Model):
-	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE)	
+class PvFamilyHistory(models.Model):
+	patientId = models.ForeignKey(PvUser,on_delete=models.CASCADE, null = True, blank = True)	
 	familyhistoryId = models.ForeignKey(FamilyhistoryMaster,on_delete=models.CASCADE)
-	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE)
+	familyhistoryStatus = models.CharField(max_length = 10, null = True, blank = True)
+	relationshipId = models.ForeignKey(RelationshipMaster,on_delete=models.CASCADE, null = True, blank = True)
 	sharedYesNo = models.BooleanField(default=True)
-	activeYesNo = models.BooleanField()
+	activeYesNo = models.BooleanField(default = False)
 	#lastModifiedBy = models.ForeignKey(PvUser)
-	lastModifiedDateTime = models.DateTimeField()
+	lastModifiedDateTime = models.DateTimeField(auto_now_add=True, null = True, blank = True)

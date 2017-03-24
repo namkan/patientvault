@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import dj_database_url
+import cloudinary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJECT_ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -39,7 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'registration',
+<<<<<<< HEAD
     'django_gravatar',
+=======
+    'ephr_module'
+>>>>>>> 9758cbbccb7d18b8c4c8d6a782bde485348d7e9b
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -101,21 +106,12 @@ DATABASES = {
         'PORT':'',
     }
 }
-# FILE_UPLOAD_HANDLERS = (
-#     "testapp.dropbox_upload_handler.DropboxFileUploadHandler",
-# )
-DROPBOX_APP_KEY = "ves55dpyfxanqg0"
-DROPBOX_APP_SECRET_KEY = "tygyq0xdtky4ici"
-DROPBOX_APP_ACCESS_TOKEN = ""
-DROPBOX_APP_ACCESS_TOKEN_SECRET = ""
 
-# Optional values below
-
-# The folder where you want the files uploaded.
-# Example: /Public or /
-DROPBOX_FILE_UPLOAD_FOLDER = ""
-# The value below may be either 'app_folder' or 'dropbox'
-DROPBOX_ACCESS_TYPE = ""
+cloudinary.config( 
+  cloud_name = "namkan", 
+  api_key = "121788993477771", 
+  api_secret = "4j6SC-98Az_zGYp4Qnnnm408_5A" 
+)
 
 
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -168,6 +164,9 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media/')
+MEDIA_URL = '/media/'
 
 if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
