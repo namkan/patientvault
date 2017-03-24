@@ -78,3 +78,35 @@ def medication(request):
 
 
 	return render(request,'medication.html',{'info' : zip(drugs,dosages,nums),'info1' : zip(nums,doctors,names)})
+
+def visit(request):
+	# return render(request,'visit.html')
+	response = {}
+	doctors = dp_user.objects.all()
+	patients = dp_visits.objects.all()
+	visits = visit_status_master.objects.all()
+
+	
+	return render(request,'visit.html',{'doc':zip(doctors,patients,visits)})
+
+def reminder(request):
+	response = {}
+	# created_by = pv_user.objects.all()
+	# visits = visit_status_master.objects.all()
+	patients = dp_user.objects.all()
+	reminder = pv_reminders.objects.all()
+	date = datetime.datetime.now().date()
+
+
+
+	return render(request,'reminder.html',{'info':zip(patients,reminder),'date':date})
+
+	def daignosis(request):
+	response = {}
+	codes = icd10.objects.all()
+	modes = daignosisstatus_master.objects.all()
+	rodes = dp_user.objects.all()
+	date = datetime.datetime.now().date()
+
+
+	return render(request,'daignosis.html',{'info':zip(codes,modes,rodes),'date': date})
