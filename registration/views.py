@@ -18,6 +18,13 @@ from datetime import datetime
 from django.views.decorators.cache import cache_control
 from django.utils import timezone
 from django.utils.timezone import utc
+# import hashlib
+# import urllib
+# from django import template
+# from django.utils.safestring import mark_safe
+from django_gravatar.helpers import get_gravatar_url, has_gravatar, get_gravatar_profile_url, calculate_gravatar_hash
+
+
 COMPANY_NUMBER = "+16024973298"
 
 def contextCall(request):
@@ -678,3 +685,7 @@ def randomWithNDigits(n):
 def relation(request):
 	# form = RegistrationForm()
 	return render(request,'profile.html')
+
+def gravTest(email):
+	url = get_gravatar_url(email, size=150)
+	print url

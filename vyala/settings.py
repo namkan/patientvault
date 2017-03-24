@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'registration',
+    'django_gravatar',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -93,9 +94,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME':'patientvault',
-        'USER':'root',
-        'PASSWORD' :'jishnu12',
+        'NAME':'hospi',
+        'USER':'postgres',
+        'PASSWORD' :'caportal1',
         'HOST':'localhost',
         'PORT':'',
     }
