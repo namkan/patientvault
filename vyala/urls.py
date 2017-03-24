@@ -14,10 +14,18 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url, include, patterns
 from django.contrib import admin
+from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^',include('registration.urls')),
     url(r'^',include('ephr_module.urls')),
 ]
+if getattr(settings, 'DEBUG', False) or getattr(settings, 'DEBUG_MEDIA', False):
+    media_url = getattr(settings, 'MEDIA_URL', '/media/').lstrip('/')
+    urlpatterns = patterns('',
+        url(r'^%s(?P<path>.*)$' % (media_url,), 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT
+        }),
+    ) + urlpatterns
