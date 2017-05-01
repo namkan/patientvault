@@ -7,12 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ephr_module', '0004_pvuploadedfiles'),
+        ('registration', '0030_auto_20170403_1908'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='pvuploadedfiles',
-            name='last_modified_date_time',
+        migrations.AlterField(
+            model_name='pvuser',
+            name='id',
+            field=models.AutoField(serialize=False, primary_key=True),
         ),
     ]

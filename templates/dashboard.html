@@ -21,121 +21,19 @@
 
 <body>
   <div class="x_panel">
-      <div class="x_title">
-        <h1> This Will Be Dashboard </h1>
-        <h3> hey {{ first_name }}</h3>
-        <div class="clearfix"></div>
-      </div>
-      <!-- <div class="x_content"> -->
-        <br>
-        <h4>Bored with same old password? 
-        <a id="change" href="#">change Password</a>
-        </h4>
-        <form method="POST" autocomplete="off">{% csrf_token %}
+    <div class="x_title">
+      <h1> This Will Be Dashboard </h1>
+      <h3> hey {{ first_name }}</h3>
+      <div class="clearfix"></div>
+    </div>
+    <!-- <div class="x_content"> -->
+      <br>
+      
 
-          <!-- <div> -->
-          <table>
-            <tbody>
-            <tr>
-              <td>
-              <input class="form-control" size="30" type="hidden" id="currentPassword" name="currentPass" placeholder="Enter Current Password" required><br></td>
-              
-            </tr>
-          
-            <tr>
-              <td>
-            <input class="form-control" size="30" type="hidden" id="newPassword" name="newPass" placeholder="Enter New Password" required/><br></td>
-            </tr>
-
-            <tr>
-              <td>
-            <input class="form-control" size="30" type="hidden" id="confNewPassword" name="confPass" placeholder="Confirm New Password" required/></td>
-            </tr>
-
-            </tbody>
-          </table>
-           <br><br>
-          
-          <div class="form-group">
-            
-              <button style="display:none;" type="button" id="submit" class="btn btn-primary">OK</button>
-              
-           
-          </div>
-
-        </form>
-        <div id='statusReport'></div>
-        <a href='/logout'>Logout</a>
-      </div>
+      </form>
+      <div id='statusReport'></div>
+      <a href='/logout'>Logout</a>
+  </div>
     
 </body>
-<script type="text/javascript">
-$("#change").on("click",function(event){
-  $("#newPassword").attr("type","hidden");
-  $("#confNewPassword").attr("type","hidden");
-  $("#currentPassword").val("");
-  $("#currentPassword").attr("type","password");
-  $("#submit").css("display","block");
-    
-  
-});
-function theAjax(uri,data){
-  return $.ajax({
-      type:"POST",
-      dataType:"json",
-      url: uri,
-      data: data
-  })
-}
-$("#submit").on("click",function(event){
-  event.preventDefault();
-  if ($("input[name=newPass]").val() != '')
-  { 
-    if ($("input[name=newPass]").val() != $("input[name=confPass]").val()) 
-    $("#statusReport").html("Passwords must be same!!");
-
-    else{}
-  }
-
-  if ($("input[name=newPass]").val() == $("input[name=confPass]").val()){
-  var data = {
-    "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(),
-    "currentPass": $("input[name=currentPass]").val(),
-    "newPass": $("input[name=newPass]").val(),
-    "confPass": $("input[name=confPass]").val(),
-    "submit":1
-  };
-
-  console.log(data)
-  theAjax("/changePass/",data)
-  .done(function(response){
-    if(response['status'] == 1)
-    {
-      //$("#currentPassword").type("password");
-      //$("#submit").type("submit");
-    }
-    else if(response['status'] == 2)
-    {
-      $("#statusReport").html("Please enter correct password");
-      
-    }
-    else if(response['status'] == 3)
-    {
-      $("#statusReport").html("Password changed successfully!!");
-    }
-    else if(response['status']==4)
-    {
-      $("#currentPassword").attr("type","hidden");
-      $("#newPassword").val("");
-      $("#newPassword").attr("type","password");
-      $("#confNewPassword").val("");
-      $("#confNewPassword").attr("type","password");
-
-    } 
-    
-  });
-}});
-
-</script>
-
 </html>    

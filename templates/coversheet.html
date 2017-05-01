@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Vyala </title>
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <style type="text/css">
+      .no-js #loader { display: none;  }
+      .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+      .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("/static/Preloader_3.gif") center no-repeat #fff;
+      }
+    </style>
+  </head>
+
+  <body class="nav-md">
+    <div id="loading-gif"></div>
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="{{ url }}" alt="/static." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>{{ pvuser.user.first_name }}</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a href="/dashboard/">Dashboard</a></li>
+                  <li><a href="/personalinfo/">Personal Details</a></li>
+                  <li><a href="/upload/">Upload Reports</a></li>
+                  <li><a href="/coversheet/">Coversheet</a></li>
+                  <li><a href="/diagnosis">Diagnosis</a></li>
+                  <li><a href="/allergies/">Allergies</a></li>
+                  <li><a href="/medication/">Medication</a></li>
+                  <li><a href="/labreport/">Lab Results</a></li>
+                  <li><a href="/radioreport/">Radiology Reports</a></li>
+                  <li><a href="/visits/">Visits</a></li>
+                  <li><a href="/reminders/">Reminders</a></li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ url }}" alt="">{{ pvuser.user.first_name }}
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="/login/"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where/static.
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where/static.
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where/static.
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where/static.
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        
+        <!-- /top navigation -->
+
+<!-- social History -->
+
+
+
+ <!-- page content -->
+          <div class="right_col" role="main">
+            <div class="">
+              <div class="page-title">
+                <div style="text-align: center;">
+                 <br><br>
+                </div>
+              </div>
+            
+              <div class="clearfix"></div>
+              <br><br><br><br>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Social History</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="">
+                              <label>
+                                <input type="checkbox" class="js-switch social" id="{{ pvuser.id }}" checked/> 
+                              </label>
+                              {% if not pvuser.shareSocial %}
+                                <script>
+                                  $(document).ready(function(){
+                                    $(".social").removeAttr("checked");
+                                  })
+                                </script>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                          <thead>
+                           <!--  <tr class="headings"> -->
+                              
+                              <th class="column-title">Alcohol Usage </th>
+                              <th class="column-title">Drinks </th>
+                              <th class="column-title">Tobaco Usage</th>
+                              <th class="column-title">Tobaco Quit Date</th>
+                              <th class="column-title">Drug Usage</th>
+                               <th class="column-title">Drug Details</th>
+
+                              <th class="column-title" style=" text-align:center;">Edit</th>
+                             
+                            
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {%for social in socials%}
+                            <tr class="even pointer">
+                              <td class=" ">{{social.alcoholUsage}} </td>
+                              <td class=" ">{{social.drinksPerWeek}}</td>
+                              <td class=" ">{{social.tobacoUsage}}</td>
+                              <td class=" ">{{social.tobacoQuitDate}}</td>
+                              <td class=" ">{{social.drugUsage}}</td>
+                              <td class=" ">{{social.drugDetails}}</td>
+                              <td class=" last" style="text-align: center;">
+
+                                 <!--modal testing -->
+
+                                <div class="container">
+                                 <!-- Trigger the modal with a button -->
+                                  <button type="submit" class="btn btn-default" data-toggle="modal" id="button_2" data-target="#{{social.id}}">Edit</button>
+                                  <!-- Modal -->
+                                  <div class="modal fade" id="{{social.id}}" role="dialog">
+                                  <div class="modal-dialog">
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Edit It</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="clearfix"></div>
+                                    <div class="row">
+                                      <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="x_panel">
+                                          <div class="x_title">
+                                            <p>Weekly Dose</p>
+                                            <div class="clearfix"></div>
+                                          </div>
+                                          <div class="x_content">
+                                            <form class="form-horizontal form-label-left" method="post" action="/coversheetupdate3/" id="social1"> {% csrf_token %}
+                                              <input type="hidden" name="mysocial" value="{{social.id}}">
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="alcohol_usage"> Alcohol Usage
+                                                </label>
+                                                <div class="col-md-6 col-sm-u6 col-xs-12">
+                                                  <input id="alcohol_usage" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="alcohol_usage" value="{{social.alcoholUsage}}"  type="text">
+                                                </div>
+                                              </div>
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="drinks">Drinks</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                  <input type="text" id="drinks" name="drinks" required="required" class="form-control col-md-7 col-xs-12" value="{{social.drinksPerWeek}}">
+                                                </div>
+                                              </div>
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tobaco_usage">Tobaco Usage </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                  <input type="text" id="tobaco_usage" name="tobaco_usage" required="required" class="form-control col-md-7 col-xs-12" value="{{social.tobacoUsage}}">
+                                                </div>
+                                              </div>
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tobaco_quit_date">Tobaco Quit Date</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                  <input type="date" id="tobaco_quit_date" name="tobaco_quit_date" required="required" class="form-control col-md-7 col-xs-12" value="{{social.tobacoQuitDate}}">
+                                                </div>
+                                              </div>
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="drug_usage">Drug Usage</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                  <input type="text" id="drug_usage" name="drug_usage" required="required" class="form-control col-md-7 col-xs-12" value="{{social.drugUsage}}">
+                                                </div>
+                                              </div>
+                                              <div class="item form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="drug_details">Drug Details</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                  <input type="text" id="drug_details" name="drug_details" required="required" class="form-control col-md-7 col-xs-12" value="{{social.drugDetails}}">
+                                                </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <div class="col-md-6 col-md-offset-3">
+                                                  <button id="send" type="submit" class="btn btn-success">Update</button>
+                                                </div>
+                                              </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>         
+                                    <!-- /page content -->
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--modal finished -->
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+<!-- social histroy ends -->
+
+        <!-- page content -->
+        <!-- <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div style="text-align: center;">
+               <br><br>
+              </div>
+            </div>
+
+ <div class="clearfix"></div>
+            <br><br><br><br> -->
+            
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                  <h2>Medical History </h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="">
+                          <label>
+                            <input type="checkbox" class="js-switch medical" id="{{ pvuser.id }}" checked /> 
+                          </label>
+                          {% if not pvuser.shareMedical %}
+                            <script>
+                              $(document).ready(function(){
+                                $(".medical").removeAttr("checked");
+                              })
+                            </script>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </ul>
+
+                  <!--modal testing -->
+
+                  <div class="container">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal1">Add new</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal1" role="dialog">
+                      <div class="modal-dialog">
+                      
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Medical History</h4>
+                          </div>
+                          <div class="modal-body">
+
+                              <div class="clearfix"></div>
+
+                              <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                       
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+
+                                      <form class="form-horizontal form-label-left" method="post" action="/coversheet/" id="medicalmodal"> {% csrf_token %}
+
+                                        
+                                       
+
+                                        <div class="item form-group">
+                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="problem">Problem
+                                          </label>
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="problem" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="problem" placeholder="problem name" type="text">
+                                          </div>
+                                        </div>
+                                        <div class="item form-group">
+                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="started">Started on 
+                                          </label>
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="date" id="started" name="started" class="form-control col-md-7 col-xs-12" placeholder="Started date">
+                                          </div>
+                                        </div>
+                                       <div class="item form-group">
+                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Current Status
+                                          </label>
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                       
+                                            <select class="select2_single form-control" tabindex="-1" name="status" >
+
+                                                      <option value="Active" >Active</option>
+                                                      <option value="Resolved">Resolved</option>
+                                                      
+                                                     
+                                                    </select>
+                                          </div>
+                                        </div>
+                                         <div class="item form-group">
+                                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resolve">Resolved on
+                                          </label>
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="date" id="resolve" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="resolve" placeholder="Resolved date"  >
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                          <div class="col-md-6 col-md-offset-3">
+                                            
+                                            <button id="send" type="submit" class="btn btn-success">Submit</button>
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+                           
+                           
+
+                         
+                          <!-- /page content -->
+
+
+                           
+
+
+                            
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    
+                  </div>
+
+<!--modal finished -->
+
+
+                    
+                    
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                         <!--  <tr class="headings"> -->
+                            
+                            <th class="column-title">Problem</th>
+                            <th class="column-title">Started On</th>
+                            <th class="column-title">Current status</th>
+                            <th class="column-title">Resolved on</th>
+                            <th class="column-title" colspan="2" style=" text-align:center;">Edit</th>
+                           <th class="column-title" colspan="2" style=" text-align:center;">Delete</th>
+                             
+                          
+                            
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for medical in medicals %}
+                            
+                          <tr class="even pointer">
+                            
+                            <td class=" ">{{medical.mediacalHistoryId.name}} </td>
+                            <td class=" ">{{medical.started_on}}</td>
+                            <td class=" ">{{medical.current_status}}</td>
+                            <td class=" ">{{medical.resolved_on}}</td>
+                            
+
+                            <td class=" last" style="text-align: center;">
+
+                               <!--modal testing -->
+
+                              <div class="container">
+                                <!-- Trigger the modal with a button -->
+                                <button type="submit" class="btn btn-default" data-toggle="modal" id="button2" data-target="#{{medical.id}}">Edit</button>
+                                
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="{{medical.id}}" role="dialog">
+                                  <div class="modal-dialog">
+                                  
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Edit It</h4>
+                                      </div>
+                                      <div class="modal-body">
+
+                                          <div class="clearfix"></div>
+
+                                          <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                              <div class="x_panel">
+                                                <div class="x_title">
+                                                   
+                                                  <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+
+                                                  <form class="form-horizontal form-label-left" method="post" action="/coversheetupdate/" id="medical_status"> {% csrf_token %}
+                                                  
+
+                                                          <input type="hidden" name="myId" value="{{medical.id}}">
+
+
+                                                    <div class="item form-group">
+                                                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="family">Problem
+                                                      </label>
+                                                      <div class="col-md-6 col-sm-u6 col-xs-12">
+                                                        <input id="family" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="problem1" value="{{medical.mediacalHistoryId.name}}" disabled="disabled" type="text">
+                                                      </div>
+                                                    </div>
+                                                    <div class="item form-group">
+                                                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="started">Started on
+                                                      </label>
+                                                      <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input type="date" id="started" name="started" class="form-control col-md-7 col-xs-12" value="{{medical.started_on}}">
+                                                      </div>
+                                                    </div>
+                                                    
+                                                      <div class="item form-group">
+                                                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="current">Current Status 
+                                                      </label>
+                                                      <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input type="text" id="current" name="current" class="form-control col-md-7 col-xs-12" value="{{medical.current_status}}">
+                                                      </div>
+                                                    </div>
+
+                                                    <div class="item form-group">
+                                                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resolved">Resolved On
+                                                      </label>
+                                                      <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input type="date" id="resolved" name="resolved" class="form-control col-md-7 col-xs-12" value="{{medical.resolved_on}}">
+                                                      </div>
+                                                    </div>
+
+                                                    
+                                                    <div class="form-group">
+                                                      <div class="col-md-6 col-md-offset-3">
+                                                        
+                                                        <button id="send" type="submit" class="btn btn-success">Update</button>
+                                                      </div>
+                                                    </div>
+                                                  </form>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                       
+
+                                  
+                                      <!-- /page content -->
+
+
+                                       
+
+
+                                        
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                                
+                              </div>
+
+<!--modal finished -->
+
+
+
+
+
+
+                            </td>
+                            <td class=" last" style="text-align: center;">
+                             <td class="last">
+
+
+<form action="/coversheetdelete/" method="post">{% csrf_token %}
+  
+<input type="hidden" name="myId1" id="myId1" value="{{medical.id}}">
+
+<button type="submit" class="btn btn-default">Delete</button>
+
+</form>
+
+
+                            </td>
+                            
+
+                          
+                            
+                          </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+             </div>
+             </div>
+             </div>
+             </div>
+            
+           
+
+        
+
+
+
+
+
+
+
+ <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Surgical History</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="">
+                            <label>
+                              <input type="checkbox" class="js-switch surgical" id="{{ pvuser.id }}" checked/> 
+                            </label>
+                            {% if not pvuser.shareSurgical %}
+                              <script>
+                                $(document).ready(function(){
+                                  $(".surgical").removeAttr("checked");
+                                })
+                              </script>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+
+<!--modal testing -->
+
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal2">Add new</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Surgical History</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                     
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" method="post" action="/coversheet1/" id="surgicalmodal"> {% csrf_token %}
+
+                      
+                     
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="surgery">Surgery
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="surgery" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="surgery" placeholder="surgery" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="surgery_dates">Surgery date 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="date" id="surgery_dates" name="surgery_dates" required="required" class="form-control col-md-7 col-xs-12" placeholder="Surgery Date">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          
+                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+
+       
+        <!-- /page content -->
+
+
+         
+
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<!--modal finished -->
+
+
+
+
+                    
+                      
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                      <!--     <tr class="headings"> -->
+                           
+
+                            <th class="column-title">Surgery</th>
+                            <th class="column-title">Surgery Date</th>
+                            
+                            <th class="column-title no-link last" style="text-align: center;">Edit
+                            </th>
+                            <th class="column-title no-link last" style="text-align: center;">Delete
+                            </th>
+
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for surg in surgeries %}
+                          <tr class="even pointer">
+                           
+                            <td class=" " >{{surg.surgicalhistoryId.name}}</td>
+                            <td class=" ">{{surg.surgery_date}}</td>
+                            
+                            
+                           
+                            <td class=" last" style="text-align: center;">
+
+                               <!--modal testing -->
+
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="submit" class="btn btn-default" data-toggle="modal" id="" data-target="#{{surg.id}}">Edit</button>
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="{{surg.id}}" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit It</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                     
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" method="post" action="/coversheetupdate1/" id="surgery_status"> {% csrf_token %}
+                    
+
+                            <input type="hidden" name="myid" value="{{surg.id}}">
+
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="surgery">Surgery
+                        </label>
+                        <div class="col-md-6 col-sm-u6 col-xs-12">
+                          <input id="surgery" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="surgery" value="{{surg.surgicalhistoryId.name}}" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="started">Surgery Date
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="date" id="surgery_dat" name="surgery_dat"  class="form-control col-md-7 col-xs-12" value="{{surg.surgery_date}}">
+                        </div>
+                      </div>
+                      
+                        
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          
+                          <button id="send" type="submit" class="btn btn-success">Update</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+
+       
+        <!-- /page content -->
+
+
+         
+
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<!--modal finished -->
+
+
+
+
+
+
+                            </td>
+                            <td class=" last" style="text-align: center;">
+
+
+
+
+<form action="/coversheetdelete1/" method="post">{% csrf_token %}
+  
+<input type="hidden" name="myId2" id="myId2" value="{{surg.id}}">
+
+<button type="submit" class="btn btn-default">Delete</button>
+
+</form>
+                            </td>
+
+                            
+                          </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+          
+       
+    
+    
+
+
+
+
+
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+
+
+
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2>Family History </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="">
+                            <label>
+                              <input type="checkbox" class="js-switch family" id="{{ pvuser.id }}" checked /> 
+                            </label>
+                            {% if not pvuser.shareFamily %}
+                              <script>
+                                $(document).ready(function(){
+                                  $(".family").removeAttr("checked");
+                                })
+                              </script>
+                            {% endif %}
+                          </div>
+
+                        </ul>
+
+ <!--modal testing -->
+
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal3">Add new</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal3" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Family History</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                     
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" method="post" action="/coversheet2/" id="familymodal"> {% csrf_token %}
+
+                      
+                     
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="family">Problem
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="family" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="family" placeholder="problem name" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="relationship">Relationship 
+                        </label>
+                        <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                  <select class="select2_single form-control" tabindex="-1" name="Report Type">
+                                    <option></option>
+                                    {% for relation in relations %}
+                                      <option value="{{ relation.name }}">{{ relation.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                              </div>
+                      </div>
+ 
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          
+                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+
+       
+        <!-- /page content -->
+
+
+         
+
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<!--modal finished -->
+
+
+
+                      
+                    
+
+                    <div class="clearfix"></div>
+                  </div>
+
+
+
+
+                  <div class="x_content">
+
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                         <!--  <tr class="headings"> -->
+                           
+                            <th class="column-title">Problem</th>
+                            <th class="column-title">Relationship</th>
+                            
+                            <th class="column-title no-link last"  style="text-align: center;">Edit
+                            </th>
+                            <th class="column-title no-link last"  style="text-align: center;">Delete
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                      
+                          <tr class="even pointer">
+                          {% for family in families %}
+                           
+                            <td class=" ">{{family.familyhistoryId.name}}</td>
+                            <td class=" ">{{family.relationshipId.name}}</td>
+
+                            <td class=" last" style="text-align: center;">
+
+
+                               <!--modal testing -->
+
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="submit" class="btn btn-default" data-toggle="modal" id="button3" data-target="#{{family.id}}">Edit</button>
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="{{family.id}}" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit It</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                     
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" method="post" action="/coversheetupdate2/" id="familystatus"> {% csrf_token %}
+                    
+
+                            <input type="hidden" name="my_ids" value="{{family.id}}">
+
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="problems">Problem
+                        </label>
+                        <div class="col-md-6 col-sm-u6 col-xs-12">
+                          <input id="problems" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="problems" value="{{family.familyhistoryId.name}}" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="started">Relationship
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="Relationship" name="Relationship" class="form-control col-md-7 col-xs-12" value="{{family.relationshipId.name}}">
+                        </div>
+                      </div>
+                      
+                        
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          
+                          <button id="send" type="submit" class="btn btn-success">Update</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+
+       
+        <!-- /page content -->
+
+
+         
+
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<!--modal finished -->
+
+
+
+
+
+
+                            </td>
+                            <td class=" last" style="text-align: center;">
+
+                            <form action="/coversheetdelete2/" method="post">{% csrf_token %}
+  
+<input type="hidden" name="myId3" id="myId3" value="{{family.id}}">
+
+<button type="submit" class="btn btn-default">Delete</button>
+
+</form>
+
+                            </td>
+                          </tr>
+                         {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+           
+         
+       
+ 
+    
+ 
+
+
+
+             
+    <!-- jQuery -->
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/static/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/static/vendors/starrr/dist/starrr.js"></script>
+    <!-- <script src="/static/build/js/modernizr.js"></script> -->
+    <!-- Custom Theme Scripts -->
+    <script src="/static/build/js/custom.min.js"></script>
+    <!-- Select2 -->
+<!-- <script type="text/javascript" src="/static/jQuery/jquery.validate.js"></script> -->
+    <script type="text/javascript" src="/static/jQuery/jquery.validate.min.js"></script>
+     <!-- <script type="text/javascript" src="/static/jQuery/jquery.min.js"></script> -->
+    
+    <script type="text/javascript" src="/static/register/medicalAdd.js"></script>
+    <script type="text/javascript" src="/static/register/surgicalAdd.js"></script>
+    <script type="text/javascript" src="/static/register/surgeryEdit.js"></script>
+    <script type="text/javascript" src="/static/register/familyAdd.js"></script>
+    <script type="text/javascript" src="/static/register/medicalEdit.js"></script>
+    
+    <script type="text/javascript" src="/static/register/familyEdit.js"></script>
+    <script type="text/javascript" src="/static/register/socialEdit.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".select2_single").select2({
+          placeholder: "Relation",
+          allowClear: true
+        });
+      });
+    </script>
+    <!-- /Select2 -->
+    <!-- Parsley -->
+    <script>
+      $(document).ready(function() {
+        $.listen('parsley:field:validate', function() {
+          validateFront();
+        });
+        $('#demo-form .btn').on('click', function() {
+          $('#demo-form').parsley().validate();
+          validateFront();
+        });
+        var validateFront = function() {
+          if (true === $('#demo-form').parsley().isValid()) {
+            $('.bs-callout-info').removeClass('hidden');
+            $('.bs-callout-warning').addClass('hidden');
+          } else {
+            $('.bs-callout-info').addClass('hidden');
+            $('.bs-callout-warning').removeClass('hidden');
+          }
+        };
+      });
+
+    </script>
+    <!-- /Parsley -->
+    <script>
+      function theAjax(uri, data){
+        return $.ajax({
+          type:"POST",
+          dataType:"json",
+          url: uri,
+          data: data
+        })
+      }
+      var haha;
+      $("input[type=checkbox]").on("click", function(){
+        $("#loading-gif").attr("class","se-pre-con");
+        if($(this).is(":not(:checked)")){
+          var data = {
+            "class" : $(this).attr("class"),
+            "id" : this.id,
+            "shareStatus" : 0
+          }
+          console.log(this.id)
+          haha = this.id
+          theAjax("/historyShareStatus/",data)
+          .done(function(response){
+            if(response['status'] == 1){
+              $("#loading-gif").removeAttr("class");
+              alert('saved');
+            }
+          })
+          .fail(function(){
+            $("#loading-gif").removeAttr("class");
+            $("#"+haha).prop("checked", true);
+            alert("please check your internet connection");       
+          });
+          
+        };
+        if($(this).is(":checked")){
+
+          var data = {
+            "class" : $(this).attr("class"),
+            "id" : this.id,
+            "shareStatus" : 1
+          }
+          console.log(data);
+          haha = this.id
+          theAjax("/historyShareStatus/",data)
+          .done(function(response){
+            if(response['status'] == 1){
+              $("#loading-gif").removeAttr("class");
+              alert('saved');
+            }
+          })
+          .fail(function(){
+            alert("please check your internet connection")
+            $("#loading-gif").removeAttr("class");
+            $("#"+haha).prop("checked", false);
+          })
+        }  
+      });
+    </script>
+  </body>
+</html>

@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'registration.views.KeepLoggedInMiddleware'
 ]
 
 ROOT_URLCONF = 'vyala.urls'
@@ -110,6 +111,9 @@ cloudinary.config(
   api_secret = "4j6SC-98Az_zGYp4Qnnnm408_5A" 
 )
 
+KEEP_LOGGED_KEY = 'keep_me_logged' # session key
+KEEP_LOGGED_DURATION = 365         # in days
+
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -124,8 +128,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
-SESSION_COOKIE_AGE = 1000
 
 # AUTHENTICATION_BACKENDS = (
 #         'django.contrib.auth.backends.ModelBackend',
@@ -182,4 +184,3 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
 STATICFILES_DIRS = (
         os.path.join(PROJECT_DIR, 'static').replace('\\','/'),
     )
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True

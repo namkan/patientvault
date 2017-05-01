@@ -15,10 +15,22 @@
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="/static/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="/static/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="/static/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="/static/build/css/custom.min.css" rel="stylesheet">
-    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
   </head>
   <body class="nav-md">
     <div class="container body">
@@ -26,7 +38,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Vyala Tech</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -34,11 +46,11 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{ url }}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>{{ user.first_name }}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -179,7 +191,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="{{ url }}" alt="">{{ user.first_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -342,27 +354,42 @@
                       <form class="form-horizontal form-label-left" id="form1" method="POST" action="/completeprofile/">
                       <div id="step-1">
                       <h2 class="StepTitle">Personal Details</h2><br>
-                        <form>
+                        <!-- <form> -->
                         {% csrf_token %}
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"> Country <span class="required" required>*</span>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
+                            <div class="col-md-6 col-sm-9 col-xs-12">
+                              <select id = "country" class="select2_single1 form-control" tabindex="-1" name="country">
+                                <option></option>
+                                {% for country in countries %}
+                                <option value="{{ country.name }}">{{ country.name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div> 
                           </div>
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="state"> State <span class="required">*</span>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input type="text" id="state" name="state" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
+                            <div class="col-md-6 col-sm-9 col-xs-12">
+                              <select id = "state" class="select2_single2 form-control" tabindex="-1" name="state">
+                                <option></option>
+                                {% for state in states %}
+                                <option value="{{ state.name }}">{{ state.name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div> 
                           </div>  
                           <div class="form-group">
                             <label for="city" class="control-label col-md-3 col-sm-3 col-xs-12"> City <span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="city" class="form-control col-md-7 col-xs-12" type="text" name="city">
-                            </div>
+                            <div class="col-md-6 col-sm-9 col-xs-12">
+                              <select id = "city" class="select2_single3 form-control" tabindex="-1" name="city">
+                                <option></option>
+                                {% for city in cities %}
+                                <option value="{{ city.name }}">{{ city.name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div> 
                           </div>
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
@@ -401,7 +428,7 @@
                           {% endif %}
                           </div>
                           <!-- <button style="display:none;" type="submit" id="form1Submit">Submit</button>-->
-                        </form>
+                        <!-- </form> -->
 
                         <h2 class="StepTitle">Family History</h2>
                         <button type="button" id="addFamily" class="btn btn-info">Add Information for one more Family Member</button>
@@ -417,9 +444,6 @@
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-                            <th>
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </th>
                             <th class="column-title" style="display: table-cell;">Relative Name </th>
                             <th class="column-title" style="display: table-cell;">Relationship </th>
                             <th class="column-title" style="display: table-cell;">VHN Number </th>
@@ -660,50 +684,31 @@
                         </thead>
 
                         <tbody id="diseaseList">
-                          
-                          
-                          
-                          <tr class="odd pointer">
-                            
-                            
-                            <td class=" ">High Blood Presssure</td>
-                            <td>
-                          <input type="radio" name="table_records_hbp" value="1">
-                           </td>
-                            <td>
-                          <input type="radio" name="table_records_hbp" value="0">
-                           </td>
-                            <td>
-                          <input type="radio" name="table_records_hbp" value="2">
-                           </td>
-                            <td>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" name="relationship" class="form-control col-md-7 col-xs-12">
-                        </div>
-                          </td>
-                            
-                            <td></td>
-                          </tr>
-                          <tr class="even pointer">
-                          <td class=" ">Autism</td>
-                            <td>
-                          <input type="radio" name="table_records_aut" value="1">
-                           </td>
-                            <td>
-                          <input type="radio" name="table_records_aut" value="0">
-                           </td>
-                            <td>
-                          <input type="radio" name="table_records_aut" value="2">
-                           </td>
-                            <td>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" name="relationship" class="form-control col-md-7 col-xs-12">
-                        </div>
-                          </td>
-                            <td>
-              
-                            </td>
-                          </tr>
+                          {% for history in historys %}
+                            <tr class="odd pointer">
+                              <td class=" ">{{ history.name }}</td>
+                              <td>
+                                <input type="radio" name="table_records_hbp" value="1">
+                              </td>
+                              <td>
+                                <input type="radio" name="table_records_hbp" value="0">
+                              </td>
+                              <td>
+                                <input type="radio" name="table_records_hbp" value="2">
+                              </td>
+                              <td>
+                                <div class="col-md-6 col-sm-9 col-xs-12">
+                                  <select id = "relationship" class="select2_single4 form-control" tabindex="-1" name="relationship">
+                                    <option></option>
+                                    {% for relation in relations %}
+                                    <option value="{{ relation.name }}">{{ relation.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div> 
+                              </td>
+                              <td></td>
+                            </tr>
+                          {% endfor %}
                         </tbody>
                       </table>
                       
@@ -733,17 +738,43 @@
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="/static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/static/vendors/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="/static/vendors/nprogress/nprogress.js"></script>
-    <!-- jQuery Smart Wizard -->
-    <script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/static/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/static/vendors/moment/min/moment.min.js"></script>
+    <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/static/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/static/vendors/starrr/dist/starrr.js"></script>
+    <script src="/static/build/js/modernizr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/static/build/js/custom.min.js"></script>
+    <!-- Select2 -->
     
     <!-- jQuery Smart Wizard -->
+    <script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+
     <script type="text/javascript" src="/static/jQuery/jquery.validate.min.js"></script> 
     <script type="text/javascript" src="/static/register/profile_validation.js"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
@@ -759,12 +790,27 @@
         $('.buttonNext').addClass('btn btn-success');
         $('.buttonPrevious').addClass('btn btn-primary');
         $('.buttonFinish').addClass('btn btn-default');
+
+        $(".select2_single1").select2({
+          placeholder: "Country",
+          allowClear: true
+        });
+
+        $(".select2_single2").select2({
+          placeholder: "City",
+          allowClear: true
+        });
+
+        $(".select2_single3").select2({
+          placeholder: "State",
+          allowClear: true
+        });
+
+        $(".select2_single4").select2({
+          placeholder: "Relationship",
+          allowClear: true
+        });
       });
-// $('#karlo').on("click",function(){
-//   $("#form1").submit();
-//   $("#form2").submit();
-//   $("#form3").submit();
-// });
     </script>
     <script type="text/javascript">
       htmlOdd = '<tr class="even pointer"><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relative-name" name="relative-name" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relation" name="relation" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" "><div class="col-md-6 col-sm-6 col-xs-12"><input type="text" id="relativevhnNumber" name="relative-vhnNumber" required="required" class="form-control col-md-7 col-xs-12"></div></td><td class=" last"><button type="button"  id="delete" class="btn btn-danger">Delete</button></td></tr>';

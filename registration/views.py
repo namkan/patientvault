@@ -14,14 +14,11 @@ import requests
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core import mail
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from django.views.decorators.cache import cache_control
 from django.utils import timezone
 from django.utils.timezone import utc
-# import hashlib
-# import urllib
-# from django import template
-# from django.utils.safestring import mark_safe
+from django.conf import settings
 from django_gravatar.helpers import get_gravatar_url, has_gravatar, get_gravatar_profile_url, calculate_gravatar_hash
 
 
@@ -36,12 +33,16 @@ def contextCall(request):
 def signIn(request):
 	# if request.user.is_authenticated():
 	# 	return render(request,"dashboard.html")
+	# if request.session.get_expiry_age() > 0:
+	# 		request.session.set_expiry(0)
+	# 		if request.user.pvuser.isProfileComplete:
+	# 			first_name = request.user.first_name	
+	# 			return render(request,'dashboard1.html',{'first_name':first_name})
+	# 		else:
+	# 			return redirect('/completeprofile/')
 	if request.method == 'POST':
 		form = request.POST
-#		remember_me = form.cleaned_data["remember_me"]
-		# print(form)
-		# print(form['username'])
-		# print(form['password'])
+		print(form)
 		try:
 			username = User.objects.get(username = form['username'])
 			print(1)
@@ -55,16 +56,19 @@ def signIn(request):
 				return render(request,'login.html')		
 		try:
 			user = authenticate(username = username, password = form['password'])
-			print(user)
+			print(user.pvuser)
 			if user is not None:
 	    	# the password verified for the user
 				if user.is_active:
 					# print(3)
-					login(request,user)
-					#if 'remember_me' in form:
-					#	request.session.set_expiry(1209600)
-					first_name = user.first_name	
-					return render(request,'dashboard.html',{'first_name':first_name})	
+					login(request,user) 
+					if user.pvuser.isProfileComplete:
+						if 'remember_me' in form:
+							request.session[settings.KEEP_LOGGED_KEY] = True
+						first_name = user.first_name	
+						return render(request,'dashboard1.html',{'first_name':first_name})
+					else:
+						return redirect('/completeprofile/')
 				else:
 					messages.warning(request,"The account is disabled. please activate your account.")
 			else:
@@ -92,6 +96,7 @@ def register(request):
 		first_name = form["first_name"]
 		last_name = form["last_name"]
 		email = form["email"]
+		aadhar_no = form["aadhar"]
 		mobile_number = str(form["mobile_number"])
 		password = form["password"]
 		activationToken = str(randomWithNDigits(8))
@@ -107,7 +112,7 @@ def register(request):
 				# return JsonResponse(response) #User already registered with this mobile number
 			except:
 				print("code base 1")
-				print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
+				# print(sendSms('+91'+str(mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+vhn+". Use OTP "+activationToken+" to activate your account.OTP is valid for 3 minutes."))				
 		except:
 			print("code base 2")
 			messages.warning(request,"Connection problem or Invalid Phone Number !!!")
@@ -120,16 +125,20 @@ def register(request):
 			last_name=last_name,
 			password=password,)
 		pvUser = PvUser.objects.get_or_create(
-		email=email,
-		mobile_number=mobile_number,activationToken = activationToken,user = user,pTime = datetime.utcnow().replace(tzinfo = utc))
-		if email:
-			try:
-				subject = "Welcome To Vyala Family"
-				body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
-				sendEmail(email,subject,body)
-			except:
-				messages.warning('connection problem or invalid email!!')
-				return render(request,'register.html')	
+			email=email,
+			aadhar_no = aadhar_no,
+			mobile_number=mobile_number,
+			activationToken = activationToken,
+			user = user,
+			pTime = datetime.utcnow().replace(tzinfo = utc))
+		# if email:
+		# 	try:
+		# 		subject = "Welcome To Vyala Family"
+		# 		body = "You have successfully registered at vyala and Your VHN Number is "+ vhn
+		# 		sendEmail(email,subject,body)
+		# 	except:
+		# 		messages.warning('connection problem or invalid email!!')
+		# 		return render(request,'register.html')	
 		return render(request,'is_OTPvalid.html',{'vhn' : vhn})
 		# response['vhn'] = vhn
 		# response['status'] = 3 #OTP sent successfully and redirected to otp validation page
@@ -188,7 +197,7 @@ def resendOTP(request):
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		try:
-			sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
+			#sendSms("+91"+str(pvUser.mobile_number),"Thanks for registering at vyala.Your unique VHN Number is "+str(form['vhn'])+". Use OTP "+activationToken+" to activate you account.OTP is valid for 3 minutes.")
 			pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 			pvUser.activationToken = activationToken
 			pvUser.save()
@@ -229,7 +238,7 @@ def FindAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
+					#sendSms(mobileNumber,"Your Vyala OTP to set password is: "+activationToken)
 					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
@@ -274,7 +283,7 @@ def ActivateAccount(request):
 				try :
 					mobileNumber = "+91"+str(pvUser.mobile_number) 
 					print(mobileNumber)
-					sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
+					#sendSms(mobileNumber,"Use OTP: "+activationToken + "to activate your account.")
 					pvUser.pTime = pTime = datetime.utcnow().replace(tzinfo = utc)
 					pvUser.activationToken = activationToken
 					pvUser.save()
@@ -338,7 +347,7 @@ def changePass(request):
 	# 	response['status']=4
 	# 	return JsonResponse(response)	
 
-# @login_required(login_url = "/login/")
+@login_required(login_url = "/login/")
 @csrf_exempt
 def profile(request):
 	response = {}
@@ -406,7 +415,7 @@ def profile(request):
 			d["{0}".format(city)] = CityMaster.objects.get(name = city)
 		except:	
 			#print(city)
-			d["{0}".format(city)] = CityMaster(name = form['state'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
+			d["{0}".format(city)] = CityMaster(name = form['city'], activeYesNo = True, lastModifiedDateTime = timezone.now(), state = d["{0}".format(state)])
 			d["{0}".format(city)].save()
 		try:
 			d["{0}".format(gender)] = GenderMaster.objects.get(name = gender)
@@ -438,7 +447,6 @@ def profile(request):
 				d["{0}".format(surhistory)].save()
 
 		for famhistory in family_history:
-			famhistory = famhistory.replace(" ","_")
 			try:
 				d["{0}".format(famhistory)] = FamilyhistoryMaster.objects.get(name = famhistory)
 			except:
@@ -503,16 +511,23 @@ def profile(request):
 				patientId = pvUser,
 				familyhistoryId = d["{0}".format(famhistory)],
 				familyhistoryStatus = x,	
-				# relationshipId = relationship[i],
+				relationshipId = RelationshipMaster.objects.get(name=relationship[i]),
 				lastModifiedDateTime = timezone.now())	
 			i += 1
 
 		# messages.success(request,'saved')
 		pvUser.isProfileComplete = True
-		return render(request,'dashboard.html',{'first_name':user.first_name})
+		return render(request,'dashboard1.html',{'first_name':user.first_name})
 		
 	else:
-		return render(request,'profile.html')
+		pvUser = request.user
+		print(pvUser)
+		historys = FamilyhistoryMaster.objects.all()
+		relations = RelationshipMaster.objects.all()
+		countries = CountryMaster.objects.all()
+		states = StateMaster.objects.all()
+		cities = CityMaster.objects.all()
+		return render(request,'profile.html',{'historys':historys,'relations':relations,'countries':countries,'states':states,'cities':cities,'user':pvUser})
 
 # def relationship(request):
 # 	response = {}
@@ -705,10 +720,17 @@ def randomWithNDigits(n):
 	range_end = (10**n)-1
 	return randint(range_start, range_end)
 
+
 def relation(request):
 	# form = RegistrationForm()
-	return render(request,'profile.html')
+	return render(request,'profile.html',{'Url':gravTest("namankansal32@gmail.com")})
 
-def gravTest(email):
-	url = get_gravatar_url(email, size=150)
-	print(url)
+class KeepLoggedInMiddleware(object):
+    def process_request(self, request):
+        if not request.user.is_authenticated() or not settings.KEEP_LOGGED_KEY in request.session:
+            return
+        if request.session[settings.KEEP_LOGGED_KEY] != date.today():
+            request.session.set_expiry(timedelta(days=settings.KEEP_LOGGED_DURATION))
+            request.session[settings.KEEP_LOGGED_KEY] = date.today()
+        return
+
