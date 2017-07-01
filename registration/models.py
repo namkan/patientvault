@@ -59,8 +59,8 @@ class PvUser(models.Model):
 	lastModifiedDateTime = models.DateTimeField(auto_now_add = True)
 	class meta:
 		db_table='PvUser'
-#	def __str__(self):
-#		return '%s %s %s' % (self.user.username,self.user.first_name,self.email)	
+	def __str__(self):
+		return '%s %s %s' % (self.user.username,self.user.first_name,self.email)	
 
 class PvProfile(models.Model):
 	userId = models.ForeignKey(PvUser,on_delete=models.CASCADE)

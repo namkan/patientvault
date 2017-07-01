@@ -23,23 +23,30 @@ def contextCall(request):
 def login(request):
 	if request.method == 'POST':
 		form = request.POST
+		print(form['username'])
 		try:
+			username = User.objects.get(username = form['username'])
+		except:	
 			try:
-				user = authenticate(username=form['username'], password=form['password'])
-				print(user)
-				if user is not None:
-		    	# the password verified for the user
-					if user.is_active:
-						print("User is valid, active and authenticated")
-						print('1')	
-					else:
-						messages.warning(request,"The password is valid, but the account has been disabled!")
-						print('2')
-	#			user = User.objects.get(username=form['username'],password=form['password'])
-	#			print("user is found")
-				return render(request,'login.html')
+				username = PvUser.objects.get(mobile_number = form['username']).user.username
 			except:
-				pvuser = pvUser.objects.get(mobile_number = )	
+				messages.warning(request,'Invalid Credentials!!')
+				return render(request,'login.html')		
+		try:
+			user = authenticate(username=username, password=form['password'])
+			print(user)
+			if user is not None:
+	    	# the password verified for the user
+				if user.is_active:
+					messages.success(request,"User is valid, active and authenticated")
+					print('1')	
+				else:
+					messages.warning(request,"The password is valid, but the account has been disabled!")
+					print('2')
+#			user = User.objects.get(username=form['username'],password=form['password'])
+#			print("user is found")
+			return render(request,'login.html')
+				
 		except:
 			print("user is not found,please create account!!")	
 			return render(request,'login.html')
@@ -57,7 +64,7 @@ def register(request):
 			first_name = form.cleaned_data["first_name"]
 			last_name = form.cleaned_data["last_name"]
 			email = form.cleaned_data["email"]
-			mobile_number = "+91"+str(form.cleaned_data["mobile_number"])
+			mobile_number = str(form.cleaned_data["mobile_number"])
 			password = form.cleaned_data["password"]
 			activationToken = str(randomWithNDigits(8))
 
@@ -69,7 +76,7 @@ def register(request):
 					print("code base 0")
 				except:
 					print("code base 1")
-					sendSms(mobile_number,COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
+					sendSms('+91'+str(mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
 			except:
 				print("code base 2")
 				messages.warning(request,"Invalid Phone Number !!!")
@@ -137,7 +144,7 @@ def resendOTP(request):
 			response['status'] = 2 # INvalid VHN Number
 			return JsonResponse(response)
 		if True:
-			sendSms("+"+str(pvUser.mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
+			sendSms("+91"+str(pvUser.mobile_number),COMPANY_NUMBER,"Your Vyala OTP : "+activationToken)
 			pvUser.activationToken = activationToken
 			pvUser.save()
 			response['status'] = 1 
@@ -149,34 +156,29 @@ def resendOTP(request):
 		response['status'] = "Invalid!!"
 		return JsonResponse(response)
 
-#def sendEmail(recipient, subject, body):
-#
-#	return requests.post(
-#		auth=("api", "key-cf7f06e72c36031b0097128c90ee896a"),
-#		data={"from": "Support VyalaTech <rishabh.vyala@gmail.com>",
-#			"to": recipient,
-#			"subject": subject,
-#			"text": body})
 
+#View for sending email from zoho
 def sendEmail(recipient, subject, body):
-	print(recipient)
-	email = EmailMessage(
-		subject=subject,
-		body=body,
-		from_email='naman.kansal@vyalatech.com',
-		to=['recipient'],
-    )
-	email.send()
+	import smtplib
+	from email.mime.multipart import MIMEMultipart
+	from email.mime.text import MIMEText
 
-'''
-def sendSms(recipientNumber, fromNumber, content):
-	from twilio.rest import TwilioRestClient
-	account_sid = "AC661f41359fe195c99b7b774bc3599e11"
-	auth_token = "a4135c97cf57d726fc12024f8782c381"
-	client = TwilioRestClient(account_sid, auth_token)
-	message = client.messages.create(to=recipientNumber, from_=fromNumber,body=content)
-'''
+	msg = MIMEMultipart('alternative')
+	msg['Subject'] = subject
+	msg['From'] = 'naman.kansal@vyalatech.com'
+	msg['To'] = recipient
 
+	text = "Hi, You are registerd at vyala successfully"
+
+	part1 = MIMEText(text, 'plain')
+
+	msg.attach(part1)
+	s = smtplib.SMTP_SSL('smtp.zoho.com',465)
+	s.login('naman.kansal@vyalatech.com','9756089119')
+	s.sendmail('naman.kansal@vyalatech.com', recipient, msg.as_string())
+	s.quit()
+
+#view for sending sms
 def sendSms(recipientNumber,fromNumber, content):
 	uname='jishnu@vyalatech.com'
 	hashkey='e844056e4e3c75ace149c250f4ab998e510dd30f'
@@ -190,6 +192,7 @@ def sendSms(recipientNumber,fromNumber, content):
 
 	print(data['status'])
 
+#function for generating activationToken
 def randomWithNDigits(n):
 	range_start = 10**(n-1)
 	range_end = (10**n)-1
